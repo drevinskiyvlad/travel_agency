@@ -3,7 +3,7 @@ package com.travel_agency.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,12 +17,12 @@ public class User {
     @Getter @Setter private String lastName;
     @Getter @Setter private String phone;
     @Getter @Setter private String details;
-    @Getter @Setter private Date userFrom;
+    @Getter @Setter private LocalDateTime userFrom;
     @Getter @Setter private List<Order> orders;
 
     public User(int id, String email, String password,
                 String userRole, String firstName, String lastName,
-                String phone, Date userFrom) {
+                String phone, LocalDateTime userFrom) {
         this.id = id;
         this.email = email;
         this.password = password;

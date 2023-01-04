@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @AllArgsConstructor
 public class Offer {
     @Getter @Setter private int id;
     @Getter @Setter private Service service;
-    @Getter @Setter private Date from;
-    @Getter @Setter private Date to;
+    @Getter @Setter private LocalDateTime from;
+    @Getter @Setter private LocalDateTime to;
     @Getter @Setter private String type;
     @Getter @Setter private int vacancy;
     @Getter @Setter private double discount;

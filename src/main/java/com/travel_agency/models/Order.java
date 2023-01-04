@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
+@AllArgsConstructor
 public class Order {
     @Getter @Setter private int id;
     @Getter @Setter private String code;
@@ -14,21 +15,9 @@ public class Order {
     @Getter @Setter private List<Offer> offers;
     @Getter @Setter private String orderStatus;
     @Getter @Setter private double price;
-    @Getter @Setter private Date bookedTime;
-    @Getter @Setter private Date payedTime;
+    @Getter @Setter private LocalDateTime bookedTime;
+    @Getter @Setter private LocalDateTime payedTime;
 
-    public Order(int id, String code, User customer,
-                 List<Offer> offers, String orderStatus,
-                 double price, Date bookedTime, Date payedTime) {
-        this.id = id;
-        this.code = code;
-        this.customer = customer;
-        this.offers = offers;
-        this.orderStatus = orderStatus;
-        this.price = price;
-        this.bookedTime = bookedTime;
-        this.payedTime = payedTime;
-    }
 
     @Override
     public String toString() {
