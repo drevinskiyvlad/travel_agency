@@ -47,11 +47,11 @@ public class UserDAO implements DAO<User, String> {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
             //todo: place here logger
         }
 
-        throw new IllegalArgumentException
-                ("Can`t read user from data base, because of invalid email");
+        return null;
     }
 
     @Override
