@@ -5,6 +5,7 @@ import com.travel_agency.models.User;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserDAO implements DAO<User, String> {
 
@@ -53,6 +54,50 @@ public class UserDAO implements DAO<User, String> {
                 ("Can`t read user from data base, because of invalid email");
     }
 
+    @Override
+    public boolean update(User user, String newEmail) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_EMAIL);){
+            ps.setString(1, newEmail);
+            ps.setString(2, user.getPhone());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //todo:add logger here
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delete(User user) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_USER)){
+            ps.setString(1, user.getEmail());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //todo:add logger here
+            return false;
+        }
+    }
+
+    @Override
+    public List<User> readAll() {
+
+        List<User> result = new CopyOnWriteArrayList<>();
+
+        try (PreparedStatement ps = con.prepareStatement(Constants.GET_ALL_USERS);
+             ResultSet rs = ps.executeQuery();) {
+
+            addUsersToList(result, rs);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //todo: add logger here
+        }
+
+        return result;
+    }
     private static String checkIfDetailsExist(User user) {
         String createCommand;
         if(user.getDetails() != null){
@@ -92,19 +137,11 @@ public class UserDAO implements DAO<User, String> {
         return user;
     }
 
-    @Override
-    public boolean update(User user) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(User user) {
-        return false;
-    }
-
-    @Override
-    public List<User> readAll() {
-        return null;
+    private void addUsersToList(List<User> result, ResultSet rs) throws SQLException {
+        while(rs.next()) {
+            String email = rs.getString(Fields.USER_EMAIL);
+            result.add(read(email));
+        }
     }
 }
 
