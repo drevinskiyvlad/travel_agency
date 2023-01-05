@@ -39,4 +39,9 @@ public class DBManager {
         DAO<User, String> userDao = new UserDAO(con);
         return userDao.read(email);
     }
+
+    public boolean createUser(User user){
+        DAO<User, String> userDao = new UserDAO(con);
+        return userDao.create(user);
+    }
 }
