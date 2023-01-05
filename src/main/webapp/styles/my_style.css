@@ -1,38 +1,75 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400);
 body {
-    background-color:#fff;
-    -webkit-font-smoothing: antialiased;
-    font: normal 14px Roboto,arial,sans-serif;
+    font-family: "Lato", sans-serif;
 }
 
-.container {
-    padding: 25px;
-    position: fixed;
+
+
+.main-head{
+    height: 150px;
+    background: #FFF;
+
 }
 
-.form-login {
-    background-color: #EDEDED;
-    padding-top: 10px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 15px;
-    border-color:#d2d2d2;
-    border-width: 5px;
-    box-shadow:0 1px 0 #cfcfcf;
+.sidenav {
+    height: 100%;
+    background-color: #000;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
-h4 {
-    border:0 solid #fff;
-    border-bottom-width:1px;
-    padding-bottom:10px;
-    text-align: center;
+
+.main {
+    padding: 0px 10px;
 }
 
-.form-control {
-    border-radius: 10px;
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
 }
 
-.wrapper {
-    text-align: center;
+@media screen and (max-width: 450px) {
+    .login-form{
+        margin-top: 10%;
+    }
+
+    .register-form{
+        margin-top: 10%;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 40%;
+    }
+
+    .sidenav{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+
+    .login-form{
+        margin-top: 30%;
+    }
+
+    .register-form{
+        margin-top: 20%;
+    }
+}
+
+
+.login-main-text{
+    margin-top: 20%;
+    padding: 60px;
+    color: #fff;
+}
+
+.login-main-text h2{
+    font-weight: 300;
+}
+
+.btn-black{
+    background-color: #000 !important;
+    color: #fff;
 }

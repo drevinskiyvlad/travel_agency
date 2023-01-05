@@ -21,10 +21,9 @@ public class User {
     @Getter @Setter private List<Order> orders;
 
     public enum USER_ROLE{
-        NON_AUTHORIZED(1, "non authorized"),
-        USER(2, "user"),
-        MANAGER(3, "manager"),
-        ADMIN(4, "admin");
+        USER(1, "user"),
+        MANAGER(2, "manager"),
+        ADMIN(3, "admin");
 
         @Getter private final int id;
         @Getter private final String name;
