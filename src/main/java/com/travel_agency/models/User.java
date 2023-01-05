@@ -20,6 +20,46 @@ public class User {
     @Getter @Setter private LocalDateTime userFrom;
     @Getter @Setter private List<Order> orders;
 
+    public enum USER_ROLE{
+        NON_AUTHORIZED(1, "non authorized"),
+        USER(2, "user"),
+        MANAGER(3, "manager"),
+        ADMIN(4, "admin");
+
+        @Getter private final int id;
+        @Getter private final String name;
+
+        USER_ROLE(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+
+    public static int getIdOfUserRole(String name){
+        USER_ROLE[] userRoles = USER_ROLE.values();
+
+        for (USER_ROLE role : userRoles) {
+            if (name.equals(role.getName()))
+                return role.getId();
+        }
+
+        throw new IllegalArgumentException("Invalid name of user role");
+    }
+
+    public static String getNameOfUserRole(int id){
+        USER_ROLE[] userRoles = USER_ROLE.values();
+
+        if(id > userRoles.length || id < 0)
+            throw new IllegalArgumentException("Invalid id of user role");
+
+        for (USER_ROLE role : userRoles) {
+            if (id == role.getId())
+                return role.getName();
+        }
+
+        throw new IllegalArgumentException("Invalid id of user role");
+    }
+
     public User(int id, String email, String password,
                 String userRole, String firstName, String lastName,
                 String phone, LocalDateTime userFrom) {
