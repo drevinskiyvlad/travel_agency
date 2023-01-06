@@ -19,8 +19,17 @@ public class Constants {
     //Country request constants
     public static final String ADD_COUNTRY = "INSERT INTO country(name, code) VALUES(?, ?)";
     public static final String FIND_COUNTRY = "SELECT * FROM country WHERE name = ?";
+    public static final String FIND_COUNTRY_BY_ID = "SELECT * FROM country WHERE id = ?";
     public static final String CHANGE_COUNTRY_NAME = "UPDATE country SET name = ? WHERE code = ?";
     public static final String DELETE_COUNTRY = "DELETE FROM country WHERE name = ?";
     public static final String FIND_ALL_COUNTRY = "SELECT * FROM country";
+
+    //City request constants
+
+    public static final String ADD_CITY = "INSERT INTO city(name, country_id) VALUES(?, ?);";
+    public static final String FIND_CITY = "SELECT * FROM city WHERE name = ?";
+    public static final String DELETE_CITY = "DELETE FROM city WHERE name = ?";
+    public static final String FIND_ALL_CITY = "SELECT * FROM city";
+
 
 }

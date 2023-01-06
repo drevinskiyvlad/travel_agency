@@ -54,8 +54,33 @@ public class CountryDAO implements DAO<Country, String>{
         return null;
     }
 
+    public Country read(int id) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_COUNTRY_BY_ID)){
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                return initializeCountry(id, rs);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("CountryDAO#read");
+            return null;
+            //todo: place here logger
+        }
+        return null;
+    }
+
     private Country initializeCountry(String name, ResultSet rs) throws SQLException {
         int id = rs.getInt(Fields.COUNTRY_ID);
+        String code = rs.getString(Fields.COUNTRY_CODE);
+        return new Country(id, name, code);
+    }
+
+    private Country initializeCountry(int id, ResultSet rs) throws SQLException {
+        String name = rs.getString(Fields.COUNTRY_NAME);
         String code = rs.getString(Fields.COUNTRY_CODE);
         return new Country(id, name, code);
     }

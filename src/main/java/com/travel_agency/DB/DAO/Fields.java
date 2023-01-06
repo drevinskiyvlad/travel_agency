@@ -20,4 +20,12 @@ public class Fields {
     public static final String COUNTRY_ID = "id";
     public static final String COUNTRY_NAME = "name";
     public static final String COUNTRY_CODE = "code";
+
+    //city db fields
+    public static final String CITY_ID = "id";
+    public static final String CITY_NAME = "name";
+    public static final String CITY_COUNTRY_ID = "country_id";
+
+
+
 }

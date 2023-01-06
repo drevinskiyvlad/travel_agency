@@ -98,7 +98,7 @@ public class UserDAO implements DAO<User, String> {
 
         List<User> result = new CopyOnWriteArrayList<>();
 
-        try (PreparedStatement ps = con.prepareStatement(Constants.GET_ALL_USERS);
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USERS);
              ResultSet rs = ps.executeQuery();) {
 
             addUsersToList(result, rs);
@@ -111,7 +111,7 @@ public class UserDAO implements DAO<User, String> {
     }
 
     private int readUserRole(String name) throws IllegalArgumentException{
-        try (PreparedStatement ps = con.prepareStatement(Constants.GET_USER_ROLE_BY_NAME)){
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME)){
             System.out.println("user role name=" + name);
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
@@ -128,7 +128,7 @@ public class UserDAO implements DAO<User, String> {
     }
 
     private String readUserRole(int id) throws IllegalArgumentException{
-        try (PreparedStatement ps = con.prepareStatement(Constants.GET_USER_ROLE_BY_ID)){
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_ID)){
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
