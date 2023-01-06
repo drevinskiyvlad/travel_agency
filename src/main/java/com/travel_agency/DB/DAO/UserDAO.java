@@ -22,12 +22,11 @@ public class UserDAO implements DAO<User, String> {
 
         try (PreparedStatement ps = con.prepareStatement(createCommand)){
 
-            setVariablesToStatement(user, ps);
-
+            setVariablesToCreateStatement(user, ps);
             ps.executeUpdate();
 
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | IllegalArgumentException e) {
             e.printStackTrace();
             //todo: place here logger
             return false;
@@ -50,7 +49,6 @@ public class UserDAO implements DAO<User, String> {
             return null;
             //todo: place here logger
         }
-
         return null;
     }
 
@@ -95,9 +93,43 @@ public class UserDAO implements DAO<User, String> {
             e.printStackTrace();
             //todo: add logger here
         }
-
         return result;
     }
+
+    private int readUserRole(String name) throws IllegalArgumentException{
+        try (PreparedStatement ps = con.prepareStatement(Constants.GET_USER_ROLE_BY_NAME)){
+
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                return rs.getInt(Fields.USER_ROLE_ID);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //todo: place here logger
+        }
+        throw new IllegalArgumentException("Unknown user role name");
+    }
+
+    private String readUserRole(int id) throws IllegalArgumentException{
+        try (PreparedStatement ps = con.prepareStatement(Constants.GET_USER_ROLE_BY_ID)){
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                return rs.getString(Fields.USER_ROLE_NAME);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //todo: place here logger
+        }
+        throw new IllegalArgumentException("Unknown user role name");
+    }
+
     private static String checkIfDetailsExist(User user) {
         String createCommand;
         if(user.getDetails() != null){
@@ -108,10 +140,10 @@ public class UserDAO implements DAO<User, String> {
         return createCommand;
     }
 
-    private void setVariablesToStatement(User user, PreparedStatement ps) throws SQLException {
+    private void setVariablesToCreateStatement(User user, PreparedStatement ps) throws SQLException, IllegalArgumentException {
         ps.setString(1, user.getEmail());
         ps.setString(2, user.getPassword());
-        ps.setInt(3, User.getIdOfUserRole(user.getUserRole()));
+        ps.setInt(3, readUserRole(user.getUserRole()));
         ps.setString(4, user.getFirstName());
         ps.setString(5, user.getLastName());
         ps.setString(6, user.getPhone());
@@ -121,14 +153,22 @@ public class UserDAO implements DAO<User, String> {
     }
 
     private User initializeUser(String email, ResultSet rs) throws SQLException {
+        String role;
         int id = rs.getInt(Fields.USER_ID);
         String password = rs.getString(Fields.USER_PASSWORD);
-        String role = User.getNameOfUserRole(rs.getInt(Fields.USER_ROLE));
         String firstName = rs.getString(Fields.USER_FIRST_NAME);
         String lastName = rs.getString(Fields.USER_LAST_NAME);
         String phone = rs.getString(Fields.USER_PHONE);
         LocalDateTime userFrom = rs.getTimestamp(Fields.USER_FROM).toLocalDateTime();
         String details = rs.getString(Fields.USER_DETAILS);
+
+        try {
+            role = readUserRole(rs.getInt(Fields.USER_ROLE));
+        } catch(IllegalArgumentException e){
+            e.printStackTrace();
+            //todo: add logger here
+            return null;
+        }
 
         User user =  new User(id, email, password, role, firstName, lastName, phone, userFrom);
 

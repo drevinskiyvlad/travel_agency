@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String firstName = req.getParameter("firstName");

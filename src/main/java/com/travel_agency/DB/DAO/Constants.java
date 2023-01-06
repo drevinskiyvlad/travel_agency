@@ -10,4 +10,6 @@ public class Constants {
     public static final String CHANGE_USER_EMAIL = "UPDATE user SET email = ? WHERE phone = ?";
     public static final String DELETE_USER = "DELETE FROM user WHERE email = ?";
     public static final String GET_ALL_USERS = "SELECT * FROM user";
+    public static final String GET_USER_ROLE_BY_ID = "select name from user_role where id = ?";
+    public static final String GET_USER_ROLE_BY_NAME = "select id from user_role where name = 'user'";
 }

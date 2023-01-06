@@ -10,5 +10,8 @@ public class Fields {
     public static final String USER_PHONE = "phone";
     public static final String USER_DETAILS = "details";
     public static final String USER_FROM = "user_from";
+    public static final String USER_ROLE_ID = "id";
+    public static final String USER_ROLE_NAME = "name";
+
 
 }
