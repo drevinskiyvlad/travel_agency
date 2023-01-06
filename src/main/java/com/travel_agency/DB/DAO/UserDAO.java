@@ -66,6 +66,20 @@ public class UserDAO implements DAO<User, String> {
         }
     }
 
+    public boolean updateUserRole(User user, String newRole){
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_ROLE)){
+            int roleId = readUserRole(newRole);
+            ps.setInt(1, roleId);
+            ps.setString(2, user.getEmail());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //todo:add logger here
+            return false;
+        }
+    }
+
     @Override
     public boolean delete(User user) {
         try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_USER)){
@@ -98,7 +112,7 @@ public class UserDAO implements DAO<User, String> {
 
     private int readUserRole(String name) throws IllegalArgumentException{
         try (PreparedStatement ps = con.prepareStatement(Constants.GET_USER_ROLE_BY_NAME)){
-
+            System.out.println("user role name=" + name);
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
 
