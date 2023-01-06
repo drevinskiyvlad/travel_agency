@@ -11,8 +11,9 @@
 <body>
 <div class="sidenav">
     <div class="login-main-text">
-        <h2>Application<br> Login Page</h2>
-        <p>Login or register from here to access.</p>
+        <h2>Travel Agency<br> Login Page</h2>
+        <p>Login from here to access.<br></p>
+        <p>Or click "Register" if you don`t have an account.</p>
     </div>
 </div>
 
