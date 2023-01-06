@@ -2,6 +2,8 @@ package com.travel_agency.DB.DAO;
 
 public class Fields {
     private Fields(){}
+
+    //User db fields
     public static final String USER_ID = "id";
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";
@@ -14,5 +16,8 @@ public class Fields {
     public static final String USER_ROLE_ID = "id";
     public static final String USER_ROLE_NAME = "name";
 
-
+    //Country db fields
+    public static final String COUNTRY_ID = "id";
+    public static final String COUNTRY_NAME = "name";
+    public static final String COUNTRY_CODE = "code";
 }
