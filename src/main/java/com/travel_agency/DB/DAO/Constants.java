@@ -25,11 +25,23 @@ public class Constants {
     public static final String FIND_ALL_COUNTRY = "SELECT * FROM country";
 
     //City request constants
-
     public static final String ADD_CITY = "INSERT INTO city(name, country_id) VALUES(?, ?);";
     public static final String FIND_CITY = "SELECT * FROM city WHERE name = ?";
+    public static final String FIND_CITY_BY_ID = "SELECT * FROM city WHERE id = ?";
     public static final String DELETE_CITY = "DELETE FROM city WHERE name = ?";
     public static final String FIND_ALL_CITY = "SELECT * FROM city";
 
+    //Hotel request constants
+    public static final String ADD_HOTEL = "INSERT INTO hotel(name, address, city_id, hotel_type_id,is_partner,number_of_available_room)" +
+            "VALUES(?, ?, ?, ?, ?, ?)";
+    public static final String ADD_HOTEL_WITH_DESCRIPTION = "INSERT INTO hotel(name, address, city_id, hotel_type_id,is_partner,number_of_available_room,descriptions)" +
+            "VALUES(?, ?, ?, ?, ?, ?, ?);";
+    public static final String FIND_HOTEL = "SELECT * FROM hotel WHERE name LIKE ?";
+    public static final String CHANGE_HOTEL_NAME = "UPDATE hotel SET name = ? WHERE address = ?";
+    public static final String CHANGE_HOTEL_TYPE = "UPDATE hotel SET hotel_type_id = ? WHERE name = ?";
+    public static final String DELETE_HOTEL = "DELETE FROM hotel WHERE name = ?";
+    public static final String FIND_ALL_HOTEL = "SELECT * FROM hotel";
+    public static final String FIND_HOTEL_TYPE_BY_ID = "SELECT name FROM hotel_type WHERE id = ?";
+    public static final String FIND_HOTEL_TYPE_BY_NAME = "SELECT id FROM hotel_type WHERE name = ?";
 
 }

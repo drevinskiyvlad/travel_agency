@@ -26,6 +26,17 @@ public class Fields {
     public static final String CITY_NAME = "name";
     public static final String CITY_COUNTRY_ID = "country_id";
 
+    //hotel db fields
+    public static final String HOTEL_ID = "id";
+    public static final String HOTEL_NAME = "name";
+    public static final String HOTEL_ADDRESS = "address";
+    public static final String HOTEL_CITY_ID = "city_id";
+    public static final String HOTEL_TYPE = "hotel_type_id";
+    public static final String HOTEL_TYPE_ID = "id";
+    public static final String HOTEL_TYPE_NAME = "name";
+    public static final String HOTEL_DESCRIPTION = "descriptions";
+    public static final String HOTEL_IS_PARTNER = "is_partner";
+    public static final String HOTEL_NUMBER_OF_AVAILABLE_ROOM = "number_of_available_room";
 
 
 }
