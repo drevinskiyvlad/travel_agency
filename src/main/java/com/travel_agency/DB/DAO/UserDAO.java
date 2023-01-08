@@ -1,6 +1,8 @@
 package com.travel_agency.DB.DAO;
 
 import com.travel_agency.models.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserDAO implements DAO<User, String> {
-
+    private final Logger logger = LogManager.getLogger();
     private final Connection con;
 
     public UserDAO(Connection con) {
@@ -27,8 +29,7 @@ public class UserDAO implements DAO<User, String> {
 
             return true;
         } catch (SQLException | IllegalArgumentException e) {
-            e.printStackTrace();
-            //todo: place here logger
+            logger.error("Unable to create user: " + e.getMessage(), e);
             return false;
         }
     }
@@ -45,9 +46,7 @@ public class UserDAO implements DAO<User, String> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-            //todo: place here logger
+            logger.error("Unable to read user: " + e.getMessage(), e);
         }
         return null;
     }
@@ -60,8 +59,7 @@ public class UserDAO implements DAO<User, String> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            //todo:add logger here
+            logger.error("Unable to update user: " + e.getMessage(), e);
             return false;
         }
     }
@@ -74,8 +72,7 @@ public class UserDAO implements DAO<User, String> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            //todo:add logger here
+            logger.error("Unable to update user role: " + e.getMessage(), e);
             return false;
         }
     }
@@ -87,32 +84,25 @@ public class UserDAO implements DAO<User, String> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            //todo:add logger here
+            logger.error("Unable to delete user: " + e.getMessage(), e);
             return false;
         }
     }
 
     @Override
     public List<User> readAll() {
-
         List<User> result = new CopyOnWriteArrayList<>();
-
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USERS);
              ResultSet rs = ps.executeQuery();) {
-
             addUsersToList(result, rs);
-
         } catch (SQLException e) {
-            e.printStackTrace();
-            //todo: add logger here
+            logger.error("Unable to read list user: " + e.getMessage(), e);
         }
         return result;
     }
 
     private int readUserRole(String name) throws IllegalArgumentException{
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME)){
-            System.out.println("user role name=" + name);
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
 
@@ -121,8 +111,7 @@ public class UserDAO implements DAO<User, String> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            //todo: place here logger
+            logger.error("Unable to read user role: " + e.getMessage(), e);
         }
         throw new IllegalArgumentException("Unknown user role name");
     }
@@ -138,8 +127,7 @@ public class UserDAO implements DAO<User, String> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            //todo: place here logger
+            logger.error("Unable to read user role: " + e.getMessage(), e);
         }
         throw new IllegalArgumentException("Unknown user role name");
     }
@@ -179,8 +167,6 @@ public class UserDAO implements DAO<User, String> {
         try {
             role = readUserRole(rs.getInt(Fields.USER_ROLE));
         } catch(IllegalArgumentException e){
-            e.printStackTrace();
-            //todo: add logger here
             return null;
         }
 

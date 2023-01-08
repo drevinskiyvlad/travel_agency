@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+    <Properties>
+        <property name="pattern_file">
+            %d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{5}- %msg%n
+        </property>
+    </Properties>
+    <Appenders>
+<!--        Best practice: this makes log files at server -->
+<!--        <File name="File" fileName="logs/log.log" bufferedIO="true">-->
+
+<!--        Bad practice, but convenient for debuging: makes by absolute path-->
+        <File name="File" fileName="D:\Java\EPAM\Project\travel_agency\logs/log.log" bufferedIO="true">
+            <PatternLayout pattern="${pattern_file}"/>
+        </File>
+
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern_file}"/>
+        </Console>
+
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="stdout" />
+        </Root>
+    </Loggers>
+</Configuration>

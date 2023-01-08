@@ -2,6 +2,8 @@ package com.travel_agency.DB.DAO;
 
 import com.travel_agency.models.City;
 import com.travel_agency.models.Country;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CityDAO implements DAO<City, String>{
+    private final Logger logger = LogManager.getLogger();
     private final Connection con;
 
     public CityDAO(Connection con) {
@@ -27,8 +30,7 @@ public class CityDAO implements DAO<City, String>{
 
             return true;
         } catch (SQLException | IllegalArgumentException e) {
-            e.printStackTrace();
-            //todo: place here logger
+            logger.error("Unable to create city: " + e.getMessage(), e);
             return false;
         }
     }
@@ -41,12 +43,24 @@ public class CityDAO implements DAO<City, String>{
             if(rs.next()) {
                 return initializeCity(name, rs);
             }
+        } catch (SQLException e) {
+            logger.error("Unable to read city: " + e.getMessage(), e);
+            return null;
+        }
+        return null;
+    }
+
+    public City read(int id) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_CITY_BY_ID)){
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return initializeCity(id, rs);
+            }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("CityDAO#read");
+            logger.error("Unable to read city: " + e.getMessage(), e);
             return null;
-            //todo: place here logger
         }
         return null;
     }
@@ -58,8 +72,16 @@ public class CityDAO implements DAO<City, String>{
         return new City(id, name, country);
     }
 
+    private City initializeCity(int id, ResultSet rs) throws SQLException {
+        CountryDAO countryDao = new CountryDAO(con);
+        String name = rs.getString(Fields.CITY_NAME);
+        Country country = countryDao.read(rs.getInt(Fields.CITY_COUNTRY_ID));
+        return new City(id, name, country);
+    }
+
     @Override
     public boolean update(City city, String newValue) {
+        logger.error("Update city is unsupported operation");
         return false;
     }
 
@@ -70,9 +92,7 @@ public class CityDAO implements DAO<City, String>{
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("CityDAO#delete");
-            //todo:add logger here
+            logger.error("Unable to delete city: " + e.getMessage(), e);
             return false;
         }
     }
@@ -86,9 +106,7 @@ public class CityDAO implements DAO<City, String>{
 
             addCityToList(result, rs);
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("CountryDAO#readAll");
-            //todo: add logger here
+            logger.error("Unable to read all city: " + e.getMessage(), e);
         }
         return result;
     }

@@ -10,6 +10,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DBManager {
     private static DBManager INSTANCE = null;
@@ -42,6 +43,11 @@ public class DBManager {
     public boolean createUser(User user){
         DAO<User, String> userDao = new UserDAO(con);
         return userDao.create(user);
+    }
+
+    public List<User> getAllUsers(){
+        DAO<User, String> userDao = new UserDAO(con);
+        return userDao.readAll();
     }
 
     public boolean changeUserRole(User user, String newRole){

@@ -1,6 +1,8 @@
 package com.travel_agency.DB.DAO;
 
 import com.travel_agency.models.Country;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CountryDAO implements DAO<Country, String>{
+    private final Logger logger = LogManager.getLogger();
     private final Connection con;
 
     public CountryDAO(Connection con) {
@@ -27,9 +30,7 @@ public class CountryDAO implements DAO<Country, String>{
 
             return true;
         } catch (SQLException | IllegalArgumentException e) {
-            e.printStackTrace();
-            System.out.println("CountryDAO#create");
-            //todo: place here logger
+            logger.error("Unable to create country: " + e.getMessage(), e);
             return false;
         }
     }
@@ -46,10 +47,8 @@ public class CountryDAO implements DAO<Country, String>{
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("CountryDAO#read");
+            logger.error("Unable to read country: " + e.getMessage(), e);
             return null;
-            //todo: place here logger
         }
         return null;
     }
@@ -65,10 +64,7 @@ public class CountryDAO implements DAO<Country, String>{
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("CountryDAO#read");
-            return null;
-            //todo: place here logger
+            logger.error("Unable to read country: " + e.getMessage(), e);
         }
         return null;
     }
@@ -93,9 +89,7 @@ public class CountryDAO implements DAO<Country, String>{
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("CountryDAO#update");
-            //todo:add logger here
+            logger.error("Unable to update country: " + e.getMessage(), e);
             return false;
         }
     }
@@ -107,9 +101,7 @@ public class CountryDAO implements DAO<Country, String>{
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("CountryDAO#delete");
-            //todo:add logger here
+            logger.error("Unable to delete country: " + e.getMessage(), e);
             return false;
         }
     }
@@ -123,9 +115,7 @@ public class CountryDAO implements DAO<Country, String>{
 
             addCountryToList(result, rs);
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("CountryDAO#readAll");
-            //todo: add logger here
+            logger.error("Unable to read all country: " + e.getMessage(), e);
         }
         return result;
     }
