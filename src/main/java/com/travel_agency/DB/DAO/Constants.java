@@ -44,4 +44,16 @@ public class Constants {
     public static final String FIND_HOTEL_TYPE_BY_ID = "SELECT name FROM hotel_type WHERE id = ?";
     public static final String FIND_HOTEL_TYPE_BY_NAME = "SELECT id FROM hotel_type WHERE name = ?";
 
+    //Transport company request constants
+    public static final String ADD_TRANSPORT_COMPANY = "INSERT INTO transport_company(name,city_id,hq_address,company_type_id,is_partner)" +
+            "VALUES(?, ?, ?, ?, ?)";
+    public static final String ADD_TRANSPORT_COMPANY_WITH_DESCRIPTION = "INSERT INTO transport_company(name,city_id,hq_address,company_type_id,is_partner,description)" +
+            "VALUES(?, ?, ?, ?, ?, ?)";
+    public static final String FIND_TRANSPORT_COMPANY = "SELECT * FROM transport_company WHERE name LIKE ?";
+    public static final String CHANGE_TRANSPORT_COMPANY_NAME = "UPDATE transport_company SET name = ? WHERE hq_address = ?";
+    public static final String DELETE_TRANSPORT_COMPANY = "DELETE FROM transport_company WHERE name = ?";
+    public static final String FIND_ALL_TRANSPORT_COMPANY = "SELECT * FROM transport_company";
+    public static final String FIND_TRANSPORT_COMPANY_TYPE_BY_ID = "SELECT name FROM transport_company_type WHERE id = ?";
+    public static final String FIND_TRANSPORT_COMPANY_TYPE_TYPE_BY_NAME = "SELECT id FROM transport_company_type WHERE name = ?";
+
 }

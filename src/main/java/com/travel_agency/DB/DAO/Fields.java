@@ -38,5 +38,14 @@ public class Fields {
     public static final String HOTEL_IS_PARTNER = "is_partner";
     public static final String HOTEL_NUMBER_OF_AVAILABLE_ROOM = "number_of_available_room";
 
-
+    //transport company db fields
+    public static final String TRANSPORT_COMPANY_ID = "id";
+    public static final String TRANSPORT_COMPANY_NAME = "name";
+    public static final String TRANSPORT_COMPANY_CITY_ID = "city_id";
+    public static final String TRANSPORT_COMPANY_HQ_ADDRESS = "hq_address";
+    public static final String TRANSPORT_COMPANY_COMPANY_TYPE = "company_type_id";
+    public static final String TRANSPORT_COMPANY_DESCRIPTION = "description";
+    public static final String TRANSPORT_COMPANY_IS_PARTNER = "is_partner";
+    public static final String TRANSPORT_COMPANY_TYPE_ID = "id";
+    public static final String TRANSPORT_COMPANY_TYPE_NAME = "name";
 }
