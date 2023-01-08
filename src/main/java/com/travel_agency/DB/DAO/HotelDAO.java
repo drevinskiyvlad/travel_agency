@@ -88,8 +88,7 @@ public class HotelDAO implements DAO<Hotel, String> {
         try {
             type = readHotelType(rs.getInt(Fields.HOTEL_TYPE));
         } catch(IllegalArgumentException e){
-            e.printStackTrace();
-            //todo: add logger here
+            logger.error("Unable to read hotel type: " + e.getMessage(), e);
             return null;
         }
 

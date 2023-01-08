@@ -30,10 +30,14 @@
                     <input type="password" name="password" class="form-control" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-black">Login</button>
-                <a href="registration.jsp"><div class="btn btn-secondary">Register</div></a>
+                <a href="registration.jsp">
+                    <div class="btn btn-secondary">Register</div>
+                </a>
             </form>
-            <c:if test="${applicationScope.invalid_message != null}">
-                <Label><hr>${applicationScope.invalid_message}</Label>
+            <c:if test="${sessionScope.is_login_valid == false}">
+                <Label>
+                    <hr><h4>Email or password are incorrect</h4>
+                </Label>
             </c:if>
         </div>
     </div>
