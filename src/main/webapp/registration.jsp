@@ -49,7 +49,7 @@
 
                 <button type="submit" class="btn btn-black">Register</button>
             </form>
-            <c:if test="${!sessionScope.is_register_valid}">
+            <c:if test="${sessionScope.is_register_valid == false}">
                 <Label>
                     <hr><h2>Email or Phone is not valid</h2>
                 </Label>

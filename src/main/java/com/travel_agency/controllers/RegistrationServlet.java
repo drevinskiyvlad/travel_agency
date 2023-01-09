@@ -30,14 +30,16 @@ public class RegistrationServlet extends HttpServlet {
 
         logger.info("User {} is trying to register", user);
 
-        if(isUserValid(req,user)) {
-            DBManager dbManager = DBManager.getInstance();
-            dbManager.createUser(user);
+        DBManager dbManager = DBManager.getInstance();
+
+        if(isUserValid(req,user) && dbManager.createUser(user)) {
+            req.getSession().setAttribute("user", user);
+            logger.info("User {} is registered successfully", user.getEmail());
         } else{
             redirectPage = "registration.jsp";
+            req.getSession().setAttribute("is_register_valid", false);
         }
 
-        req.getSession().setAttribute("user", user);
         resp.sendRedirect(redirectPage);
     }
 
@@ -48,16 +50,14 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = req.getParameter("lastName");
         String phone = req.getParameter("phone");
 
-        return new User(0,email,password,"user",firstName,lastName,phone,LocalDateTime.now());
+        return new User(0,email,password,"user",firstName,lastName,phone);
     }
 
     private boolean isUserValid(HttpServletRequest req, User user) {
         if(!isEmailValid(user.getEmail()) || !isPhoneValid(user.getPhone())) {
-            req.getSession().setAttribute("is_register_valid",
-                    false);
             logger.info(
                     "User {} dont registered because of invalid email or number",
-                    user);
+                    user.getEmail());
             return false;
         }
         return true;
