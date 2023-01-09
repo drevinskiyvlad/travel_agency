@@ -10,7 +10,6 @@ import java.util.Objects;
 public class TransportService {
     @Getter @Setter private int id;
     @Getter @Setter private TransportCompany transportCompany;
-    @Getter @Setter private String ticketType;
     @Getter @Setter private City fromCity;
     @Getter @Setter private City toCity;
     @Getter @Setter private double price;
@@ -22,7 +21,6 @@ public class TransportService {
         return "TransportService{" +
                 "id=" + id +
                 ", transport company=" + transportCompany.getName() +
-                ", ticket type='" + ticketType + '\'' +
                 ", from city=" + fromCity.getName() +
                 ", to city=" + toCity.getName() +
                 ", number of free seats=" + numberOfFreeSeats +
@@ -36,11 +34,11 @@ public class TransportService {
         if (this == o) return true;
         if (!(o instanceof TransportService)) return false;
         TransportService that = (TransportService) o;
-        return Double.compare(that.price, price) == 0 && isActive == that.isActive && transportCompany.equals(that.transportCompany) && ticketType.equals(that.ticketType) && fromCity.equals(that.fromCity) && toCity.equals(that.toCity);
+        return Double.compare(that.price, price) == 0 && isActive == that.isActive && transportCompany.equals(that.transportCompany) && fromCity.equals(that.fromCity) && toCity.equals(that.toCity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(transportCompany, ticketType, fromCity, toCity, price, isActive);
+        return Objects.hash(transportCompany, fromCity, toCity, price, isActive);
     }
 }

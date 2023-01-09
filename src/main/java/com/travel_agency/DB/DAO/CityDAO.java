@@ -41,7 +41,7 @@ public class CityDAO implements DAO<City, String>{
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
-                return initializeCity(name, rs);
+                return initializeCity(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read city: " + e.getMessage(), e);
@@ -55,7 +55,7 @@ public class CityDAO implements DAO<City, String>{
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
-                return initializeCity(id, rs);
+                return initializeCity(rs);
             }
 
         } catch (SQLException e) {
@@ -65,22 +65,17 @@ public class CityDAO implements DAO<City, String>{
         return null;
     }
 
-    private City initializeCity(String name, ResultSet rs) throws SQLException {
+    private City initializeCity(ResultSet rs) throws SQLException {
         CountryDAO countryDao = new CountryDAO(con);
-        int id = rs.getInt(Fields.CITY_ID);
-        Country country = countryDao.read(rs.getInt(Fields.CITY_COUNTRY_ID));
-        return new City(id, name, country);
-    }
 
-    private City initializeCity(int id, ResultSet rs) throws SQLException {
-        CountryDAO countryDao = new CountryDAO(con);
+        int id = rs.getInt(Fields.CITY_ID);
         String name = rs.getString(Fields.CITY_NAME);
         Country country = countryDao.read(rs.getInt(Fields.CITY_COUNTRY_ID));
         return new City(id, name, country);
     }
 
     @Override
-    public boolean update(City city, String newValue) {
+    public boolean update(City city, String newValue) throws UnsupportedOperationException {
         logger.error("Update city is unsupported operation");
         return false;
     }

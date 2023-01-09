@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static com.sun.tools.classfile.AccessFlags.Kind.Field;
+
 public class TransportCompanyDAO implements DAO<TransportCompany, String> {
     private final Logger logger = LogManager.getLogger();
     private final Connection con;
@@ -64,7 +66,7 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
-                return initializeTransportCompany(name, rs);
+                return initializeTransportCompany(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read transport company: " + e.getMessage(), e);
@@ -73,12 +75,28 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
         return null;
     }
 
-    private TransportCompany initializeTransportCompany(String name, ResultSet rs) throws SQLException {
+    public TransportCompany read(int id) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_TRANSPORT_COMPANY_BY_ID)){
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return initializeTransportCompany(rs);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Unable to read transport company: " + e.getMessage(), e);
+            return null;
+        }
+        return null;
+    }
+
+    private TransportCompany initializeTransportCompany(ResultSet rs) throws SQLException {
         CityDAO cityDao = new CityDAO(con);
         String type;
 
         int id = rs.getInt(Fields.TRANSPORT_COMPANY_ID);
-        City city = cityDao.read(rs.getInt(Fields.CITY_ID));
+        String name = rs.getString(Fields.TRANSPORT_COMPANY_NAME);
+        City city = cityDao.read(rs.getInt(Fields.TRANSPORT_COMPANY_CITY_ID));
         String HQAddress = rs.getString(Fields.TRANSPORT_COMPANY_HQ_ADDRESS);
         String description = rs.getString(Fields.TRANSPORT_COMPANY_DESCRIPTION);
         boolean isPartner = rs.getBoolean(Fields.TRANSPORT_COMPANY_IS_PARTNER);

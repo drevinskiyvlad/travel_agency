@@ -10,6 +10,7 @@ public class Service {
     @Getter @Setter private TransportService transportService;
     @Getter @Setter private HotelService hotelService;
     @Getter @Setter private double price;
+    @Getter @Setter private boolean isActive;
 
     @Override
     public String toString() {
@@ -18,6 +19,7 @@ public class Service {
                 ", transportService=\n" + transportService +
                 ", hotelService=\n" + hotelService +
                 ", price=" + price +
+                ", is active=" + isActive +
                 "}";
     }
 }

@@ -48,4 +48,13 @@ public class Fields {
     public static final String TRANSPORT_COMPANY_IS_PARTNER = "is_partner";
     public static final String TRANSPORT_COMPANY_TYPE_ID = "id";
     public static final String TRANSPORT_COMPANY_TYPE_NAME = "name";
+
+    //transport service db fields
+    public static final String TRANSPORT_SERVICE_ID = "id";
+    public static final String TRANSPORT_SERVICE_COMPANY_ID = "transport_company_id";
+    public static final String TRANSPORT_SERVICE_FROM_CITY = "from_city_id";
+    public static final String TRANSPORT_SERVICE_TO_CITY = "to_city_id";
+    public static final String TRANSPORT_SERVICE_PRICE = "price";
+    public static final String TRANSPORT_SERVICE_NUMBER_OF_FREE_SEATS = "number_of_free_seats";
+    public static final String TRANSPORT_SERVICE_IS_ACTIVE = "is_active";
 }

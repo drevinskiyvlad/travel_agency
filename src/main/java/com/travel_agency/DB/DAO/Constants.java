@@ -50,10 +50,21 @@ public class Constants {
     public static final String ADD_TRANSPORT_COMPANY_WITH_DESCRIPTION = "INSERT INTO transport_company(name,city_id,hq_address,company_type_id,is_partner,description)" +
             "VALUES(?, ?, ?, ?, ?, ?)";
     public static final String FIND_TRANSPORT_COMPANY = "SELECT * FROM transport_company WHERE name LIKE ?";
+    public static final String FIND_TRANSPORT_COMPANY_BY_ID = "SELECT * FROM transport_company WHERE id LIKE ?";
     public static final String CHANGE_TRANSPORT_COMPANY_NAME = "UPDATE transport_company SET name = ? WHERE hq_address = ?";
     public static final String DELETE_TRANSPORT_COMPANY = "DELETE FROM transport_company WHERE name = ?";
     public static final String FIND_ALL_TRANSPORT_COMPANY = "SELECT * FROM transport_company";
     public static final String FIND_TRANSPORT_COMPANY_TYPE_BY_ID = "SELECT name FROM transport_company_type WHERE id = ?";
     public static final String FIND_TRANSPORT_COMPANY_TYPE_TYPE_BY_NAME = "SELECT id FROM transport_company_type WHERE name = ?";
+
+    //Transport service request constants
+    public static final String ADD_TRANSPORT_SERVICE = "INSERT INTO transport_service(transport_company_id, from_city_id, to_city_id, price, number_of_free_seats, is_active)" +
+            "VALUES(?, ?, ?, ?, ?, ?);";
+    public static final String FIND_TRANSPORT_SERVICE = "select * from transport_service WHERE transport_company_id LIKE 2 " +
+            "AND from_city_id LIKE 5 AND to_city_id LIKE 5";
+    public static final String DELETE_TRANSPORT_SERVICE = "DELETE FROM transport_company WHERE transport_company_id LIKE 2 " +
+            "AND from_city_id LIKE 5 AND to_city_id LIKE 5";
+    public static final String FIND_ALL_TRANSPORT_SERVICE = "SELECT * FROM transport_service";
+
 
 }
