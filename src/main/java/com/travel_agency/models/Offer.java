@@ -1,34 +1,47 @@
 package com.travel_agency.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
-@AllArgsConstructor
 public class Offer {
     @Getter @Setter private int id;
-    @Getter @Setter private Service service;
-    @Getter @Setter private LocalDateTime from;
-    @Getter @Setter private LocalDateTime to;
+    @Getter @Setter private String code;
     @Getter @Setter private String type;
+    @Getter @Setter private TransportCompany transportCompany;
+    @Getter @Setter private Hotel hotel;
     @Getter @Setter private int vacancy;
     @Getter @Setter private double discount;
     @Getter @Setter private boolean isHot;
+    @Getter @Setter private double price;
+
+    public Offer(int id, String code, String type,
+                 TransportCompany transportCompany, Hotel hotel,
+                 double discount, boolean isHot) {
+        this.id = id;
+        this.code = code;
+        this.type = type;
+        this.transportCompany = transportCompany;
+        this.hotel = hotel;
+        this.discount = discount;
+        this.isHot = isHot;
+        vacancy = Math.min(transportCompany.getVacancy(), hotel.getVacancy());
+        price = (transportCompany.getPrice() + hotel.getPrice()) * discount;
+    }
 
     @Override
     public String toString() {
         return "Offer{" +
                 "id=" + id +
-                ", service=\n" + service +
-                ", from=" + from +
-                ", to=" + to +
+                ", code=" + code +
                 ", offer type=" + type +
+                ", transport company=" + transportCompany.getName() +
+                ", hotel=" + hotel.getName() +
                 ", vacancy=" + vacancy +
                 ", discount=" + (discount * 100) +
                 "%, hot=" + isHot +
+                ", price=" + price +
                 '}';
     }
 
@@ -37,11 +50,11 @@ public class Offer {
         if (this == o) return true;
         if (!(o instanceof Offer)) return false;
         Offer offer = (Offer) o;
-        return service.equals(offer.service) && from.equals(offer.from) && to.equals(offer.to);
+        return code.equals(offer.code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(service, from, to);
+        return Objects.hash(code);
     }
 }
