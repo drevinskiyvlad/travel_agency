@@ -10,7 +10,7 @@ import java.util.Objects;
 public class TransportCompany {
     @Getter @Setter private int id;
     @Getter @Setter private String name;
-    @Getter @Setter private String HQAddress;
+    @Getter @Setter private String hqAddress;
     @Getter @Setter private int vacancy;
     @Getter @Setter private double price;
 
@@ -21,7 +21,7 @@ public class TransportCompany {
         return "TransportCompany{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", HQAddress='" + HQAddress + '\'' +
+                ", HQAddress='" + hqAddress + '\'' +
                 ", vacancy='" + vacancy + '\'' +
                 ", price='" + price + '\'' +
                 '}';
@@ -32,11 +32,11 @@ public class TransportCompany {
         if (this == o) return true;
         if (!(o instanceof TransportCompany)) return false;
         TransportCompany that = (TransportCompany) o;
-        return name.equals(that.name) && HQAddress.equals(that.HQAddress);
+        return name.equals(that.name) && hqAddress.equals(that.hqAddress);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, HQAddress);
+        return Objects.hash(name, hqAddress);
     }
 }

@@ -16,7 +16,7 @@ public class Fields {
 
     //hotel db fields
     public static final String HOTEL_ID = "id";
-    public static final String HOTEL_NAME = "name";
+    public static final String HOTEL_NAME = "hotel_name";
     public static final String HOTEL_ADDRESS = "address";
     public static final String HOTEL_TYPE = "hotel_type_id";
     public static final String HOTEL_TYPE_ID = "id";
@@ -26,7 +26,7 @@ public class Fields {
 
     //transport company db fields
     public static final String TRANSPORT_COMPANY_ID = "id";
-    public static final String TRANSPORT_COMPANY_NAME = "name";
+    public static final String TRANSPORT_COMPANY_NAME = "company_name";
     public static final String TRANSPORT_COMPANY_HQ_ADDRESS = "hq_address";
     public static final String TRANSPORT_COMPANY_VACANCY = "vacancy";
     public static final String TRANSPORT_COMPANY_PRICE = "price";

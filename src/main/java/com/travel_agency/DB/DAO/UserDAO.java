@@ -68,7 +68,7 @@ public class UserDAO implements DAO<User, String> {
 
     @Override
     public boolean update(User user, String newEmail) {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_EMAIL);) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_EMAIL)) {
             ps.setString(1, newEmail);
             ps.setString(2, user.getPhone());
             ps.executeUpdate();
@@ -108,7 +108,7 @@ public class UserDAO implements DAO<User, String> {
     public List<User> readAll() {
         List<User> result = new CopyOnWriteArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USERS);
-             ResultSet rs = ps.executeQuery();) {
+             ResultSet rs = ps.executeQuery()) {
             addUsersToList(result, rs);
         } catch (SQLException e) {
             logger.error("Unable to read list user: " + e.getMessage(), e);

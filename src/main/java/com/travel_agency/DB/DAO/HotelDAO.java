@@ -49,7 +49,7 @@ public class HotelDAO implements DAO<Hotel, String> {
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return initializeHotel(name, rs);
+                return initializeHotel(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read hotel: " + e.getMessage(), e);
@@ -58,10 +58,11 @@ public class HotelDAO implements DAO<Hotel, String> {
         return null;
     }
 
-    private Hotel initializeHotel(String name, ResultSet rs) throws SQLException {
+    private Hotel initializeHotel(ResultSet rs) throws SQLException {
         String type;
 
         int id = rs.getInt(Fields.HOTEL_ID);
+        String name = rs.getString(Fields.HOTEL_NAME);
         String address = rs.getString(Fields.HOTEL_ADDRESS);
         int vacancy = rs.getInt(Fields.HOTEL_VACANCY);
         double price = rs.getDouble(Fields.HOTEL_PRICE);
@@ -104,7 +105,7 @@ public class HotelDAO implements DAO<Hotel, String> {
     @Override
     public List<Hotel> readAll() {
         List<Hotel> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_HOTEL);
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_HOTELS);
              ResultSet rs = ps.executeQuery()) {
             addHotelsToList(result, rs);
 
@@ -121,7 +122,7 @@ public class HotelDAO implements DAO<Hotel, String> {
         }
     }
 
-    private int readHotelType(String name) throws IllegalArgumentException {
+    public int readHotelType(String name) throws IllegalArgumentException {
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_NAME)) {
 
             ps.setString(1, name);
@@ -137,7 +138,7 @@ public class HotelDAO implements DAO<Hotel, String> {
         throw new IllegalArgumentException("Unknown hotel type name");
     }
 
-    private String readHotelType(int id) throws IllegalArgumentException {
+    public String readHotelType(int id) throws IllegalArgumentException {
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_ID)) {
 
             ps.setInt(1, id);

@@ -61,16 +61,29 @@ public class OfferDAO implements DAO<Offer, String>{
     }
 
     public boolean update(Offer offer, boolean isHot){
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_IS_HOT);) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_IS_HOT)) {
             ps.setBoolean(1, isHot);
             ps.setString(2, offer.getCode());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update offer: " + e.getMessage(), e);
+            logger.error("Unable to update offer is hot: " + e.getMessage(), e);
             return false;
         }
     }
+
+    public boolean update(Offer offer, int newVacancy){
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_VACANCY)) {
+            ps.setInt(1, newVacancy);
+            ps.setString(2, offer.getCode());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Unable to update offer vacancy: " + e.getMessage(), e);
+            return false;
+        }
+    }
+
 
     @Override
     public boolean delete(Offer offer) {
@@ -88,7 +101,7 @@ public class OfferDAO implements DAO<Offer, String>{
     public List<Offer> readAll() {
         List<Offer> result = new CopyOnWriteArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFERS);
-             ResultSet rs = ps.executeQuery();) {
+             ResultSet rs = ps.executeQuery()) {
             addOffersToList(result, rs);
         } catch (SQLException e) {
             logger.error("Unable to read list of offers: " + e.getMessage(), e);

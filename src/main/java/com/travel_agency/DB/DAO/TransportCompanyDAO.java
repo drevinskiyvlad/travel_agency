@@ -37,7 +37,7 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
 
     private void setVariablesToCreateStatement(TransportCompany transportCompany, PreparedStatement ps) throws SQLException, IllegalArgumentException {
         ps.setString(1, transportCompany.getName());
-        ps.setString(2, transportCompany.getHQAddress());
+        ps.setString(2, transportCompany.getHqAddress());
         ps.setInt(3, transportCompany.getVacancy());
         ps.setDouble(3, transportCompany.getPrice());
     }
@@ -75,18 +75,18 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
     private TransportCompany initializeTransportCompany(ResultSet rs) throws SQLException {
         int id = rs.getInt(Fields.TRANSPORT_COMPANY_ID);
         String name = rs.getString(Fields.TRANSPORT_COMPANY_NAME);
-        String HQAddress = rs.getString(Fields.TRANSPORT_COMPANY_HQ_ADDRESS);
+        String hqAddress = rs.getString(Fields.TRANSPORT_COMPANY_HQ_ADDRESS);
         int vacancy = rs.getInt(Fields.TRANSPORT_COMPANY_VACANCY);
         double price = rs.getInt(Fields.TRANSPORT_COMPANY_PRICE);
 
-        return new TransportCompany(id, name, HQAddress, vacancy, price);
+        return new TransportCompany(id, name, hqAddress, vacancy, price);
     }
 
     @Override
     public boolean update(TransportCompany transportCompany, String newName) {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_TRANSPORT_COMPANY_NAME);){
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_TRANSPORT_COMPANY_NAME)){
             ps.setString(1, newName);
-            ps.setString(2, transportCompany.getHQAddress());
+            ps.setString(2, transportCompany.getHqAddress());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -111,7 +111,7 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
     public List<TransportCompany> readAll() {
         List<TransportCompany> result = new CopyOnWriteArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_TRANSPORT_COMPANY);
-             ResultSet rs = ps.executeQuery();) {
+             ResultSet rs = ps.executeQuery()) {
             addTransportCompaniesToList(result, rs);
         } catch (SQLException e) {
             logger.error("Unable to read all transport companies: " + e.getMessage(), e);
