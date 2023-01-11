@@ -2,6 +2,8 @@ package com.travel_agency.controllers;
 
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.User;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +33,7 @@ public class RegistrationServlet extends HttpServlet {
 
         DBManager dbManager = DBManager.getInstance();
 
-        if(isUserValid(req,user) && dbManager.createUser(user)) {
+        if(isUserValid(user) && dbManager.createUser(user)) {
             req.getSession().setAttribute("user", user);
             logger.info("User {} is registered successfully", user.getEmail());
         } else{
@@ -50,13 +51,23 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = req.getParameter("lastName");
         String phone = req.getParameter("phone");
 
-        return new User(0,email,password,"user",firstName,lastName,phone);
+        String hashedPassword = HashPassword(password);
+
+        return new User(0,email,hashedPassword,"user",firstName,lastName,phone);
     }
 
-    private boolean isUserValid(HttpServletRequest req, User user) {
-        if(!isEmailValid(user.getEmail()) || !isPhoneValid(user.getPhone())) {
-            logger.info(
-                    "User {} dont registered because of invalid email or number",
+    private static String HashPassword(String password) {
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id, 8,16);
+        return argon2.hash(2,15*1024,1, password.toCharArray());
+    }
+
+    private boolean isUserValid(User user) {
+        if(!isEmailValid(user.getEmail())) {
+            logger.info("User {} dont registered because of invalid email",
+                    user.getEmail());
+            return false;
+        }else if(!isPhoneValid(user.getPhone())){
+            logger.info("User {} dont registered because of invalid phone number",
                     user.getEmail());
             return false;
         }
