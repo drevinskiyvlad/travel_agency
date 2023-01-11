@@ -135,8 +135,8 @@ public class OrderDAO implements DAO<Order, String>{
         String type;
         int id = rs.getInt(Fields.ORDER_ID);
         String code = rs.getString(Fields.ORDER_CODE);
-        User user = userDao.read(Fields.ORDER_USER);
-        Offer offer = offerDao.read(Fields.ORDER_OFFER);
+        User user = userDao.read(rs.getInt(Fields.ORDER_USER));
+        Offer offer = offerDao.read(rs.getInt(Fields.ORDER_OFFER));
 
         try {
             type = readOrderStatus(rs.getInt(Fields.ORDER_STATUS));
