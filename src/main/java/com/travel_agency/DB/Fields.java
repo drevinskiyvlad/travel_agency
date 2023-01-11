@@ -9,7 +9,7 @@ public class Fields {
     public static final String USER_PASSWORD = "password";
     public static final String USER_ROLE = "user_role_id";
     public static final String USER_ROLE_ID = "id";
-    public static final String USER_ROLE_NAME = "name";
+    public static final String USER_ROLE_NAME = "user_role_name";
     public static final String USER_FIRST_NAME = "first_name";
     public static final String USER_LAST_NAME = "last_name";
     public static final String USER_PHONE = "phone";
@@ -20,7 +20,7 @@ public class Fields {
     public static final String HOTEL_ADDRESS = "address";
     public static final String HOTEL_TYPE = "hotel_type_id";
     public static final String HOTEL_TYPE_ID = "id";
-    public static final String HOTEL_TYPE_NAME = "name";
+    public static final String HOTEL_TYPE_NAME = "hotel_type_name";
     public static final String HOTEL_VACANCY = "vacancy";
     public static final String HOTEL_PRICE = "price";
 
@@ -36,13 +36,11 @@ public class Fields {
     public static final String OFFER_CODE = "code";
     public static final String OFFER_TYPE = "offer_type_id";
     public static final String OFFER_TYPE_ID = "id";
-    public static final String OFFER_TYPE_NAME = "name";
+    public static final String OFFER_TYPE_NAME = "offer_type_name";
     public static final String OFFER_TRANSPORT_COMPANY = "transport_company_id";
     public static final String OFFER_HOTEL = "hotel_id";
-    public static final String OFFER_VACANCY = "vacancy";
     public static final String OFFER_DISCOUNT = "discount";
     public static final String OFFER_IS_HOT = "is_hot";
-    public static final String OFFER_PRICE = "price";
 
     //order db fields
     public static final String ORDER_ID = "id";
@@ -51,6 +49,5 @@ public class Fields {
     public static final String ORDER_OFFER = "offer_id";
     public static final String ORDER_STATUS = "order_status_id";
     public static final String ORDER_STATUS_ID = "id";
-    public static final String ORDER_STATUS_NAME = "name";
-    public static final String ORDER_PRICE = "price";
+    public static final String ORDER_STATUS_NAME = "order_status_name";
 }

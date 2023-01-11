@@ -77,7 +77,7 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
         String name = rs.getString(Fields.TRANSPORT_COMPANY_NAME);
         String hqAddress = rs.getString(Fields.TRANSPORT_COMPANY_HQ_ADDRESS);
         int vacancy = rs.getInt(Fields.TRANSPORT_COMPANY_VACANCY);
-        double price = rs.getInt(Fields.TRANSPORT_COMPANY_PRICE);
+        double price = rs.getDouble(Fields.TRANSPORT_COMPANY_PRICE);
 
         return new TransportCompany(id, name, hqAddress, vacancy, price);
     }
@@ -91,6 +91,18 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
             return true;
         } catch (SQLException e) {
             logger.error("Unable to update transport company name: " + e.getMessage(), e);
+            return false;
+        }
+    }
+
+    public boolean update(TransportCompany transportCompany, int newVacancy){
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_TRANSPORT_COMPANY_VACANCY)) {
+            ps.setInt(1, newVacancy);
+            ps.setString(2, transportCompany.getName());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Unable to update transport company vacancy: " + e.getMessage(), e);
             return false;
         }
     }

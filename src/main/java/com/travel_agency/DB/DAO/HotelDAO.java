@@ -58,6 +58,20 @@ public class HotelDAO implements DAO<Hotel, String> {
         return null;
     }
 
+    public Hotel read(int id) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return initializeHotel(rs);
+            }
+        } catch (SQLException e) {
+            logger.error("Unable to read hotel: " + e.getMessage(), e);
+            return null;
+        }
+        return null;
+    }
+
     private Hotel initializeHotel(ResultSet rs) throws SQLException {
         String type;
 
@@ -86,6 +100,17 @@ public class HotelDAO implements DAO<Hotel, String> {
             return true;
         } catch (SQLException e) {
             logger.error("Unable to update hotel name: " + e.getMessage(), e);
+            return false;
+        }
+    }
+    public boolean update(Hotel hotel, int newVacancy){
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_HOTEL_VACANCY)) {
+            ps.setInt(1, newVacancy);
+            ps.setString(2, hotel.getName());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Unable to update hotel vacancy: " + e.getMessage(), e);
             return false;
         }
     }

@@ -39,7 +39,7 @@ public class Offer {
                 ", transport company=" + transportCompany.getName() +
                 ", hotel=" + hotel.getName() +
                 ", vacancy=" + vacancy +
-                ", discount=" + (discount * 100) +
+                ", discount=" + (int)(discount * 100) +
                 "%, hot=" + isHot +
                 ", price=" + price +
                 '}';

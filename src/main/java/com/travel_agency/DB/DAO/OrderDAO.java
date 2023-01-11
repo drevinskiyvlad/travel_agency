@@ -62,7 +62,7 @@ public class OrderDAO implements DAO<Order, String>{
     @Override
     public boolean update(Order order, String newStatus) {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_ORDER_STATUS)) {
-            ps.setString(1, newStatus);
+            ps.setInt(1, readOrderStatus(newStatus));
             ps.setString(2, order.getCode());
             ps.executeUpdate();
             return true;
@@ -87,7 +87,7 @@ public class OrderDAO implements DAO<Order, String>{
     @Override
     public List<Order> readAll() {
         List<Order> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFERS);
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDERS);
              ResultSet rs = ps.executeQuery()) {
             addOrdersToList(result, rs);
         } catch (SQLException e) {
