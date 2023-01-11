@@ -3,6 +3,8 @@ package com.travel_agency.DB;
 import com.travel_agency.DB.DAO.DAO;
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.models.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -13,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DBManager {
+    private final Logger logger = LogManager.getLogger();
     private static DBManager INSTANCE = null;
     private Connection con;
 
@@ -23,8 +26,7 @@ public class DBManager {
             DataSource ds = (DataSource) envContext.lookup("jdbc/travel_agency");
             con = ds.getConnection();
         } catch (SQLException | NamingException e) {
-            e.printStackTrace();
-            //todo: add logger here
+            logger.error("Unable to connect to db: " + e.getMessage(), e);
         }
     }
 
