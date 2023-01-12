@@ -51,12 +51,12 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = req.getParameter("lastName");
         String phone = req.getParameter("phone");
 
-        String hashedPassword = HashPassword(password);
+        String hashedPassword = hashPassword(password);
 
         return new User(0,email,hashedPassword,"user",firstName,lastName,phone);
     }
 
-    private static String HashPassword(String password) {
+    private static String hashPassword(String password) {
         Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id, 8,16);
         return argon2.hash(2,15*1024,1, password.toCharArray());
     }
@@ -75,7 +75,7 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     private boolean isPhoneValid(String phone) {
-        Pattern pattern = Pattern.compile("^[\\+][(]?[0-9]{3}[)]?[-\\s\\.]?\\d{3}[-\\s\\.]?[0-9]{4,6}$");
+        Pattern pattern = Pattern.compile("^\\+[(]?\\d{3}[)]?[-\\s\\.]?\\d{3}[-\\s\\.]?\\d{4,6}$");
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
     }

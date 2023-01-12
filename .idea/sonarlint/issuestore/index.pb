@@ -13,10 +13,6 @@ c
 3src/main/java/com/travel_agency/models/Country.java,0\f\0fb733285fa5130bfeb464e8ddf26ff9eda53e2d
 h
 8src/main/java/com/travel_agency/models/HotelService.java,5\b\5b261fd577c1ae95ceed85d4f66dbdc6b951147f
-S
-#src/main/webapp/styles/my_style.css,4\5\45e3d99c8c7ef15605414306ce2f6b27955a921a
-I
-src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
 f
 6src/main/java/com/travel_agency/DB/DAO/CountryDAO.java,8\d\8d6096d6b6568862c2701484ed674c280263d702
 l
