@@ -28,14 +28,19 @@
 						<div class="branding">
 							<img src="images/logo.png" alt="Company Name" class="logo">
 							<h1 class="site-title"><a href="index.jsp">Travel agency</a></h1>
-							<small class="site-description">Ми покажемо іншу сторону цього світу</small>
+							<small class="site-description">Подорожуйте разом з нами</small>
 						</div>
 						
 						<nav class="main-navigation">
 							<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 							<ul class="menu">
 								<li class="menu-item"><a href="our-offer.jsp">Наші пропозиції</a></li>
-								<li class="menu-item"><a href="user-cabinet.jsp">До особистого кабінету</a></li>
+								<c:if test="${sessionScope.user == null}">
+									<li class="menu-item"><a href="user-cabinet.jsp">Увійти</a></li>
+								</c:if>
+								<c:if test="${sessionScope.user != null}">
+									<li class="menu-item"><a href="user-cabinet.jsp">До кабінету: ${sessionScope.user.firstName}</a></li>
+								</c:if>
 							</ul>
 						</nav>
 						
@@ -52,15 +57,15 @@
 			<main class="content">
 				<div class="slider">
 					<ul class="slides">
-						<li data-background="dummy/slide-1.jpg">
+						<li data-background="images/slide-1.jpg">
 							<div class="container">
 								<div class="slide-caption col-md-4">
 									<h2 class="slide-title">Відкривай цей світ разом з нами</h2>
-									<p>Тільки про дві речі ми будемо шкодувати на смертному одрі - що мало любили і мало подорожували<br><br>©Марк Твен</p>
+									<p>Тільки про дві речі ми будемо шкодувати на смертному одрі - що мало любили й мало подорожували<br><br>©Марк Твен</p>
 								</div>
 							</div>
 						</li>
-						<li data-background="dummy/slide-2.jpg">
+						<li data-background="images/slide-2.jpg">
 							<div class="container">
 								<div class="slide-caption col-md-4">
 									<h2 class="slide-title">Відкривай цей світ разом з нами</h2>
@@ -68,7 +73,7 @@
 								</div>
 							</div>
 						</li>
-						<li data-background="dummy/slide-3.jpg">
+						<li data-background="images/slide-3.jpg">
 							<div class="container">
 								<div class="slide-caption col-md-4">
 									<h2 class="slide-title">Відкривай цей світ разом з нами</h2>
@@ -116,7 +121,7 @@
 								<div class="feature left-icon wow fadeInRight" data-wow-delay=".3s">
 									<i class="icon-shuttelcock"></i>
 									<h3 class="feature-title">Все для вашої зручності</h3>
-									<p>Тільки краща їжа різних країн для вас, від кращих кузарів різних країн.</p>
+									<p>Тільки краща їжа різних країн для вас, від кращих кухарів різних країн.</p>
 								</div>
 							</div>
 						</div>
@@ -129,7 +134,7 @@
 						<div class="row">
 							<div class="col-md-3 col-sm-6 col-xs-12">
 								<article class="offer wow bounceIn">
-									<figure class="featured-image"><img src="dummy/offer-thumbnail-1.jpg" alt=""></figure>
+									<figure class="featured-image"><img src="images/cities/Paris.jpg" alt=""></figure>
 									<h2 class="entry-title"><a href="">Nemo enim ipsam voluptatem</a></h2>
 									<p>Piditate non provident similique	 sunt in culpa qui oficia deserunt molitia animi est aborum et dolorum fuga</p>
 									<a href="#" class="button">See details</a>

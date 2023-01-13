@@ -27,14 +27,19 @@
 						<div class="branding">
 							<img src="images/logo.png" alt="Company Name" class="logo">
 							<h1 class="site-title"><a href="index.jsp">Travel agency</a></h1>
-							<small class="site-description">Ми покажемо іншу сторону цього світу</small>
+							<small class="site-description">Подорожуйте разом з нами</small>
 						</div>
 						
 						<nav class="main-navigation">
 							<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 							<ul class="menu">
 								<li class="menu-item  current-menu-item"><a href="our-offer.jsp">Наші пропозиції</a></li>
-								<li class="menu-item"><a href="user-cabinet.jsp">До особистого кабінету</a></li>
+								<c:if test="${sessionScope.user == null}">
+									<li class="menu-item"><a href="user-cabinet.jsp">Увійти</a></li>
+								</c:if>
+								<c:if test="${sessionScope.user != null}">
+									<li class="menu-item"><a href="user-cabinet.jsp">До кабінету: ${sessionScope.user.firstName}</a></li>
+								</c:if>
 							</ul>
 						</nav>
 						
@@ -77,7 +82,7 @@
 							<div class="filterable-item south-america">
 								<article class="offer-item">
 									<figure class="featured-image">
-										<img src="dummy/offer-thumbnail-1.jpg" alt="">
+										<img src="images/cities/Paris.jpg" alt="">
 									</figure>
 									<h2 class="entry-title"><a href="#">Efficitur efficitur convallis</a></h2>
 									<p>Sed vitae fermentum lacus in augue massa pellentesque mauris vel iaculis sclerisque nulla</p>

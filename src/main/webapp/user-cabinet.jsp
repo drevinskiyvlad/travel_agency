@@ -25,14 +25,14 @@
 						<div class="branding">
 							<img src="images/logo.png" alt="Company Name" class="logo">
 							<h1 class="site-title"><a href="index.jsp">Travel agency</a></h1>
-							<small class="site-description">Ми покажемо іншу сторону цього світу</small>
+							<small class="site-description">Подорожуйте разом з нами</small>
 						</div>
 						
 						<nav class="main-navigation">
 							<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 							<ul class="menu">
 								<li class="menu-item"><a href="our-offer.jsp">Наші пропозиції</a></li>
-								<li class="menu-item current-menu-item"><a href="user-cabinet.jsp">До особистого кабінету</a></li>
+								<li class="menu-item"><a href="user-cabinet.jsp">До кабінету: ${sessionScope.user.firstName}</a></li>
 							</ul>
 						</nav>
 						
@@ -54,14 +54,23 @@
 				<div class="fullwidth-block">
 					<div class="container">
 						<div class="filter-links filterable-nav">
-                            <h1>Привіт, user, ваша роль: Користувач</h1>
+                            <h1>Привіт, ${sessionScope.user.firstName}, ваша роль: ${sessionScope.user.userRole}</h1>
 						</div>
-                        <h2>Ваші замовлення:</h2>
+						<c:if test="${sessionScope.user.userRole == 'user'}">
+                        	<h2>Ваші замовлення:</h2>
+						</c:if>
+						<c:if test="${sessionScope.user.userRole == 'manager'}">
+                        	<h2>Замовлення користувачів:</h2>
+						</c:if>
+						<c:if test="${sessionScope.user.userRole == 'admin'}">
+                        	<h2>Список користувачів:</h2>
+						</c:if>
+
 						<div class="filterable-items">
 							<div class="filterable-item south-america">
 								<article class="offer-item">
 									<figure class="featured-image">
-										<img src="dummy/offer-thumbnail-1.jpg" alt="">
+										<img src="images/cities/Paris.jpg" alt="">
 									</figure>
 									<h2 class="entry-title"><a href="#">Efficitur efficitur convallis</a></h2>
 									<p>Sed vitae fermentum lacus in augue massa pellentesque mauris vel iaculis sclerisque nulla</p>
