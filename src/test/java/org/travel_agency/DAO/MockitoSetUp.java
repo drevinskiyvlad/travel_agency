@@ -6,7 +6,7 @@ import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DAO.OrderDAO;
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.Fields;
-import com.travel_agency.models.*;
+import com.travel_agency.models.DAO.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

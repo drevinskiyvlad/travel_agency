@@ -2,7 +2,7 @@ package com.travel_agency.DB.DAO;
 
 import com.travel_agency.DB.Constants;
 import com.travel_agency.DB.Fields;
-import com.travel_agency.models.TransportCompany;
+import com.travel_agency.models.DAO.TransportCompany;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

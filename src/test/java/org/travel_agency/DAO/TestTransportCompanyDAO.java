@@ -1,7 +1,7 @@
 package org.travel_agency.DAO;
 
 import com.travel_agency.DB.DAO.TransportCompanyDAO;
-import com.travel_agency.models.TransportCompany;
+import com.travel_agency.models.DAO.TransportCompany;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package org.travel_agency.DAO;
 
 import com.travel_agency.DB.DAO.HotelDAO;
-import com.travel_agency.models.Hotel;
+import com.travel_agency.models.DAO.Hotel;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
