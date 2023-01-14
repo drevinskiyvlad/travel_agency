@@ -65,10 +65,10 @@
                         <div class="btn btn-secondary">Register</div>
                     </a>
                 </form>
-                <c:if test="${sessionScope.is_login_valid == false}">
+                <c:if test="${sessionScope.invalid_authorization_message != null}">
                     <Label>
                         <hr>
-                        <h4>Email or password are incorrect</h4>
+                        <h4>${sessionScope.invalid_authorization_message}</h4>
                     </Label>
                 </c:if>
             </c:if>

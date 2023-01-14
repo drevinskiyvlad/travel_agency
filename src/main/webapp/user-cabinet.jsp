@@ -56,23 +56,29 @@
         <div class="fullwidth-block">
             <div class="container">
                 <div class="filter-links filterable-nav">
-                    <h1>Привіт, ${sessionScope.user.firstName}, ваша роль: ${sessionScope.user.userRole}</h1>
+                    <h1>Інформація про користувача:</h1><hr>
+                    <h3>Пошта: ${sessionScope.user.email}</h3><br>
+                    <h3>Роль: ${sessionScope.user.role}</h3><br>
+                    <h3>Ім'я: ${sessionScope.user.firstName}</h3><br>
+                    <h3>Фамілія: ${sessionScope.user.lastName}</h3><br>
+                    <h3>Номер телефону: ${sessionScope.user.phone}</h3><br>
 
                     <form accept-charset="UTF-8" role="form" action="logout" method="get">
                         <button type="submit" class="btn btn-black">Вийти</button>
                     </form>
-                    <br><br>
 
-                    <c:if test="${sessionScope.user.userRole == 'user'}">
+                    <br><hr><br>
+
+                    <c:if test="${sessionScope.user.role == 'user'}">
                         <h2>Ваші замовлення:</h2>
                     </c:if>
-                    <c:if test="${sessionScope.user.userRole == 'manager'}">
+                    <c:if test="${sessionScope.user.role == 'manager'}">
                         <h2>Замовлення користувачів:</h2>
                     </c:if>
-                    <c:if test="${sessionScope.user.userRole == 'admin'}">
+                    <c:if test="${sessionScope.user.role == 'admin'}">
                         <h2>Список користувачів:</h2>
                     </c:if>
-
+                    <hr>
                     <div class="filterable-items">
                         <div class="filterable-item south-america">
                             <article class="offer-item">

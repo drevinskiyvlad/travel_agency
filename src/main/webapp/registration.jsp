@@ -52,7 +52,11 @@
     <div class="col-md-6 col-sm-12">
         <div class="login-form">
             <form accept-charset="UTF-8" role="form" action="registration" method="post">
-
+                <c:if test="${sessionScope.invalid_registration_message != null}">
+                    <Label>
+                        <h4>${sessionScope.invalid_registration_message}</h4><hr>
+                    </Label>
+                </c:if>
                 <div class="form-group">
                     <label>Email</label>
                     <input type="text" name="email" class="form-control" placeholder="doe@example.com">
@@ -79,12 +83,9 @@
                 </div>
 
                 <button type="submit" class="btn btn-black">Register</button>
+                <br><br><h5>Вже маєте акаунт? <a href="authorization.jsp">Увійти</a></h5>
             </form>
-            <c:if test="${sessionScope.is_register_valid == false}">
-                <Label>
-                    <hr><h2>Email or Phone is not valid</h2>
-                </Label>
-            </c:if>
+
         </div>
     </div>
 </main>>
