@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TransportCompanyDAO implements DAO<TransportCompany, String> {
-    private final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(TransportCompanyDAO.class);
     private final Connection con;
 
     public TransportCompanyDAO(Connection con) {
@@ -44,23 +44,27 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
 
     @Override
     public TransportCompany read(String name) {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_TRANSPORT_COMPANY)){
             ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()) {
                 return initializeTransportCompany(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read transport company: " + e.getMessage(), e);
             return null;
+        }finally {
+            close(rs);
         }
         return null;
     }
 
     public TransportCompany read(int id) {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_TRANSPORT_COMPANY_BY_ID)){
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()) {
                 return initializeTransportCompany(rs);
             }
@@ -68,6 +72,8 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
         } catch (SQLException e) {
             logger.error("Unable to read transport company: " + e.getMessage(), e);
             return null;
+        }finally {
+            close(rs);
         }
         return null;
     }
@@ -138,5 +144,13 @@ public class TransportCompanyDAO implements DAO<TransportCompany, String> {
             result.add(read(name));
         }
     }
-
+    private void close(AutoCloseable autoCloseable){
+        if(autoCloseable != null){
+            try {
+                autoCloseable.close();
+            } catch (Exception e) {
+                logger.error("Error while close: " + e.getMessage(), e);
+            }
+        }
+    }
 }

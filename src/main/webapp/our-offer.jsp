@@ -13,7 +13,7 @@
 		<link href="fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<!-- Loading main css file -->
 		<link rel="stylesheet" href="css/animate.min.css">
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="css/style.css">
 
 	</head>
 
