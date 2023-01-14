@@ -2,7 +2,7 @@ package com.travel_agency.DB;
 
 import com.travel_agency.DB.DAO.DAO;
 import com.travel_agency.DB.DAO.UserDAO;
-import com.travel_agency.models.User;
+import com.travel_agency.models.DAO.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 public class DBManager {
     private final Logger logger = LogManager.getLogger();
-    private static DBManager INSTANCE = null;
+    private static DBManager instance = null;
     private DataSource ds;
 
     private DBManager(){
@@ -28,38 +28,23 @@ public class DBManager {
         }
     }
     public static synchronized DBManager getInstance() {
-        if(INSTANCE == null){
-            INSTANCE = new DBManager();
+        if(instance == null){
+            instance = new DBManager();
         }
-        return INSTANCE;
+        return instance;
     }
 
 
-    public User getUser(String email){
-        Connection con = null;
-        try{
-            con = ds.getConnection();
-            DAO<User, String> userDao = new UserDAO(con);
-            return userDao.read(email);
+    public Connection getConnection() {
+        try {
+            return ds.getConnection();
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
-        }finally{
-            closeConnection(con);
+            logger.error("Unable to get connection: " + e.getMessage(), e);
         }
         return null;
     }
 
-    public boolean createUser(User user){
-        try(Connection con = ds.getConnection()) {
-            DAO<User, String> userDao = new UserDAO(con);
-            return userDao.create(user);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        }
-        return false;
-    }
-
-    private void closeConnection(Connection con){
+    public void closeConnection(Connection con){
         if(con != null) {
             try {
                 con.close();

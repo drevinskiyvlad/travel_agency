@@ -2,7 +2,7 @@
 <Configuration status="ERROR">
     <Properties>
         <property name="pattern_file">
-            %d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{5}- %msg%n
+            %d{yyyy-MM-dd HH:mm:ss} %-5level %logger{5}- %msg%n
         </property>
     </Properties>
     <Appenders>
