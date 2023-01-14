@@ -1,4 +1,4 @@
-package com.travel_agency.models;
+package com.travel_agency.models.DAO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

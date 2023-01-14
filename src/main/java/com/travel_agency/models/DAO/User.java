@@ -1,4 +1,4 @@
-package com.travel_agency.models;
+package com.travel_agency.models.DAO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,6 @@ public class User {
     @Getter @Setter private String firstName;
     @Getter @Setter private String lastName;
     @Getter @Setter private String phone;
-    //@Getter @Setter private List<Order> orders;
 
 
     @Override
