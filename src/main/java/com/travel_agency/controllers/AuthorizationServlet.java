@@ -2,8 +2,6 @@ package com.travel_agency.controllers;
 
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.User;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/authorization")
 public class AuthorizationServlet extends HttpServlet {
-    private final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -31,7 +29,7 @@ public class AuthorizationServlet extends HttpServlet {
     }
 
     private void redirect(HttpServletRequest req, HttpServletResponse resp, String login, String password, User user) throws IOException {
-        if (user != null && validatePassword(password, user)) {
+        if (user != null && HashPassword.validate(password, user.getPassword())) {
             logUserIn(req, resp, user);
         }else {
             returnBack(req, resp, login);
@@ -41,12 +39,7 @@ public class AuthorizationServlet extends HttpServlet {
     private void logUserIn(HttpServletRequest req, HttpServletResponse resp, User user) throws IOException {
         req.getSession().setAttribute("user", user);
         logger.info("User {} are logged in", user);
-        resp.sendRedirect("index.jsp");
-    }
-
-    private boolean validatePassword(String password, User user) {
-        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id, 8, 16);
-        return argon2.verify(user.getPassword(), password.toCharArray());
+        resp.sendRedirect("user-cabinet.jsp");
     }
 
     private void returnBack(HttpServletRequest req, HttpServletResponse resp, String login) throws IOException {

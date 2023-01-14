@@ -2,8 +2,6 @@ package com.travel_agency.controllers;
 
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.User;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +16,7 @@ import java.util.regex.Pattern;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
-    private final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(RegistrationServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -51,15 +49,11 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = req.getParameter("lastName");
         String phone = req.getParameter("phone");
 
-        String hashedPassword = hashPassword(password);
+        String hashedPassword = HashPassword.hash(password);
 
         return new User(0,email,hashedPassword,"user",firstName,lastName,phone);
     }
 
-    private static String hashPassword(String password) {
-        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id, 8,16);
-        return argon2.hash(2,15*1024,1, password.toCharArray());
-    }
 
     private boolean isUserValid(User user) {
         if(!isEmailValid(user.getEmail())) {
