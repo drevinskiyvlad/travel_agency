@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class HotelDAO implements DAO<Hotel, String> {
-    private final Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger(HotelDAO.class);
     private final Connection con;
 
     public HotelDAO(Connection con) {
@@ -45,29 +45,35 @@ public class HotelDAO implements DAO<Hotel, String> {
 
     @Override
     public Hotel read(String name) {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL)) {
             ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 return initializeHotel(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read hotel: " + e.getMessage(), e);
             return null;
+        }finally {
+            close(rs);
         }
         return null;
     }
 
     public Hotel read(int id) {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_BY_ID)) {
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 return initializeHotel(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read hotel: " + e.getMessage(), e);
             return null;
+        }finally {
+            close(rs);
         }
         return null;
     }
@@ -148,10 +154,11 @@ public class HotelDAO implements DAO<Hotel, String> {
     }
 
     public int readHotelType(String name) throws IllegalArgumentException {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_NAME)) {
 
             ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getInt(Fields.HOTEL_TYPE_ID);
@@ -159,15 +166,18 @@ public class HotelDAO implements DAO<Hotel, String> {
 
         } catch (SQLException e) {
             logger.error("Unable to read hotel type: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         throw new IllegalArgumentException("Unknown hotel type name");
     }
 
     public String readHotelType(int id) throws IllegalArgumentException {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_ID)) {
 
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getString(Fields.HOTEL_TYPE_NAME);
@@ -175,8 +185,18 @@ public class HotelDAO implements DAO<Hotel, String> {
 
         } catch (SQLException e) {
             logger.error("Unable to read hotel type: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         throw new IllegalArgumentException("Unknown hotel type name");
     }
-
+    private void close(AutoCloseable autoCloseable){
+        if(autoCloseable != null){
+            try {
+                autoCloseable.close();
+            } catch (Exception e) {
+                logger.error("Error while close: " + e.getMessage(), e);
+            }
+        }
+    }
 }

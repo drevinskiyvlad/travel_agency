@@ -2,10 +2,10 @@ package com.travel_agency.DB.DAO;
 
 import java.util.List;
 
-public interface DAO<Entity, Key> {
-    boolean create(Entity entity);
-    Entity read(Key key);
-    boolean update(Entity entity, Key newValue);
-    boolean delete(Entity entity);
-    List<Entity> readAll();
+public interface DAO<E, K> {
+    boolean create(E entity);
+    E read(K key);
+    boolean update(E entity, K newValue);
+    boolean delete(E entity);
+    List<E> readAll();
 }

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserDAO implements DAO<User, String> {
-    private final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(UserDAO.class);
     private final Connection con;
 
     public UserDAO(Connection con) {
@@ -37,31 +37,39 @@ public class UserDAO implements DAO<User, String> {
 
     @Override
     public User read(String email) {
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER)) {
-
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(Constants.FIND_USER);
             ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return initializeUser(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read user: " + e.getMessage(), e);
+        }finally {
+            close(rs);
+            close(ps);
         }
         return null;
     }
 
     public User read(int id) {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_BY_ID)) {
 
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return initializeUser(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read user: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         return null;
     }
@@ -117,9 +125,10 @@ public class UserDAO implements DAO<User, String> {
     }
 
     public int readUserRole(String name) throws IllegalArgumentException {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME)) {
             ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getInt(Fields.USER_ROLE_ID);
@@ -127,15 +136,18 @@ public class UserDAO implements DAO<User, String> {
 
         } catch (SQLException e) {
             logger.error("Unable to read user role: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         throw new IllegalArgumentException("Unknown user role name");
     }
 
     public String readUserRole(int id) throws IllegalArgumentException {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_ID)) {
 
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getString(Fields.USER_ROLE_NAME);
@@ -143,6 +155,8 @@ public class UserDAO implements DAO<User, String> {
 
         } catch (SQLException e) {
             logger.error("Unable to read user role: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         throw new IllegalArgumentException("Unknown user role name");
     }
@@ -178,6 +192,16 @@ public class UserDAO implements DAO<User, String> {
         while (rs.next()) {
             String email = rs.getString(Fields.USER_EMAIL);
             result.add(read(email));
+        }
+    }
+
+    private void close(AutoCloseable autoCloseable){
+        if(autoCloseable != null){
+            try {
+                autoCloseable.close();
+            } catch (Exception e) {
+                logger.error("Error while close: " + e.getMessage(), e);
+            }
         }
     }
 }

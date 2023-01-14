@@ -12,24 +12,21 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 public class DBManager {
     private final Logger logger = LogManager.getLogger();
     private static DBManager INSTANCE = null;
-    private Connection con;
+    private DataSource ds;
 
     private DBManager(){
         try {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/travel_agency");
-            con = ds.getConnection();
-        } catch (SQLException | NamingException e) {
+            ds = (DataSource) envContext.lookup("jdbc/travel_agency");
+        } catch (NamingException e) {
             logger.error("Unable to connect to db: " + e.getMessage(), e);
         }
     }
-
     public static synchronized DBManager getInstance() {
         if(INSTANCE == null){
             INSTANCE = new DBManager();
@@ -37,23 +34,38 @@ public class DBManager {
         return INSTANCE;
     }
 
+
     public User getUser(String email){
-        DAO<User, String> userDao = new UserDAO(con);
-        return userDao.read(email);
+        Connection con = null;
+        try{
+            con = ds.getConnection();
+            DAO<User, String> userDao = new UserDAO(con);
+            return userDao.read(email);
+        } catch (SQLException e) {
+            logger.error(e.getMessage(),e);
+        }finally{
+            closeConnection(con);
+        }
+        return null;
     }
 
     public boolean createUser(User user){
-        DAO<User, String> userDao = new UserDAO(con);
-        return userDao.create(user);
+        try(Connection con = ds.getConnection()) {
+            DAO<User, String> userDao = new UserDAO(con);
+            return userDao.create(user);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return false;
     }
 
-    public List<User> getAllUsers(){
-        DAO<User, String> userDao = new UserDAO(con);
-        return userDao.readAll();
-    }
-
-    public boolean changeUserRole(User user, String newRole){
-        UserDAO userDao = new UserDAO(con);
-        return userDao.updateUserRole(user, newRole);
+    private void closeConnection(Connection con){
+        if(con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                logger.error("Unable to close connection" + e.getMessage(),e);
+            }
+        }
     }
 }

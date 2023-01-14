@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OrderDAO implements DAO<Order, String>{
-    private final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(OrderDAO.class);
     private final Connection con;
 
     public OrderDAO(Connection con) {
@@ -45,16 +45,19 @@ public class OrderDAO implements DAO<Order, String>{
 
     @Override
     public Order read(String code) {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ORDER)) {
 
             ps.setString(1, code);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return initializeOrder(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read offer: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         return null;
     }
@@ -97,9 +100,10 @@ public class OrderDAO implements DAO<Order, String>{
     }
 
     public int readOrderStatus(String name) throws IllegalArgumentException {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ORDER_STATUS_BY_NAME)) {
             ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getInt(Fields.ORDER_STATUS_ID);
@@ -107,14 +111,17 @@ public class OrderDAO implements DAO<Order, String>{
 
         } catch (SQLException e) {
             logger.error("Unable to read order status: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         throw new IllegalArgumentException("Unknown offer order status");
     }
 
     public String readOrderStatus(int id) throws IllegalArgumentException {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ORDER_STATUS_BY_ID)) {
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getString(Fields.ORDER_STATUS_NAME);
@@ -122,6 +129,8 @@ public class OrderDAO implements DAO<Order, String>{
 
         } catch (SQLException e) {
             logger.error("Unable to read order status: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         throw new IllegalArgumentException("Unknown order status name");
     }
@@ -151,6 +160,15 @@ public class OrderDAO implements DAO<Order, String>{
         while (rs.next()) {
             String code = rs.getString(Fields.ORDER_CODE);
             result.add(read(code));
+        }
+    }
+    private void close(AutoCloseable autoCloseable){
+        if(autoCloseable != null){
+            try {
+                autoCloseable.close();
+            } catch (Exception e) {
+                logger.error("Error while close: " + e.getMessage(), e);
+            }
         }
     }
 }

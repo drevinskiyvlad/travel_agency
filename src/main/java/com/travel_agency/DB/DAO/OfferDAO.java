@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OfferDAO implements DAO<Offer, String>{
-    private final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(OfferDAO.class);
     private final Connection con;
 
     public OfferDAO(Connection con) {
@@ -51,31 +51,37 @@ public class OfferDAO implements DAO<Offer, String>{
 
     @Override
     public Offer read(String code) {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER)) {
 
             ps.setString(1, code);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return initializeOffer(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read offer: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         return null;
     }
 
     public Offer read(int id) {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER_BY_ID)) {
 
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return initializeOffer(rs);
             }
         } catch (SQLException e) {
             logger.error("Unable to read offer: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         return null;
     }
@@ -157,9 +163,10 @@ public class OfferDAO implements DAO<Offer, String>{
     }
 
     public int readOfferType(String name) throws IllegalArgumentException {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER_TYPE_BY_NAME)) {
             ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getInt(Fields.OFFER_TYPE_ID);
@@ -167,14 +174,17 @@ public class OfferDAO implements DAO<Offer, String>{
 
         } catch (SQLException e) {
             logger.error("Unable to read offer type: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         throw new IllegalArgumentException("Unknown offer type name");
     }
 
     public String readOfferType(int id) throws IllegalArgumentException {
+        ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER_TYPE_BY_ID)) {
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getString(Fields.OFFER_TYPE_NAME);
@@ -182,6 +192,8 @@ public class OfferDAO implements DAO<Offer, String>{
 
         } catch (SQLException e) {
             logger.error("Unable to read offer type: " + e.getMessage(), e);
+        }finally {
+            close(rs);
         }
         throw new IllegalArgumentException("Unknown offer type name");
     }
@@ -192,6 +204,15 @@ public class OfferDAO implements DAO<Offer, String>{
         while (rs.next()) {
             String code = rs.getString(Fields.OFFER_CODE);
             result.add(read(code));
+        }
+    }
+    private void close(AutoCloseable autoCloseable){
+        if(autoCloseable != null){
+            try {
+                autoCloseable.close();
+            } catch (Exception e) {
+                logger.error("Error while close: " + e.getMessage(), e);
+            }
         }
     }
 }
