@@ -1,7 +1,10 @@
 package com.travel_agency.controllers;
 
+import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
-import com.travel_agency.models.User;
+import com.travel_agency.models.DTO.UserDTO;
+import com.travel_agency.models.DAO.services.UserService;
+import com.travel_agency.exceptions.ValidationException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,8 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -20,63 +21,42 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         String redirectPage = "index.jsp";
+        req.getSession().setAttribute("invalid_registration_message", null);
 
-        req.getSession().setAttribute("is_register_valid", true);
+        try {
+            UserDTO userDTO = initializeUserDTO(req);
+            String password = req.getParameter("password");
 
-        User user = initializeUser(req);
+            UserService userService = initUserService();
+            userService.addUser(userDTO, password);
 
-        logger.info("User {} is trying to register", user);
-
-        DBManager dbManager = DBManager.getInstance();
-
-        if(isUserValid(user) && dbManager.createUser(user)) {
-            req.getSession().setAttribute("user", user);
-            logger.info("User {} is registered successfully", user.getEmail());
-        } else{
+            logger.info("User {} registered successfully: ", userDTO.getEmail());
+            req.getSession().setAttribute("user", userDTO);
+        }catch(ValidationException e){
+            req.getSession().setAttribute("invalid_registration_message", e.getMessage());
             redirectPage = "registration.jsp";
-            req.getSession().setAttribute("is_register_valid", false);
         }
 
         resp.sendRedirect(redirectPage);
     }
 
-    private User initializeUser(HttpServletRequest req) {
+    private static UserService initUserService() {
+        DBManager dbManager = DBManager.getInstance();
+        UserDAO userDAO = new UserDAO(dbManager.getConnection());
+        return new UserService(userDAO);
+    }
+
+    private UserDTO initializeUserDTO(HttpServletRequest req) throws ValidationException {
         String email = req.getParameter("email");
-        String password = req.getParameter("password");
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String phone = req.getParameter("phone");
 
-        String hashedPassword = HashPassword.hash(password);
-
-        return new User(0,email,hashedPassword,"user",firstName,lastName,phone);
-    }
-
-
-    private boolean isUserValid(User user) {
-        if(!isEmailValid(user.getEmail())) {
-            logger.info("User {} dont registered because of invalid email",
-                    user.getEmail());
-            return false;
-        }else if(!isPhoneValid(user.getPhone())){
-            logger.info("User {} dont registered because of invalid phone number",
-                    user.getEmail());
-            return false;
+        if(email.equals("") || firstName.equals("") || lastName.equals("") || phone.equals("")){
+            throw new ValidationException("All fields must be filled");
         }
-        return true;
-    }
 
-    private boolean isPhoneValid(String phone) {
-        Pattern pattern = Pattern.compile("^\\+[(]?\\d{3}[)]?[-\\s\\.]?\\d{3}[-\\s\\.]?\\d{4,6}$");
-        Matcher matcher = pattern.matcher(phone);
-        return matcher.matches();
-    }
-
-    private boolean isEmailValid(String email) {
-        Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+        return new UserDTO(email,"user",firstName,lastName,phone);
     }
 }

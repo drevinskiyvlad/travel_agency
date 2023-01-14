@@ -1,7 +1,10 @@
 package com.travel_agency.controllers;
 
+import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
-import com.travel_agency.models.User;
+import com.travel_agency.models.DTO.UserDTO;
+import com.travel_agency.models.DAO.services.UserService;
+import com.travel_agency.exceptions.ValidationException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,34 +20,22 @@ public class AuthorizationServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.getSession().setAttribute("is_login_valid", true);
+        req.getSession().setAttribute("invalid_authorization_message", null);
 
-        String login = req.getParameter("email");
+        String email = req.getParameter("email");
         String password = req.getParameter("password");
 
         DBManager manager = DBManager.getInstance();
-
-        User user = manager.getUser(login);
-        redirect(req, resp, login, password, user);
-    }
-
-    private void redirect(HttpServletRequest req, HttpServletResponse resp, String login, String password, User user) throws IOException {
-        if (user != null && HashPassword.validate(password, user.getPassword())) {
-            logUserIn(req, resp, user);
-        }else {
-            returnBack(req, resp, login);
+        UserDAO userDAO = new UserDAO(manager.getConnection());
+        UserService userService = new UserService(userDAO);
+        try {
+            UserDTO userDTO = userService.signIn(email, password);
+            req.getSession().setAttribute("user", userDTO);
+        } catch (ValidationException e) {
+            logger.info("User dont loggined: " + e.getMessage());
+            req.getSession().setAttribute("invalid_authorization_message", e.getMessage());
         }
-    }
 
-    private void logUserIn(HttpServletRequest req, HttpServletResponse resp, User user) throws IOException {
-        req.getSession().setAttribute("user", user);
-        logger.info("User {} are logged in", user);
         resp.sendRedirect("user-cabinet.jsp");
-    }
-
-    private void returnBack(HttpServletRequest req, HttpServletResponse resp, String login) throws IOException {
-        req.getSession().setAttribute("is_login_valid", false);
-        logger.info("User {} is null or entered incorrect password", login);
-        resp.sendRedirect("authorization.jsp");
     }
 }
