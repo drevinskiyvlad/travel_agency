@@ -2,7 +2,9 @@ package com.travel_agency.DB.DAO;
 
 import com.travel_agency.DB.Constants;
 import com.travel_agency.DB.Fields;
-import com.travel_agency.models.User;
+import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.models.DAO.User;
+import com.travel_agency.utils.HashPassword;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +24,7 @@ public class UserDAO implements DAO<User, String> {
     }
 
     @Override
-    public boolean create(User user) {
+    public boolean create(User user) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.ADD_USER)) {
 
             setVariablesToCreateStatement(user, ps);
@@ -31,12 +33,12 @@ public class UserDAO implements DAO<User, String> {
             return true;
         } catch (SQLException | IllegalArgumentException e) {
             logger.error("Unable to create user: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to create user: " + e.getMessage());
         }
     }
 
     @Override
-    public User read(String email) {
+    public User read(String email) throws DAOException {
         ResultSet rs = null;
         PreparedStatement ps = null;
         try {
@@ -49,6 +51,7 @@ public class UserDAO implements DAO<User, String> {
             }
         } catch (SQLException e) {
             logger.error("Unable to read user: " + e.getMessage(), e);
+            throw new DAOException("Unable to read user: " + e.getMessage());
         }finally {
             close(rs);
             close(ps);
@@ -56,7 +59,7 @@ public class UserDAO implements DAO<User, String> {
         return null;
     }
 
-    public User read(int id) {
+    public User read(int id) throws DAOException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_BY_ID)) {
 
@@ -68,6 +71,7 @@ public class UserDAO implements DAO<User, String> {
             }
         } catch (SQLException e) {
             logger.error("Unable to read user: " + e.getMessage(), e);
+            throw new DAOException("Unable to read user: " + e.getMessage());
         }finally {
             close(rs);
         }
@@ -75,7 +79,7 @@ public class UserDAO implements DAO<User, String> {
     }
 
     @Override
-    public boolean update(User user, String newEmail) {
+    public boolean update(User user, String newEmail) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_EMAIL)) {
             ps.setString(1, newEmail);
             ps.setString(2, user.getPhone());
@@ -83,11 +87,11 @@ public class UserDAO implements DAO<User, String> {
             return true;
         } catch (SQLException e) {
             logger.error("Unable to update user: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to update user: " + e.getMessage());
         }
     }
 
-    public boolean updateUserRole(User user, String newRole) {
+    public boolean updateUserRole(User user, String newRole) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_ROLE)) {
             int roleId = readUserRole(newRole);
             ps.setInt(1, roleId);
@@ -96,35 +100,36 @@ public class UserDAO implements DAO<User, String> {
             return true;
         } catch (SQLException e) {
             logger.error("Unable to update user role: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to update user role: " + e.getMessage());
         }
     }
 
     @Override
-    public boolean delete(User user) {
+    public boolean delete(User user) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_USER)) {
             ps.setString(1, user.getEmail());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             logger.error("Unable to delete user: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to delete user: " + e.getMessage());
         }
     }
 
     @Override
-    public List<User> readAll() {
+    public List<User> readAll() throws DAOException {
         List<User> result = new CopyOnWriteArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USERS);
              ResultSet rs = ps.executeQuery()) {
             addUsersToList(result, rs);
         } catch (SQLException e) {
             logger.error("Unable to read list user: " + e.getMessage(), e);
+            throw new DAOException("Unable to real list user: " + e.getMessage());
         }
         return result;
     }
 
-    public int readUserRole(String name) throws IllegalArgumentException {
+    public int readUserRole(String name) throws IllegalArgumentException, DAOException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME)) {
             ps.setString(1, name);
@@ -162,8 +167,9 @@ public class UserDAO implements DAO<User, String> {
     }
 
     private void setVariablesToCreateStatement(User user, PreparedStatement ps) throws SQLException, IllegalArgumentException {
+        String hashedPassword = HashPassword.hash(user.getPassword());
         ps.setString(1, user.getEmail());
-        ps.setString(2, user.getPassword());
+        ps.setString(2, hashedPassword);
         ps.setInt(3, readUserRole(user.getUserRole()));
         ps.setString(4, user.getFirstName());
         ps.setString(5, user.getLastName());
