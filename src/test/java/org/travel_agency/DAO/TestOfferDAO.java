@@ -21,8 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -70,7 +69,10 @@ class TestOfferDAO {
 
     @Test
     void testUpdateForException() {
-        //todo
+        assertThrows(UnsupportedOperationException.class,
+                ()->{
+                    dao.update(offer,"NewCode");
+                });
     }
 
     @Test
