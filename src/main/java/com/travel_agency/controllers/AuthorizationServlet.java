@@ -34,11 +34,6 @@ public class AuthorizationServlet extends HttpServlet {
         try {
             UserDAO userDAO = new UserDAO(con);
             UserService userService = new UserService(userDAO);
-
-//            OfferDAO dao = new OfferDAO(con);
-//            OfferService service = new OfferService(dao);
-//            service.getAllOffers();
-
             UserDTO userDTO = userService.signIn(email, password);
             req.getSession().setAttribute("user", userDTO);
         } catch (ValidationException e) {

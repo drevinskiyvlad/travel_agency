@@ -26,6 +26,26 @@
     <filter-mapping>
         <filter-name>auth-filter</filter-name>
         <url-pattern>/user-cabinet.jsp</url-pattern>
-<!--        <url-pattern>/authorization</url-pattern>-->
+    </filter-mapping>
+
+    <filter>
+        <filter-name>offer-list-filter</filter-name>
+        <filter-class>com.travel_agency.filters.OfferListFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>offer-list-filter</filter-name>
+        <url-pattern>/index.jsp</url-pattern>
+        <url-pattern>/our-offer.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>offer-item-filter</filter-name>
+        <filter-class>com.travel_agency.filters.OfferItemFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>offer-item-filter</filter-name>
+        <url-pattern>/offer.jsp</url-pattern>
     </filter-mapping>
 </web-app>
