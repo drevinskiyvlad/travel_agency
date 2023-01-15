@@ -5,6 +5,10 @@
 <head>
     <title>Login page</title>
     <link href="css/style.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -39,38 +43,36 @@
         </div>
 </header> <!-- .site-header -->
 <main class="content">
-    <div class="col-md-6 col-sm-12">
-        <div class="login-form">
-            <c:if test="${sessionScope.user == null}">
-                <form accept-charset="UTF-8" role="form" action="authorization" method="post">
+    <div class="main">
+        <div class="col-md-6 col-sm-12">
+            <div class="login-form">
+                <c:if test="${sessionScope.user == null}">
+                    <form accept-charset="UTF-8" role="form" action="authorization" method="post">
                     <div class="form-group">
-                        <label class="login-item-label">Email<br>
-                            <input type="text" name="email" class="form-control" placeholder="doe@example.com">
-                        </label>
+                        <label>Email</label>
+                        <input type="text" name="email" class="form-control" placeholder="doe@example.com">
                     </div>
                     <div class="form-group">
-                        <label class="login-item-label">Password
-                            <input type="password" name="password" class="form-control" placeholder="Password">
-                        </label>
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-black">Login</button>
-                    <a href="registration.jsp">
-                        <div class="btn btn-secondary">Register</div>
-                    </a>
+                    <a href="registration.jsp"><div class="btn btn-secondary">Register</div></a>
                 </form>
-                <c:if test="${sessionScope.invalid_authorization_message != null}">
-                    <Label>
-                        <hr>
-                        <h4>${sessionScope.invalid_authorization_message}</h4>
-                    </Label>
+                    <c:if test="${sessionScope.invalid_authorization_message != null}">
+                        <Label>
+                            <hr>
+                            <h4>${sessionScope.invalid_authorization_message}</h4>
+                        </Label>
+                    </c:if>
                 </c:if>
-            </c:if>
-            <c:if test="${sessionScope.user != null}">
-                <br><br><h4>You are currently logged in</h4><br>
-                <a href="index.jsp">
-                    <div class="btn btn-secondary">Go to main page</div>
-                </a>
-            </c:if>
+                <c:if test="${sessionScope.user != null}">
+                    <br><br><h4>You are currently logged in</h4><br>
+                    <a href="index.jsp">
+                        <div class="btn btn-secondary">Go to main page</div>
+                    </a>
+                </c:if>
+            </div>
         </div>
     </div>
 </main>
