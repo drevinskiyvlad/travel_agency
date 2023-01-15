@@ -37,7 +37,7 @@ public class HotelDAO implements DAO<Hotel, String> {
 
     private void setVariablesToCreateStatement(Hotel hotel, PreparedStatement ps) throws SQLException, IllegalArgumentException {
         ps.setString(1, hotel.getName());
-        ps.setString(2, hotel.getAddress());
+        ps.setString(2, hotel.getCity());
         ps.setInt(4, readHotelType(hotel.getHotelType()));
         ps.setInt(5, hotel.getVacancy());
         ps.setDouble(5, hotel.getPrice());
@@ -83,7 +83,7 @@ public class HotelDAO implements DAO<Hotel, String> {
 
         int id = rs.getInt(Fields.HOTEL_ID);
         String name = rs.getString(Fields.HOTEL_NAME);
-        String address = rs.getString(Fields.HOTEL_ADDRESS);
+        String address = rs.getString(Fields.HOTEL_CITY);
         int vacancy = rs.getInt(Fields.HOTEL_VACANCY);
         double price = rs.getDouble(Fields.HOTEL_PRICE);
 
@@ -101,7 +101,7 @@ public class HotelDAO implements DAO<Hotel, String> {
     public boolean update(Hotel hotel, String newName) {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_HOTEL_NAME)) {
             ps.setString(1, newName);
-            ps.setString(2, hotel.getAddress());
+            ps.setString(2, hotel.getCity());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
