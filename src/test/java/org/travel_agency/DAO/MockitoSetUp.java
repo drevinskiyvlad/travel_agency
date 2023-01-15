@@ -33,6 +33,7 @@ public class MockitoSetUp {
         when(rs.getString(Fields.USER_FIRST_NAME)).thenReturn(user.getFirstName());
         when(rs.getString(Fields.USER_LAST_NAME)).thenReturn(user.getLastName());
         when(rs.getString(Fields.USER_PHONE)).thenReturn(user.getPhone());
+        when(rs.getBoolean(Fields.USER_BANNED)).thenReturn(user.isBanned());
         when(rs.getString(Fields.USER_ROLE_NAME)).thenReturn(user.getUserRole());
         when(rs.getInt(Fields.USER_ROLE)).thenReturn(1);
     }
@@ -48,6 +49,7 @@ public class MockitoSetUp {
         ps.setString(4, user.getFirstName());
         ps.setString(5, user.getLastName());
         ps.setString(6, user.getPhone());
+        ps.setBoolean(7, user.isBanned());
     }
 
     protected static void UpdateUserEmail(User user, String newEmail, Connection con, PreparedStatement ps) throws SQLException {
@@ -94,7 +96,7 @@ public class MockitoSetUp {
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
         ps.setString(1, hotel.getName());
-        ps.setString(2, hotel.getAddress());
+        ps.setString(2, hotel.getCity());
         ps.setInt(4, dao.readHotelType(hotel.getHotelType()));
         ps.setInt(5, hotel.getVacancy());
         ps.setDouble(5, hotel.getPrice());
@@ -109,7 +111,7 @@ public class MockitoSetUp {
             when(rs.next()).thenReturn(true);
         when(rs.getInt(Fields.HOTEL_ID)).thenReturn(hotel.getId());
         when(rs.getString(Fields.HOTEL_NAME)).thenReturn(hotel.getName());
-        when(rs.getString(Fields.HOTEL_ADDRESS)).thenReturn(hotel.getAddress());
+        when(rs.getString(Fields.HOTEL_CITY)).thenReturn(hotel.getCity());
         when(rs.getInt(Fields.HOTEL_VACANCY)).thenReturn(hotel.getVacancy());
         when(rs.getDouble(Fields.HOTEL_PRICE)).thenReturn(hotel.getPrice());
         when(rs.getString(Fields.HOTEL_TYPE_NAME)).thenReturn(hotel.getHotelType());
@@ -119,7 +121,7 @@ public class MockitoSetUp {
     protected static void UpdateHotelName(Hotel hotel, String newName, Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(Constants.CHANGE_HOTEL_NAME)).thenReturn(ps);
         ps.setString(1, newName);
-        ps.setString(2, hotel.getAddress());
+        ps.setString(2, hotel.getCity());
     }
 
     protected static void UpdateHotelVacancy(Hotel hotel, int newVacancy, Connection con, PreparedStatement ps) throws SQLException {

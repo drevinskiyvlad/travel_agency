@@ -4,8 +4,8 @@ public class Constants {
     private Constants(){}
 
     //User request constants
-    public static final String ADD_USER = "INSERT INTO user(email, password, user_role_id, first_name, last_name, phone)" +
-            "VALUES(?, ?, ?, ?, ?, ?)";
+    public static final String ADD_USER = "INSERT INTO user(email, password, user_role_id, first_name, last_name, phone, banned)" +
+            "VALUES(?, ?, ?, ?, ?, ?,?)";
     public static final String FIND_USER = "select * from user where email LIKE ?";
     public static final String FIND_USER_BY_ID = "select * from user where id LIKE ?";
     public static final String CHANGE_USER_EMAIL = "UPDATE user SET email = ? WHERE phone = ?";

@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -24,11 +25,15 @@ public class RegistrationServlet extends HttpServlet {
         String redirectPage = "index.jsp";
         req.getSession().setAttribute("invalid_registration_message", null);
 
+        DBManager dbManager = DBManager.getInstance();
+        Connection con = dbManager.getConnection();
+
         try {
             UserDTO userDTO = initializeUserDTO(req);
             String password = req.getParameter("password");
 
-            UserService userService = initUserService();
+            UserDAO userDAO = new UserDAO(con);
+            UserService userService = new UserService(userDAO);
             userService.addUser(userDTO, password);
 
             logger.info("User {} registered successfully: ", userDTO.getEmail());
@@ -36,15 +41,11 @@ public class RegistrationServlet extends HttpServlet {
         }catch(ValidationException e){
             req.getSession().setAttribute("invalid_registration_message", e.getMessage());
             redirectPage = "registration.jsp";
+        }finally{
+            dbManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
-    }
-
-    private static UserService initUserService() {
-        DBManager dbManager = DBManager.getInstance();
-        UserDAO userDAO = new UserDAO(dbManager.getConnection());
-        return new UserService(userDAO);
     }
 
     private UserDTO initializeUserDTO(HttpServletRequest req) throws ValidationException {
@@ -57,6 +58,6 @@ public class RegistrationServlet extends HttpServlet {
             throw new ValidationException("All fields must be filled");
         }
 
-        return new UserDTO(email,"user",firstName,lastName,phone);
+        return new UserDTO(email,"user",firstName,lastName,phone,false);
     }
 }

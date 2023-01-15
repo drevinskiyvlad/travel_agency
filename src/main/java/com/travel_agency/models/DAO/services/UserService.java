@@ -7,8 +7,6 @@ import com.travel_agency.models.DAO.User;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.utils.Validator;
 
-import java.sql.SQLException;
-
 public class UserService {
     private final UserDAO dao;
 
@@ -27,7 +25,7 @@ public class UserService {
     }
 
     public UserDTO signIn(String email, String password) throws ValidationException {
-        User user = null;
+        User user;
         try {
             user = dao.read(email);
         } catch (DAOException e) {
@@ -43,16 +41,17 @@ public class UserService {
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
         String phone = user.getPhone();
-        return new UserDTO(email, role, firstName, lastName, phone);
+        boolean banned = user.isBanned();
+        return new UserDTO(email, role, firstName, lastName, phone, banned);
     }
 
     private void validateUser(User user, String password) {
-        if (user == null) {
+        if (user == null)
             throw new ValidationException("User is not founded");
-        }
-        if (!Validator.validatePassword(password, user)) {
+        if(user.isBanned())
+            throw new ValidationException("This user is banned");
+        if (!Validator.validatePassword(password, user))
             throw new ValidationException("Invalid password");
-        }
     }
 
     private User convertDTOToUser(UserDTO userDTO, String password) {
@@ -72,4 +71,5 @@ public class UserService {
             throw new ValidationException("Phone is not valid");
         }
     }
+
 }

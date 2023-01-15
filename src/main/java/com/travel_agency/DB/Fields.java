@@ -13,11 +13,12 @@ public class Fields {
     public static final String USER_FIRST_NAME = "first_name";
     public static final String USER_LAST_NAME = "last_name";
     public static final String USER_PHONE = "phone";
+    public static final String USER_BANNED = "banned";
 
     //hotel db fields
     public static final String HOTEL_ID = "id";
     public static final String HOTEL_NAME = "hotel_name";
-    public static final String HOTEL_ADDRESS = "address";
+    public static final String HOTEL_CITY = "city";
     public static final String HOTEL_TYPE = "hotel_type_id";
     public static final String HOTEL_TYPE_ID = "id";
     public static final String HOTEL_TYPE_NAME = "hotel_type_name";

@@ -15,14 +15,16 @@ public class UserDTO implements Serializable {
     private String firstName;
     private String lastName;
     private String phone;
+    private boolean banned;
     private final List<Order> orders;
 
-    public UserDTO(String email, String role, String firstName, String lastName, String phone) {
+    public UserDTO(String email, String role, String firstName, String lastName, String phone, boolean banned) {
         this.email = email;
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
+        this.banned = banned;
         orders = new CopyOnWriteArrayList<>();
     }
 }

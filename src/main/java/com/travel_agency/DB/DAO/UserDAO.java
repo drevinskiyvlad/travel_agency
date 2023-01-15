@@ -174,6 +174,7 @@ public class UserDAO implements DAO<User, String> {
         ps.setString(4, user.getFirstName());
         ps.setString(5, user.getLastName());
         ps.setString(6, user.getPhone());
+        ps.setBoolean(7, user.isBanned());
     }
 
     private User initializeUser(ResultSet rs) throws SQLException {
@@ -184,14 +185,16 @@ public class UserDAO implements DAO<User, String> {
         String firstName = rs.getString(Fields.USER_FIRST_NAME);
         String lastName = rs.getString(Fields.USER_LAST_NAME);
         String phone = rs.getString(Fields.USER_PHONE);
+        boolean banned = rs.getBoolean(Fields.USER_BANNED);
 
         try {
             role = readUserRole(rs.getInt(Fields.USER_ROLE));
         } catch (IllegalArgumentException e) {
             return null;
         }
-
-        return new User(id, email, password, role, firstName, lastName, phone);
+        User user = new User(id, email, password, role, firstName, lastName, phone);
+        user.setBanned(banned);
+        return user;
     }
 
     private void addUsersToList(List<User> result, ResultSet rs) throws SQLException {
