@@ -5,6 +5,7 @@ import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.UserService;
 import com.travel_agency.exceptions.ValidationException;
+import com.travel_agency.utils.ValidationMessageConstants;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,7 +56,7 @@ public class RegistrationServlet extends HttpServlet {
         String phone = req.getParameter("phone");
 
         if(email.equals("") || firstName.equals("") || lastName.equals("") || phone.equals("")){
-            throw new ValidationException("All fields must be filled");
+            throw new ValidationException(ValidationMessageConstants.FILL_ALL_FIELDS);
         }
 
         return new UserDTO(email,"user",firstName,lastName,phone,false);
