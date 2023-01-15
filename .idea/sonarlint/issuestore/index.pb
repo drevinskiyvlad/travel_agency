@@ -10,8 +10,6 @@ U
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-^
-.src/main/java/com/travel_agency/DB/Fields.java,d\0\d03c44df8222bfa82346ce877392b4d96d64bda0
 w
 G.idea/sonarlint/issuestore/5/d/5d837c4ed85ecaaf932c506e80ff5d7b9f3d590d,8\4\84e47ea35f445eb5238128908f068928322bf283
 w
@@ -34,8 +32,6 @@ G.idea/sonarlint/issuestore/0/f/0fb733285fa5130bfeb464e8ddf26ff9eda53e2d,b\f\bf
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 T
 $src/main/webapp/META-INF/context.xml,c\b\cbfb0d2e9b2b9fbf9d54374577c894a38643c6d0
-a
-1src/main/java/com/travel_agency/DB/Constants.java,0\5\05212e4be21171743444fd644198e84a7f4a1082
 S
 #src/main/webapp/css/animate.min.css,5\5\55e5066208397d8fd597c82ee39d276ec80afdc5
 ]
@@ -46,21 +42,5 @@ Q
 ..idea/artifacts/travel_agency_war_exploded.xml,2\0\2076176d69668aa0370a81c3a20cad048c346d30
 J
 src/main/webapp/index2.jsp,3\5\35c4553044f15c9281a629720b6ec85aff5a0921
-P
- src/main/webapp/css/my_style.css,8\8\887cfdf65d683f0fc07024f2b3814bc8cf4a7fb9
 Z
 *src/main/webapp/fonts/font-awesome.min.css,d\e\deb3c7674b519496bcf64545ebb1d30a69152cbc
-k
-;src/main/java/com/travel_agency/filters/EncodingFilter.java,d\d\dd52d8184070894eaf77ddcbc7d7c006e14d0b16
-M
-src/main/webapp/css/style.css,2\c\2c1f525046eaa5ad3e39cc3d3b2f4c4fab4ff318
-n
->src/main/java/com/travel_agency/controllers/LogOutServlet.java,d\3\d3ca5cad2aa2ed5c18f7d09919e15ec177dd2a6c
-O
-src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
-I
-src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
-M
-src/main/webapp/our-offer.jsp,c\1\c1605707ead16d2cdda005a0fc049eceb9e69c5d
-l
-<src/main/java/com/travel_agency/filters/AuthCheckFilter.java,e\e\ee46e06c23c85c154db90e1c6832a1b8783f8c2b

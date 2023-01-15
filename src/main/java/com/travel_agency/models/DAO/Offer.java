@@ -27,7 +27,7 @@ public class Offer {
         this.discount = discount;
         this.isHot = isHot;
         vacancy = Math.min(transportCompany.getVacancy(), hotel.getVacancy());
-        price = (transportCompany.getPrice() + hotel.getPrice()) * discount;
+        price = (transportCompany.getPrice() + hotel.getPrice()) * (1 - discount);
     }
 
     @Override

@@ -132,14 +132,18 @@
 					<div class="container">
 						<h2 class="section-title">Нові гарячі пропозиції</h2>
 						<div class="row">
-							<div class="col-md-3 col-sm-6 col-xs-12">
+							<c:forEach items="${sessionScope.hot_offers}" var="offer">
+							<div class="col-md-3 col-sm-6 col-xs-12 offer-block" style="background-color:rgba(255,0,0,0.29)">
 								<article class="offer wow bounceIn">
-									<figure class="featured-image"><img src="images/cities/Paris.jpg" alt=""></figure>
-									<h2 class="entry-title"><a href="">Nemo enim ipsam voluptatem</a></h2>
-									<p>Piditate non provident similique	 sunt in culpa qui oficia deserunt molitia animi est aborum et dolorum fuga</p>
+									<figure class="featured-image"><img src="images/cities/${offer.city}.jpg" alt="${offer.city}"></figure>
+									<h2 class="entry-title"><a href=""><b>Путівка до</b> ${offer.city}</a></h2>
+									<p><b>Готель</b>: ${offer.hotel}</p>
+									<p><b>Транспортна компанія</b>: ${offer.transportCompany}</p>
+									<p><b>Всього за</b>: <s>${offer.fullPrice}$</s> ${offer.price}$</p>
 									<a href="#" class="button">See details</a>
 								</article>
 							</div>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
