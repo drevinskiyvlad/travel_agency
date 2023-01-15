@@ -2,7 +2,7 @@ package com.travel_agency.filters;
 
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DBManager;
-import com.travel_agency.models.DAO.services.OfferService;
+import com.travel_agency.models.services.OfferService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 

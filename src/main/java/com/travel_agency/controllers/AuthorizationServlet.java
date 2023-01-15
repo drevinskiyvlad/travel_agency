@@ -1,12 +1,9 @@
 package com.travel_agency.controllers;
 
-import com.travel_agency.DB.DAO.DAO;
-import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
-import com.travel_agency.models.DAO.services.OfferService;
 import com.travel_agency.models.DTO.UserDTO;
-import com.travel_agency.models.DAO.services.UserService;
+import com.travel_agency.models.services.UserService;
 import com.travel_agency.exceptions.ValidationException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

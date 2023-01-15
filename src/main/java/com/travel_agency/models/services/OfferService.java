@@ -1,4 +1,4 @@
-package com.travel_agency.models.DAO.services;
+package com.travel_agency.models.services;
 
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.models.DAO.Offer;

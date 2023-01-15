@@ -1,4 +1,4 @@
-package com.travel_agency.models.DAO.services;
+package com.travel_agency.models.services;
 
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.exceptions.DAOException;
