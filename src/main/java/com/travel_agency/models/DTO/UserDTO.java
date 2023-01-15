@@ -3,14 +3,12 @@ package com.travel_agency.models.DTO;
 import com.travel_agency.models.DAO.Order;
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 public class UserDTO implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1;
     private String email;
     private String role;

@@ -2,12 +2,10 @@ package com.travel_agency.models.DTO;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Data
 public class OfferDTO implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1;
     private String code;
     private String type;
