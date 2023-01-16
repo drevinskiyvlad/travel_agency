@@ -61,4 +61,14 @@
         <filter-name>user-cabinet-filling-filter</filter-name>
         <url-pattern>/user-cabinet.jsp</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>create-offer-filter</filter-name>
+        <filter-class>com.travel_agency.filters.CreateOfferFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>create-offer-filter</filter-name>
+        <url-pattern>/add-offer.jsp</url-pattern>
+    </filter-mapping>
 </web-app>
