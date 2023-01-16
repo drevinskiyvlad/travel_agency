@@ -12,14 +12,14 @@ public class UserDTO implements Serializable {
     private String firstName;
     private String lastName;
     private String phone;
-    private boolean banned;
+    private boolean blocked;
 
-    public UserDTO(String email, String role, String firstName, String lastName, String phone, boolean banned) {
+    public UserDTO(String email, String role, String firstName, String lastName, String phone, boolean blocked) {
         this.email = email;
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
-        this.banned = banned;
+        this.blocked = blocked;
     }
 }

@@ -3,9 +3,7 @@ package com.travel_agency.DB.DAO;
 import com.travel_agency.DB.Constants;
 import com.travel_agency.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
-import com.travel_agency.models.DAO.Hotel;
 import com.travel_agency.models.DAO.Offer;
-import com.travel_agency.models.DAO.TransportCompany;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,16 +37,15 @@ public class OfferDAO implements DAO<Offer, String>{
     }
     private void setVariablesToCreateStatement(Offer offer, PreparedStatement ps) throws SQLException, IllegalArgumentException {
         ps.setString(1, offer.getCode());
-        ps.setInt(2, readOfferType(offer.getType()));
-        ps.setInt(3, offer.getTransportCompany().getId());
-        ps.setInt(4, offer.getHotel().getId());
-        ps.setInt(5, offer.getVacancy());
+        ps.setInt(2, readOfferType(offer.getOfferType()));
+        ps.setInt(3, readHotelType(offer.getHotelType()));
+        ps.setString(4, offer.getHotelName());
+        ps.setInt(5, offer.getPlaces());
         ps.setDouble(6, offer.getDiscount());
         ps.setBoolean(7, offer.isHot());
         ps.setDouble(8, offer.getPrice());
 
     }
-
 
     @Override
     public Offer read(String code) throws DAOException {
@@ -90,24 +87,25 @@ public class OfferDAO implements DAO<Offer, String>{
     }
 
     private Offer initializeOffer(ResultSet rs) throws SQLException {
-        HotelDAO hotelDao = new HotelDAO(con);
-        TransportCompanyDAO tcDao = new TransportCompanyDAO(con);
-
-        String type;
+        String offerType;
+        String hotelType;
         int id = rs.getInt(Fields.OFFER_ID);
         String code = rs.getString(Fields.OFFER_CODE);
-        TransportCompany tc = tcDao.read(rs.getInt(Fields.OFFER_TRANSPORT_COMPANY));
-        Hotel hotel = hotelDao.read(rs.getInt(Fields.OFFER_HOTEL));
+        String city = rs.getString(Fields.OFFER_CITY);
+        String hotelName = rs.getString(Fields.HOTEL_NAME);
+        int places = rs.getInt(Fields.OFFER_PLACES);
         double discount = rs.getDouble(Fields.OFFER_DISCOUNT);
         boolean isHot = rs.getBoolean(Fields.OFFER_IS_HOT);
+        double price = rs.getDouble(Fields.OFFER_PRICE);
 
         try {
-            type = readOfferType(rs.getInt(Fields.OFFER_TYPE));
+            offerType = readOfferType(rs.getInt(Fields.OFFER_TYPE));
+            hotelType = readHotelType(rs.getInt(Fields.OFFER_HOTEL_TYPE));
         } catch (IllegalArgumentException e) {
             return null;
         }
 
-        return new Offer(id,code,type,tc,hotel,discount,isHot);
+        return new Offer(id,code,city,offerType,hotelType,hotelName,places,discount,isHot,price);
     }
     @Override
     public boolean update(Offer offer, String newCode) throws UnsupportedOperationException {
@@ -128,15 +126,15 @@ public class OfferDAO implements DAO<Offer, String>{
         }
     }
 
-    public boolean update(Offer offer, int newVacancy) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_VACANCY)) {
-            ps.setInt(1, newVacancy);
+    public boolean update(Offer offer, int newValue) throws DAOException {
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_PLACES)) {
+            ps.setInt(1, newValue);
             ps.setString(2, offer.getCode());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update offer vacancy: " + e.getMessage(), e);
-            throw new DAOException("Unable to update offer vacancy: " + e.getMessage());
+            logger.error("Unable to update offer places: " + e.getMessage(), e);
+            throw new DAOException("Unable to update offer places: " + e.getMessage());
         }
     }
 
@@ -200,6 +198,42 @@ public class OfferDAO implements DAO<Offer, String>{
             close(rs);
         }
         throw new IllegalArgumentException("Unknown offer type name");
+    }
+
+    public int readHotelType(String name) throws IllegalArgumentException {
+        ResultSet rs = null;
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_NAME)) {
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(Fields.HOTEL_TYPE_ID);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Unable to read hotel type: " + e.getMessage(), e);
+        }finally {
+            close(rs);
+        }
+        throw new IllegalArgumentException("Unknown hotel type name");
+    }
+
+    public String readHotelType(int id) throws IllegalArgumentException {
+        ResultSet rs = null;
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_ID)) {
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString(Fields.HOTEL_TYPE_NAME);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Unable to read hotel type: " + e.getMessage(), e);
+        }finally {
+            close(rs);
+        }
+        throw new IllegalArgumentException("Unknown hotel type name");
     }
 
 

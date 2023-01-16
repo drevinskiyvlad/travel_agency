@@ -1,8 +1,6 @@
 package com.travel_agency.filters;
 
-import com.travel_agency.DB.DAO.HotelDAO;
 import com.travel_agency.DB.DBManager;
-import com.travel_agency.models.DAO.Hotel;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 

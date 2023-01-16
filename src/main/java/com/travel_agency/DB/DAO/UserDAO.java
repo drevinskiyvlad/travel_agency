@@ -92,14 +92,14 @@ public class UserDAO implements DAO<User, String> {
     }
 
     public boolean update(boolean value, String email) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_BANNED)) {
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_BLOCKED)) {
             ps.setBoolean(1, value);
             ps.setString(2, email);
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update user banned: " + e.getMessage(), e);
-            throw new DAOException("Unable to update user banned: " + e.getMessage());
+            logger.error("Unable to update user blocked: " + e.getMessage(), e);
+            throw new DAOException("Unable to update user blocked: " + e.getMessage());
         }
     }
 
@@ -141,7 +141,7 @@ public class UserDAO implements DAO<User, String> {
         return result;
     }
 
-    public int readUserRole(String name) throws IllegalArgumentException, DAOException {
+    public int readUserRole(String name) throws IllegalArgumentException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME)) {
             ps.setString(1, name);
@@ -186,7 +186,7 @@ public class UserDAO implements DAO<User, String> {
         ps.setString(4, user.getFirstName());
         ps.setString(5, user.getLastName());
         ps.setString(6, user.getPhone());
-        ps.setBoolean(7, user.isBanned());
+        ps.setBoolean(7, user.isBlocked());
     }
 
     private User initializeUser(ResultSet rs) throws SQLException {
@@ -197,15 +197,15 @@ public class UserDAO implements DAO<User, String> {
         String firstName = rs.getString(Fields.USER_FIRST_NAME);
         String lastName = rs.getString(Fields.USER_LAST_NAME);
         String phone = rs.getString(Fields.USER_PHONE);
-        boolean banned = rs.getBoolean(Fields.USER_BANNED);
+        boolean blocked = rs.getBoolean(Fields.USER_BLOCKED);
 
         try {
             role = readUserRole(rs.getInt(Fields.USER_ROLE));
         } catch (IllegalArgumentException e) {
             return null;
         }
-        User user = new User(id, email, password, role, firstName, lastName, phone);
-        user.setBanned(banned);
+        User user = new User(id, email, password, role, firstName, lastName, phone,blocked);
+        user.setBlocked(blocked);
         return user;
     }
 

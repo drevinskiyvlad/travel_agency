@@ -43,7 +43,6 @@ public class OrderDAO implements DAO<Order, String>{
         ps.setInt(2, order.getUser().getId());
         ps.setInt(3, order.getOffer().getId());
         ps.setInt(4, readOrderStatus(order.getOrderStatus()));
-        ps.setDouble(5, order.getPrice());
     }
 
     @Override

@@ -2,12 +2,11 @@ package com.travel_agency.models.DAO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Objects;
 
 @Data
+@AllArgsConstructor
 public class User {
     private int id;
     private String email;
@@ -16,17 +15,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String phone;
-    private boolean banned;
-
-    public User(int id, String email, String password, String userRole, String firstName, String lastName, String phone) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.userRole = userRole;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-    }
+    private boolean blocked;
 
     @Override
     public String toString() {
@@ -37,7 +26,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
-                ", banned='" + banned + '\'' +
+                ", banned='" + blocked + '\'' +
                 '}';
     }
 

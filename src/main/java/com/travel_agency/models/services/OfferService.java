@@ -78,7 +78,7 @@ public class OfferService {
     }
 
     private static void setVariablesToOffer(String type, int vacancy, double discount, Offer offer) {
-        offer.setType(type);
+        offer.setOfferType(type);
         offer.setVacancy(vacancy);
         offer.setDiscount(discount);
     }
@@ -110,7 +110,7 @@ public class OfferService {
 
     protected OfferDTO convertOfferToDTO(Offer offer) {
         String code = offer.getCode();
-        String type = offer.getType();
+        String type = offer.getOfferType();
         String tc = offer.getTransportCompany().getName();
         String hotel = offer.getHotel().getName();
         String hotelType = offer.getHotel().getHotelType();

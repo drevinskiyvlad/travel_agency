@@ -3,7 +3,6 @@ package com.travel_agency.models.services;
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
-import com.travel_agency.models.DAO.Order;
 import com.travel_agency.models.DAO.User;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.utils.ValidationMessageConstants;
@@ -57,7 +56,7 @@ public class UserService {
 
     public boolean changeUserBlocked(String email) throws DAOException {
         User user = dao.read(email);
-        return dao.update(!user.isBanned(), email);
+        return dao.update(!user.isBlocked(), email);
     }
 
     private List<UserDTO> makeListOfDTOs(List<User> users) {
@@ -74,14 +73,14 @@ public class UserService {
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
         String phone = user.getPhone();
-        boolean banned = user.isBanned();
+        boolean banned = user.isBlocked();
         return new UserDTO(email, role, firstName, lastName, phone, banned);
     }
 
     private void validateUser(User user, String password) {
         if (user == null)
             throw new ValidationException(ValidationMessageConstants.USER_NOT_FOUNDED);
-        if (user.isBanned())
+        if (user.isBlocked())
             throw new ValidationException(ValidationMessageConstants.USER_BANNED);
         if (!Validator.checkPasswordCorrect(password, user))
             throw new ValidationException(ValidationMessageConstants.INCORRECT_PASSWORD);
@@ -92,8 +91,9 @@ public class UserService {
         String firstName = userDTO.getFirstName();
         String lastName = userDTO.getLastName();
         String phone = userDTO.getPhone();
+        boolean blocked = userDTO.isBlocked();
 
-        return new User(0, email, password, "user", firstName, lastName, phone);
+        return new User(0, email, password, "user", firstName, lastName, phone,blocked);
     }
 
     private void validateUserDTO(UserDTO user, String password) {

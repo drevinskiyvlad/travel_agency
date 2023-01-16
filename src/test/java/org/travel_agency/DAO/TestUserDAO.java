@@ -33,7 +33,7 @@ class TestUserDAO {
 
     @BeforeAll
     void initializeUser() {
-        user = new User(1, "test@email.com", "password", "user", "Test", "User", "1234567890");
+        user = new User(1, "test@email.com", "password", "user", "Test", "User", "1234567890", false);
         con = Mockito.mock(Connection.class);
         dao = new UserDAO(con);
     }
