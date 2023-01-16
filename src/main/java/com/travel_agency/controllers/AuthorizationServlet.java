@@ -35,6 +35,8 @@ public class AuthorizationServlet extends HttpServlet {
             UserService userService = new UserService(userDAO);
             UserDTO userDTO = userService.signIn(email, password);
             req.getSession().setAttribute("user", userDTO);
+
+            logger.info("User {} signed in successfully", userDTO.getEmail());
         } catch (ValidationException e) {
             req.getSession().setAttribute("invalid_authorization_message", e.getMessage());
         } catch(Exception e){
