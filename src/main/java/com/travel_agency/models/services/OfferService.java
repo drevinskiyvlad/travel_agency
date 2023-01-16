@@ -19,47 +19,56 @@ public class OfferService {
         this.dao = dao;
     }
 
-    public List<OfferDTO> getAllOffers(){
+    public List<OfferDTO> getAllOffers() {
         List<Offer> offers;
         try {
             offers = dao.readAll();
         } catch (DAOException e) {
-            logger.error("Unable to read offers: "+e.getMessage(), e);
+            logger.error("Unable to read offers: " + e.getMessage(), e);
             return new ArrayList<>();
         }
         return makeListOfDTOs(offers, false);
     }
 
-    public List<OfferDTO> getAllHotOffers(){
+    public List<OfferDTO> getAllHotOffers() {
         List<Offer> offers = null;
         try {
             offers = dao.readAll();
         } catch (DAOException e) {
-            logger.error("Unable to read offers: "+e.getMessage(), e);
+            logger.error("Unable to read offers: " + e.getMessage(), e);
             return new ArrayList<>();
         }
         return makeListOfDTOs(offers, true);
     }
 
-    public OfferDTO getOffer(String code){
+    public OfferDTO getOffer(String code) {
         Offer offer;
         try {
             offer = dao.read(code);
         } catch (DAOException e) {
-            logger.error("Unable to read offer: "+e.getMessage(), e);
+            logger.error("Unable to read offer: " + e.getMessage(), e);
             return new OfferDTO();
         }
         return convertOfferToDTO(offer);
     }
 
+    public boolean updateOfferIsHot(OfferDTO offerDTO) throws DAOException {
+        Offer offer = convertDTOToOffer(offerDTO);
+        return dao.update(offer, true);
+    }
+
+    private Offer convertDTOToOffer(OfferDTO offerDTO) throws DAOException {
+        return dao.read(offerDTO.getCode());
+    }
+
     private List<OfferDTO> makeListOfDTOs(List<Offer> offers, boolean onlyHot) {
         List<OfferDTO> result = new CopyOnWriteArrayList<>();
-        for(Offer o: offers){
-            if(o.isHot())
+        for (Offer o : offers) {
+            if (o.isHot())
                 result.add(convertOfferToDTO(o));
         }
 
-        if(!onlyHot) {
+        if (!onlyHot) {
             for (Offer o : offers) {
                 if (!o.isHot())
                     result.add(convertOfferToDTO(o));
@@ -68,7 +77,7 @@ public class OfferService {
         return result;
     }
 
-    protected OfferDTO convertOfferToDTO(Offer offer){
+    protected OfferDTO convertOfferToDTO(Offer offer) {
         String code = offer.getCode();
         String type = offer.getType();
         String tc = offer.getTransportCompany().getName();
@@ -78,6 +87,6 @@ public class OfferService {
         double discount = offer.getDiscount();
         boolean isHot = offer.isHot();
         double price = offer.getPrice();
-        return new OfferDTO(code,type,tc,hotel,city,vacancy,discount,isHot,price);
+        return new OfferDTO(code, type, tc, hotel, city, vacancy, discount, isHot, price);
     }
 }

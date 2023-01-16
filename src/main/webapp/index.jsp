@@ -139,7 +139,7 @@
 									<h2 class="entry-title"><a href=""><b>Путівка до</b> ${offer.city}</a></h2>
 									<p><b>Готель</b>: ${offer.hotel}</p>
 									<p><b>Транспортна компанія</b>: ${offer.transportCompany}</p>
-									<p><b>Всього за</b>: <s>${offer.fullPrice}$</s> ${offer.price}$</p>
+									<p><b>Всього за</b>: <s>${String.format("%.2f", offer.fullPrice)}$</s> ${String.format("%.2f", offer.price)}$</p>
 									<a href="offer.jsp?code=${offer.code}" class="button">Подивитись деталі</a>
 								</article>
 							</div>

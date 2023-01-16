@@ -81,10 +81,10 @@
                 <p><b>Знижка</b>: ${String.format("%.0f", requestScope.offerItem.discount * 100)}%</p>
                 <p><b>Період</b>: 10 днів</p>
                 <c:if test="${sessionScope.user.role == 'user'}">
-                <a href="makeOrder?code=${requestScope.offerItem.code}" class="button">Замовити</a>
+                    <a href="makeOrder?code=${requestScope.offerItem.code}" class="button">Замовити</a>
                 </c:if>
-                <c:if test="${sessionScope.user.role != 'user'}">
-                        <div class="button gray-button">Замовити</div>
+                <c:if test="${sessionScope.user.role != 'user' && requestScope.offerItem.isHot() == false}">
+                    <a href="makeOfferHot?code=${requestScope.offerItem.code}" class="button">Зробити гарячим</a>
                 </c:if>
                 <c:if test="${requestScope.error != null}">
                     <Label>
