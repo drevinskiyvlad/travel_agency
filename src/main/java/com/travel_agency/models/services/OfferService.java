@@ -113,11 +113,12 @@ public class OfferService {
         String type = offer.getType();
         String tc = offer.getTransportCompany().getName();
         String hotel = offer.getHotel().getName();
+        String hotelType = offer.getHotel().getHotelType();
         String city = offer.getHotel().getCity();
         int vacancy = offer.getVacancy();
         double discount = offer.getDiscount();
         boolean isHot = offer.isHot();
         double price = offer.getPrice();
-        return new OfferDTO(code, type, tc, hotel, city, vacancy, discount, isHot, price);
+        return new OfferDTO(code, type, tc, hotel, hotelType, city, vacancy, discount, isHot, price);
     }
 }

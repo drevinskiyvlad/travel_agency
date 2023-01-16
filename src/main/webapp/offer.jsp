@@ -73,6 +73,7 @@
                 </c:if>
                 <p><b>Тип поїздки</b>: ${requestScope.offerItem.type}</p>
                 <p><b>Готель</b>: ${requestScope.offerItem.hotel}</p>
+                <p><b>Тип готелю</b>: ${requestScope.offerItem.hotelType}</p>
                 <p><b>Транспортна компанія</b>: ${requestScope.offerItem.transportCompany}</p>
                 <p><b>Поспіши, залишилось</b>: ${requestScope.offerItem.vacancy} місць</p>
                 <p><b>Всього за</b>:
