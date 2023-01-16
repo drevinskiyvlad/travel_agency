@@ -100,12 +100,12 @@
                             <c:if test="${order.orderStatus == 'canceled'}"><tr style="background-color: rgba(255,0,0,0.1)"></c:if>
                             <td>${order.code}</td>
                             <td>
-                                <a href="offer.jsp?code=${order.offer.code}" target="_blank">
-                                        ${order.offer.code}
+                                <a href="offer.jsp?code=${order.offerCode}" target="_blank">
+                                        ${order.offerCode}
                                 </a>
                             </td>
                             <td>${order.orderStatus}</td>
-                            <td>${order.offer.price}$</td>
+                            <td>${String.format("%.2f", order.price)}$</td>
                             <td>
                                 <a href="deleteOrder?code=${order.code}">
                                     Видалити
@@ -117,7 +117,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><b>Всього:</b><br>${sessionScope.totalPrice}</td>
+                            <td><b>Всього:</b><br>${String.format("%.2f", sessionScope.totalPrice)}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -142,8 +142,8 @@
                             <c:if test="${order.orderStatus == 'canceled'}"><tr style="background-color: rgba(255,0,0,0.1)"></c:if>
                             <td>${order.code}</td>
                             <td>
-                                <a href="offer.jsp?code=${order.offer.code}" target="_blank">
-                                        ${order.offer.code}
+                                <a href="offer.jsp?code=${order.offerCode}" target="_blank">
+                                        ${order.offerCode}
                                 </a>
                             </td>
                             <td>${order.userEmail}</td>
@@ -161,7 +161,7 @@
                                     </button>
                                 </form>
                             </td>
-                            <td>${order.offer.price}$</td>
+                            <td>${String.format("%.2f", order.price)}$</td>
                             </tr>
                         </c:forEach>
                         </tbody>

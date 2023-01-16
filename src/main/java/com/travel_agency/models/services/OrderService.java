@@ -67,7 +67,7 @@ public class OrderService {
     public double getTotalPrice(List<OrderDTO> orders){
         double result = 0;
         for(OrderDTO o: orders){
-            result += o.getOffer().getPrice();
+            result += o.getPrice();
         }
         return result;
     }
@@ -82,20 +82,11 @@ public class OrderService {
 
     private OrderDTO convertOrderToDTO(Order order) {
         String code = order.getCode();
-        OfferDTO offerDTO = getOfferDTO(order);
         String status = order.getOrderStatus();
         String userEmail = order.getUser().getEmail();
-        return new OrderDTO(code, offerDTO, userEmail, status);
-    }
-
-    private static OfferDTO getOfferDTO(Order order) {
-        Offer offer = order.getOffer();
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
-        OfferDAO offerDAO = new OfferDAO(con);
-        OfferService offerService = new OfferService(offerDAO);
-        manager.closeConnection(con);
-        return offerService.convertOfferToDTO(offer);
+        String offerCode = order.getOffer().getCode();
+        double price = order.getOffer().getPrice();
+        return new OrderDTO(code, offerCode, userEmail, status,price);
     }
 
     private boolean decreaseOfferVacancy(OfferDTO offerDTO) throws DAOException {
@@ -157,10 +148,12 @@ public class OrderService {
         return user;
     }
 
-    private OrderDTO initializeOrderDTO(OfferDTO offer, UserDTO userDTO) {
+    private OrderDTO initializeOrderDTO(OfferDTO offerDTO, UserDTO userDTO) throws DAOException {
         String code = RandomStringGenerator.getString(8);
         String status = "registered";
         String userEmail = userDTO.getEmail();
-        return new OrderDTO(code, offer, userEmail, status);
+        String offerCode = offerDTO.getCode();
+        double price = offerDTO.getPrice();
+        return new OrderDTO(code, offerCode, userEmail, status,price);
     }
 }
