@@ -45,7 +45,7 @@ class TestUserDAO {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoSetUp.CreateUser(user, dao, con, ps, rs);
+        MockitoDAOSetUp.CreateUser(user, dao, con, ps, rs);
 
         boolean result = dao.create(user);
 
@@ -54,7 +54,7 @@ class TestUserDAO {
 
     @Test
     void testRead() throws Exception {
-        MockitoSetUp.ReadUser(user, true, con, ps, rs);
+        MockitoDAOSetUp.ReadUser(user, true, con, ps, rs);
 
         User result = dao.read(user.getEmail());
 
@@ -65,7 +65,7 @@ class TestUserDAO {
     void testUpdateEmail() throws SQLException {
         String newEmail = "doe@example.com";
 
-        MockitoSetUp.UpdateUserEmail(user, newEmail, con, ps);
+        MockitoDAOSetUp.UpdateUserEmail(user, newEmail, con, ps);
 
         boolean result = dao.update(user, newEmail);
 
@@ -77,7 +77,7 @@ class TestUserDAO {
     void testUpdateUserRole() throws SQLException {
         String newRole = "admin";
 
-        MockitoSetUp.UpdateRole(user,newRole,dao,con,ps,rs);
+        MockitoDAOSetUp.UpdateRole(user,newRole,dao,con,ps,rs);
 
         boolean result = dao.updateUserRole(user, newRole);
 
@@ -86,7 +86,7 @@ class TestUserDAO {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoSetUp.DeleteUser(user,con,ps);
+        MockitoDAOSetUp.DeleteUser(user,con,ps);
 
         boolean result = dao.delete(user);
 
@@ -95,7 +95,7 @@ class TestUserDAO {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoSetUp.ReadAllUsers(user,con,ps,rs);
+        MockitoDAOSetUp.ReadAllUsers(user,con,ps,rs);
 
         List<User> expectedUsers = new ArrayList<>();
         expectedUsers.add(user);

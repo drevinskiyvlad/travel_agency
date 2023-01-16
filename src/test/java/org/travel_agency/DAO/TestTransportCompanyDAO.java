@@ -47,7 +47,7 @@ class TestTransportCompanyDAO {
     }
     @Test
     void testCreate() throws SQLException {
-        MockitoSetUp.CreateTransportCompany(transportCompany,con,ps);
+        MockitoDAOSetUp.CreateTransportCompany(transportCompany,con,ps);
 
         boolean result = dao.create(transportCompany);
 
@@ -56,7 +56,7 @@ class TestTransportCompanyDAO {
 
     @Test
     void testRead() throws Exception {
-        MockitoSetUp.ReadTransportCompany(transportCompany,true,con,ps,rs);
+        MockitoDAOSetUp.ReadTransportCompany(transportCompany,true,con,ps,rs);
 
         TransportCompany result = dao.read(transportCompany.getName());
 
@@ -67,7 +67,7 @@ class TestTransportCompanyDAO {
     void testUpdateEmail() throws SQLException {
         String newName = "newName";
 
-        MockitoSetUp.UpdateTransportCompanyName(transportCompany,newName,con,ps);
+        MockitoDAOSetUp.UpdateTransportCompanyName(transportCompany,newName,con,ps);
 
         boolean result = dao.update(transportCompany, newName);
 
@@ -78,7 +78,7 @@ class TestTransportCompanyDAO {
     void testUpdateVacancy() throws SQLException {
         int newVacancy = 100;
 
-        MockitoSetUp.UpdateTransportCompanyVacancy(transportCompany,newVacancy,con,ps);
+        MockitoDAOSetUp.UpdateTransportCompanyVacancy(transportCompany,newVacancy,con,ps);
 
         boolean result = dao.update(transportCompany, newVacancy);
 
@@ -87,7 +87,7 @@ class TestTransportCompanyDAO {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoSetUp.DeleteTransportCompany(transportCompany,con,ps);
+        MockitoDAOSetUp.DeleteTransportCompany(transportCompany,con,ps);
 
         boolean result = dao.delete(transportCompany);
 
@@ -96,7 +96,7 @@ class TestTransportCompanyDAO {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoSetUp.ReadAllTransportCompany(transportCompany,con,ps,rs);
+        MockitoDAOSetUp.ReadAllTransportCompany(transportCompany,con,ps,rs);
 
         List<TransportCompany> expected = new ArrayList<>();
         expected.add(transportCompany);

@@ -46,10 +46,10 @@
                 </nav>
 
                 <div class="social-links">
-                    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                    <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-                    <a href="#" class="pinterest"><i class="fa fa-pinterest"></i></a>
+                    <a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+                    <a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
                 </div>
             </div>
             <nav class="breadcrumbs">
@@ -79,7 +79,19 @@
                     <s>${String.format("%.2f", requestScope.offerItem.fullPrice)}$</s> ${String.format("%.2f", requestScope.offerItem.price)}$
                 </p>
                 <p><b>Знижка</b>: ${String.format("%.0f", requestScope.offerItem.discount * 100)}%</p>
-                <a href="#" class="button">Замовити</a>
+                <p><b>Період</b>: 10 днів</p>
+                <c:if test="${sessionScope.user.role == 'user'}">
+                <a href="makeOrder?code=${requestScope.offerItem.code}" class="button">Замовити</a>
+                </c:if>
+                <c:if test="${sessionScope.user.role != 'user'}">
+                        <div class="button gray-button">Замовити</div>
+                </c:if>
+                <c:if test="${requestScope.error != null}">
+                    <Label>
+                        <hr>
+                        <h4>${requestScope.error}</h4>
+                    </Label>
+                </c:if>
             </div>
         </div>
     </main> <!-- .content -->
@@ -94,7 +106,7 @@
                 </div>
 
                 <div class="contact-links pull-right">
-                    <i class="fa fa-map-marker"></i> 15 Bandery ave, Kyiv<br>
+                    <i class="fa fa-map-marker"></i> Провулок Бандери 15, Київ<br>
                     <i class="fa fa-phone"></i> +380 68 111 22 33<br>
                     <i class="fa fa-envelope"></i> doe@companyname.com
                 </div>

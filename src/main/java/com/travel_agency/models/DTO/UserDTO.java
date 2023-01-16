@@ -1,11 +1,8 @@
 package com.travel_agency.models.DTO;
 
-import com.travel_agency.models.DAO.Order;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 public class UserDTO implements Serializable {
@@ -16,7 +13,6 @@ public class UserDTO implements Serializable {
     private String lastName;
     private String phone;
     private boolean banned;
-    private final List<Order> orders;
 
     public UserDTO(String email, String role, String firstName, String lastName, String phone, boolean banned) {
         this.email = email;
@@ -25,6 +21,5 @@ public class UserDTO implements Serializable {
         this.lastName = lastName;
         this.phone = phone;
         this.banned = banned;
-        orders = new CopyOnWriteArrayList<>();
     }
 }

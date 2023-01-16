@@ -13,9 +13,7 @@ public class OfferListFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-        if(req.getAttribute("offers") == null) {
-            addOffersToSession(req);
-        }
+        addOffersToSession(req);
         chain.doFilter(servletRequest,servletResponse);
     }
 

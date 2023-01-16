@@ -6,6 +6,7 @@ import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.UserService;
 import com.travel_agency.exceptions.ValidationException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,11 +18,11 @@ import java.sql.Connection;
 
 @WebServlet("/authorization")
 public class AuthorizationServlet extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(AuthorizationServlet.class);
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.getSession().setAttribute("invalid_authorization_message", null);
+        req.getSession().removeAttribute("invalid_authorization_message");
 
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -34,9 +35,11 @@ public class AuthorizationServlet extends HttpServlet {
             UserDTO userDTO = userService.signIn(email, password);
             req.getSession().setAttribute("user", userDTO);
         } catch (ValidationException e) {
-            logger.info("User dont loggined: " + e.getMessage());
             req.getSession().setAttribute("invalid_authorization_message", e.getMessage());
-        }finally{
+        } catch(Exception e){
+            logger.error("User dont loggined: " + e.getMessage(), e);
+            req.getSession().setAttribute("invalid_authorization_message", "Something went wrong, try again");
+        } finally{
             manager.closeConnection(con);
         }
 

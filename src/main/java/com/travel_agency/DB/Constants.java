@@ -50,12 +50,13 @@ public class Constants {
     public static final String FIND_OFFER_TYPE_BY_NAME = "select id from offer_type where offer_type_name = ?";
 
     //Order request constants
-    public static final String ADD_ORDER = "INSERT INTO order(code,user_id,offer_id,order_status_id,price)" +
+    public static final String ADD_ORDER = "INSERT INTO user_order(code,user_id,offer_id,order_status_id,price)" +
             "VALUES(?,?,?,?,?)";
-    public static final String FIND_ORDER = "SELECT * FROM order WHERE code LIKE ?";
-    public static final String CHANGE_ORDER_STATUS = "UPDATE order SET order_status_id = ? WHERE code = ?";
-    public static final String DELETE_ORDER = "DELETE FROM order WHERE code = ?";
-    public static final String FIND_ALL_ORDERS = "SELECT * FROM order";
+    public static final String FIND_ORDER = "SELECT * FROM user_order WHERE code LIKE ?";
+    public static final String CHANGE_ORDER_STATUS = "UPDATE user_order SET order_status_id = ? WHERE code = ?";
+    public static final String DELETE_ORDER = "DELETE FROM user_order WHERE code = ?";
+    public static final String FIND_ALL_ORDERS = "SELECT * FROM user_order";
+    public static final String FIND_ALL_ORDERS_OF_USER = "SELECT * FROM user_order WHERE user_id = ?";
     public static final String FIND_ORDER_STATUS_BY_ID = "select order_status_name from order_status where id = ?";
     public static final String FIND_ORDER_STATUS_BY_NAME = "select id from order_status where order_status_name = ?";
 }

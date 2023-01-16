@@ -15,8 +15,8 @@ import java.sql.SQLException;
 
 import static org.mockito.Mockito.when;
 
-public class MockitoSetUp {
-    private MockitoSetUp() {
+public class MockitoDAOSetUp {
+    private MockitoDAOSetUp() {
     }
 
     //All user setups
@@ -85,7 +85,7 @@ public class MockitoSetUp {
                 .thenReturn(true)//for read user role
                 .thenReturn(false);//for addUsersToList
 
-        MockitoSetUp.ReadUser(user, false, con, ps, rs);
+        MockitoDAOSetUp.ReadUser(user, false, con, ps, rs);
     }
 
 

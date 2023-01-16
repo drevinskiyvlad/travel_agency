@@ -2,6 +2,7 @@ package com.travel_agency.DB.DAO;
 
 import com.travel_agency.DB.Constants;
 import com.travel_agency.DB.Fields;
+import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.Offer;
 import com.travel_agency.models.DAO.Order;
 import com.travel_agency.models.DAO.User;
@@ -24,7 +25,7 @@ public class OrderDAO implements DAO<Order, String>{
     }
 
     @Override
-    public boolean create(Order order) {
+    public boolean create(Order order) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.ADD_ORDER)) {
 
             setVariablesToCreateStatement(order, ps);
@@ -33,7 +34,7 @@ public class OrderDAO implements DAO<Order, String>{
             return true;
         } catch (SQLException | IllegalArgumentException e) {
             logger.error("Unable to create order: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to create order: " + e.getMessage());
         }
     }
 
@@ -46,7 +47,7 @@ public class OrderDAO implements DAO<Order, String>{
     }
 
     @Override
-    public Order read(String code) {
+    public Order read(String code) throws DAOException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ORDER)) {
 
@@ -58,6 +59,7 @@ public class OrderDAO implements DAO<Order, String>{
             }
         } catch (SQLException e) {
             logger.error("Unable to read offer: " + e.getMessage(), e);
+            throw new DAOException("Unable to read order: " + e.getMessage());
         }finally {
             close(rs);
         }
@@ -65,7 +67,7 @@ public class OrderDAO implements DAO<Order, String>{
     }
 
     @Override
-    public boolean update(Order order, String newStatus) {
+    public boolean update(Order order, String newStatus) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_ORDER_STATUS)) {
             ps.setInt(1, readOrderStatus(newStatus));
             ps.setString(2, order.getCode());
@@ -73,32 +75,65 @@ public class OrderDAO implements DAO<Order, String>{
             return true;
         } catch (SQLException e) {
             logger.error("Unable to update order status: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to create order: " + e.getMessage());
         }
     }
 
     @Override
-    public boolean delete(Order order) {
+    public boolean delete(Order order) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_ORDER)) {
             ps.setString(1, order.getCode());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             logger.error("Unable to delete order: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to delete order: " + e.getMessage());
+        }
+    }
+
+    public boolean delete(String code) throws DAOException {
+        try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_ORDER)) {
+            ps.setString(1, code);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Unable to delete order: " + e.getMessage(), e);
+            throw new DAOException("Unable to delete order: " + e.getMessage());
         }
     }
 
     @Override
-    public List<Order> readAll() {
+    public List<Order> readAll() throws DAOException {
         List<Order> result = new CopyOnWriteArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDERS);
              ResultSet rs = ps.executeQuery()) {
             addOrdersToList(result, rs);
         } catch (SQLException e) {
             logger.error("Unable to read list of offers: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list of orders: " + e.getMessage());
         }
         return result;
+    }
+
+    public List<Order> readAll(String email) throws DAOException {
+        List<Order> result = new CopyOnWriteArrayList<>();
+        ResultSet rs = null;
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDERS_OF_USER)) {
+            ps.setInt(1,getUserId(email));
+            rs = ps.executeQuery();
+            addOrdersToList(result, rs);
+        } catch (SQLException e) {
+            logger.error("Unable to read list of offers: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list of orders: " + e.getMessage());
+        } finally{
+            close(rs);
+        }
+        return result;
+    }
+
+    private int getUserId(String userName) throws DAOException {
+        UserDAO dao = new UserDAO(con);
+        return dao.read(userName).getId();
     }
 
     public int readOrderStatus(String name) throws IllegalArgumentException {

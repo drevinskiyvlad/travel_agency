@@ -140,7 +140,7 @@
 									<p><b>Готель</b>: ${offer.hotel}</p>
 									<p><b>Транспортна компанія</b>: ${offer.transportCompany}</p>
 									<p><b>Всього за</b>: <s>${offer.fullPrice}$</s> ${offer.price}$</p>
-									<a href="#" class="button">See details</a>
+									<a href="offer.jsp?code=${offer.code}" class="button">Подивитись деталі</a>
 								</article>
 							</div>
 							</c:forEach>
@@ -159,7 +159,7 @@
 						</div>
 
 						<div class="contact-links pull-right">
-						    <i class="fa fa-map-marker"></i> 15 Bandery ave, Kyiv<br>
+						    <i class="fa fa-map-marker"></i> Провулок Бандери 15, Київ<br>
 							<i class="fa fa-phone"></i> +380 68 111 22 33<br>
 							<i class="fa fa-envelope"></i> doe@companyname.com
 						</div>

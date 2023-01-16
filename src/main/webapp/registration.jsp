@@ -55,31 +55,31 @@
                         </Label>
                     </c:if>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Пошта</label>
                         <input type="text" name="email" class="form-control" placeholder="doe@example.com">
                     </div>
 
                     <div class="form-group">
-                        <label>Password</label>
+                        <label>Пароль</label>
                         <input type="password" name="password" class="form-control" placeholder="Password">
                     </div>
 
                     <div class="form-group">
-                        <label>First Name</label>
+                        <label>Ім'я</label>
                         <input type="text" name="firstName" class="form-control" placeholder="John">
                     </div>
 
                     <div class="form-group">
-                        <label>Last Name</label>
+                        <label>Фамілія</label>
                         <input type="text" name="lastName" class="form-control" placeholder="Doe">
                     </div>
 
                     <div class="form-group">
-                        <label>Phone Number</label>
+                        <label>Номер телефону</label>
                         <input type="text" name="phone" class="form-control" placeholder="+380680000000">
                     </div>
 
-                    <button type="submit" class="btn btn-black">Register</button>
+                    <button type="submit" class="btn btn-black">Зареєструватись</button>
                     <br><br><h5>Вже маєте аккаунт? <a href="authorization.jsp">Увійти</a></h5>
                 </form>
             </div>

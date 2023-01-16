@@ -1,8 +1,5 @@
 package com.travel_agency.DB;
 
-import com.travel_agency.DB.DAO.DAO;
-import com.travel_agency.DB.DAO.UserDAO;
-import com.travel_agency.models.DAO.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DBManager {
-    private final Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger(DBManager.class);
     private static DBManager instance = null;
     private DataSource ds;
 

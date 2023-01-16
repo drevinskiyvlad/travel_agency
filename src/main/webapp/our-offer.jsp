@@ -125,7 +125,7 @@
                 </div>
 
                 <div class="contact-links pull-right">
-                    <i class="fa fa-map-marker"></i> 15 Bandery ave, Kyiv<br>
+                    <i class="fa fa-map-marker"></i> Провулок Бандери 15, Київ<br>
                     <i class="fa fa-phone"></i> +380 68 111 22 33<br>
                     <i class="fa fa-envelope"></i> doe@companyname.com
                 </div>

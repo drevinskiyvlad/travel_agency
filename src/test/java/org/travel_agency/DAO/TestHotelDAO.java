@@ -44,7 +44,7 @@ class TestHotelDAO {
     }
     @Test
     void testCreate() throws SQLException {
-        MockitoSetUp.CreateHotel(hotel,dao,con,ps,rs);
+        MockitoDAOSetUp.CreateHotel(hotel,dao,con,ps,rs);
 
         boolean result = dao.create(hotel);
 
@@ -53,7 +53,7 @@ class TestHotelDAO {
 
     @Test
     void testRead() throws Exception {
-        MockitoSetUp.ReadHotel(hotel,true,con,ps,rs);
+        MockitoDAOSetUp.ReadHotel(hotel,true,con,ps,rs);
 
         Hotel result = dao.read(hotel.getId());
         assertEquals(hotel, result);
@@ -63,7 +63,7 @@ class TestHotelDAO {
     void testUpdateName() throws SQLException {
         String newName = "newName";
 
-        MockitoSetUp.UpdateHotelName(hotel,newName,con,ps);
+        MockitoDAOSetUp.UpdateHotelName(hotel,newName,con,ps);
 
         boolean result = dao.update(hotel, newName);
 
@@ -74,7 +74,7 @@ class TestHotelDAO {
     void testUpdateVacancy() throws SQLException {
         int newVacancy = 100;
 
-        MockitoSetUp.UpdateHotelVacancy(hotel,newVacancy,con,ps);
+        MockitoDAOSetUp.UpdateHotelVacancy(hotel,newVacancy,con,ps);
 
         boolean result = dao.update(hotel, newVacancy);
 
@@ -83,7 +83,7 @@ class TestHotelDAO {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoSetUp.DeleteHotel(hotel,con,ps);
+        MockitoDAOSetUp.DeleteHotel(hotel,con,ps);
 
         boolean result = dao.delete(hotel);
 
@@ -92,7 +92,7 @@ class TestHotelDAO {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoSetUp.ReadAllHotels(hotel,con,ps,rs);
+        MockitoDAOSetUp.ReadAllHotels(hotel,con,ps,rs);
 
         List<Hotel> expected = new ArrayList<>();
         expected.add(hotel);

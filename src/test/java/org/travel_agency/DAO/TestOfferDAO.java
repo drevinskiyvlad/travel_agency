@@ -50,7 +50,7 @@ class TestOfferDAO {
     }
     @Test
     void testCreate() throws SQLException {
-        MockitoSetUp.CreateOffer(offer,dao,con,ps,rs);
+        MockitoDAOSetUp.CreateOffer(offer,dao,con,ps,rs);
 
         boolean result = dao.create(offer);
 
@@ -60,7 +60,7 @@ class TestOfferDAO {
 
     @Test
     void testRead() throws Exception {
-        MockitoSetUp.ReadOffer(offer,true,con,ps,rs);
+        MockitoDAOSetUp.ReadOffer(offer,true,con,ps,rs);
 
         Offer result = dao.read(offer.getCode());
 
@@ -79,7 +79,7 @@ class TestOfferDAO {
     void testUpdateIsHot() throws SQLException {
         boolean isHot = true;
 
-        MockitoSetUp.UpdateOfferIsHot(offer,isHot,con,ps);
+        MockitoDAOSetUp.UpdateOfferIsHot(offer,isHot,con,ps);
 
         boolean result = dao.update(offer, isHot);
         assertTrue(result);
@@ -91,7 +91,7 @@ class TestOfferDAO {
     void testUpdateVacancy() throws SQLException {
         int vacancy = 15;
 
-        MockitoSetUp.UpdateOfferVacancy(offer,vacancy,con,ps);
+        MockitoDAOSetUp.UpdateOfferVacancy(offer,vacancy,con,ps);
 
         boolean result = dao.update(offer, vacancy);
         assertTrue(result);
@@ -99,7 +99,7 @@ class TestOfferDAO {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoSetUp.DeleteOffer(offer,con,ps);
+        MockitoDAOSetUp.DeleteOffer(offer,con,ps);
 
         boolean result = dao.delete(offer);
 
@@ -110,7 +110,7 @@ class TestOfferDAO {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoSetUp.ReadAllOffers(offer,con,ps,rs);
+        MockitoDAOSetUp.ReadAllOffers(offer,con,ps,rs);
 
         List<Offer> expected = new ArrayList<>();
         expected.add(offer);

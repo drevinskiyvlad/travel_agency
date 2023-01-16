@@ -24,12 +24,14 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String redirectPage = "index.jsp";
-        req.getSession().setAttribute("invalid_registration_message", null);
+        req.getSession().removeAttribute("invalid_registration_message");
 
-        DBManager dbManager = DBManager.getInstance();
-        Connection con = dbManager.getConnection();
+        DBManager dbManager = null;
+        Connection con = null;
 
         try {
+            dbManager = DBManager.getInstance();
+            con = dbManager.getConnection();
             UserDTO userDTO = initializeUserDTO(req);
             String password = req.getParameter("password");
 
@@ -42,8 +44,13 @@ public class RegistrationServlet extends HttpServlet {
         }catch(ValidationException e){
             req.getSession().setAttribute("invalid_registration_message", e.getMessage());
             redirectPage = "registration.jsp";
+        }catch(Exception e){
+            logger.error("Unable to register user: " + e.getMessage(), e);
+            req.getSession().setAttribute("invalid_registration_message", "Something went wrong, try again");
+            redirectPage = "registration.jsp";
         }finally{
-            dbManager.closeConnection(con);
+            if(dbManager != null)
+                dbManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);

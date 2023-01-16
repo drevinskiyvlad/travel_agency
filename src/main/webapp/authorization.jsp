@@ -49,15 +49,15 @@
                 <c:if test="${sessionScope.user == null}">
                     <form accept-charset="UTF-8" role="form" action="authorization" method="post">
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Пошта</label>
                         <input type="text" name="email" class="form-control" placeholder="doe@example.com">
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
+                        <label>Пароль</label>
                         <input type="password" name="password" class="form-control" placeholder="Password">
                     </div>
-                    <button type="submit" class="btn btn-black">Login</button>
-                    <a href="registration.jsp"><div class="btn btn-secondary">Register</div></a>
+                    <button type="submit" class="btn btn-black">Авторизуватись</button>
+                    <a href="registration.jsp"><div class="btn btn-secondary">Зареєструватись</div></a>
                 </form>
                     <c:if test="${sessionScope.invalid_authorization_message != null}">
                         <Label>

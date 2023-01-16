@@ -2,6 +2,7 @@ package com.travel_agency.DB.DAO;
 
 import com.travel_agency.DB.Constants;
 import com.travel_agency.DB.Fields;
+import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.Hotel;
 import com.travel_agency.models.DAO.Offer;
 import com.travel_agency.models.DAO.TransportCompany;
@@ -24,7 +25,7 @@ public class OfferDAO implements DAO<Offer, String>{
     }
 
     @Override
-    public boolean create(Offer offer) {
+    public boolean create(Offer offer) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.ADD_OFFER)) {
 
             setVariablesToCreateStatement(offer, ps);
@@ -33,7 +34,7 @@ public class OfferDAO implements DAO<Offer, String>{
             return true;
         } catch (SQLException | IllegalArgumentException e) {
             logger.error("Unable to create offer: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to create offer: " + e.getMessage());
         }
     }
     private void setVariablesToCreateStatement(Offer offer, PreparedStatement ps) throws SQLException, IllegalArgumentException {
@@ -50,7 +51,7 @@ public class OfferDAO implements DAO<Offer, String>{
 
 
     @Override
-    public Offer read(String code) {
+    public Offer read(String code) throws DAOException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER)) {
 
@@ -62,13 +63,14 @@ public class OfferDAO implements DAO<Offer, String>{
             }
         } catch (SQLException e) {
             logger.error("Unable to read offer: " + e.getMessage(), e);
+            throw new DAOException("Unable to read offer: " + e.getMessage());
         }finally {
             close(rs);
         }
         return null;
     }
 
-    public Offer read(int id) {
+    public Offer read(int id) throws DAOException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER_BY_ID)) {
 
@@ -80,6 +82,7 @@ public class OfferDAO implements DAO<Offer, String>{
             }
         } catch (SQLException e) {
             logger.error("Unable to read offer: " + e.getMessage(), e);
+            throw new DAOException("Unable to read offer: " + e.getMessage());
         }finally {
             close(rs);
         }
@@ -113,7 +116,7 @@ public class OfferDAO implements DAO<Offer, String>{
         throw new UnsupportedOperationException(message);
     }
 
-    public boolean update(Offer offer, boolean isHot){
+    public boolean update(Offer offer, boolean isHot) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_IS_HOT)) {
             ps.setBoolean(1, isHot);
             ps.setString(2, offer.getCode());
@@ -121,11 +124,11 @@ public class OfferDAO implements DAO<Offer, String>{
             return true;
         } catch (SQLException e) {
             logger.error("Unable to update offer is hot: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to update offer is hot: " + e.getMessage());
         }
     }
 
-    public boolean update(Offer offer, int newVacancy){
+    public boolean update(Offer offer, int newVacancy) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_VACANCY)) {
             ps.setInt(1, newVacancy);
             ps.setString(2, offer.getCode());
@@ -133,31 +136,32 @@ public class OfferDAO implements DAO<Offer, String>{
             return true;
         } catch (SQLException e) {
             logger.error("Unable to update offer vacancy: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to update offer vacancy: " + e.getMessage());
         }
     }
 
 
     @Override
-    public boolean delete(Offer offer) {
+    public boolean delete(Offer offer) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_OFFER)) {
             ps.setString(1, offer.getCode());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             logger.error("Unable to delete offer: " + e.getMessage(), e);
-            return false;
+            throw new DAOException("Unable to delete offer: " + e.getMessage());
         }
     }
 
     @Override
-    public List<Offer> readAll() {
+    public List<Offer> readAll() throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFERS);
              ResultSet rs = ps.executeQuery()) {
             addOffersToList(result, rs);
         } catch (SQLException e) {
             logger.error("Unable to read list of offers: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list offer: " + e.getMessage());
         }
         return result;
     }

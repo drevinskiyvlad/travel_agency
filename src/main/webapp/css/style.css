@@ -513,6 +513,14 @@ table {
     background-color: #34d6e6;
 }
 
+.gray-button:hover, .button:active {
+    background-color: rgba(0,0,0,0.4);
+}
+
+.gray-button {
+    background-color: rgba(0,0,0,0.3);
+}
+
 .offer {
     margin-bottom: 30px;
     margin-top: 20px;
@@ -2711,4 +2719,13 @@ figure img {
     background-color: #000 !important;
     color: #fff;
 }
+
+.check-mark{
+    margin-left: 3%;
+    color: #000;
+    border: 0;
+    background-color: inherit;
+}
+
+
 

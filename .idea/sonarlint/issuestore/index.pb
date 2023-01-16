@@ -7,9 +7,6 @@ U
 %.idea/artifacts/travel_agency_war.xml,8\6\863f7d5c081332dc79a1a7d8ec0516af2abb0289
 8
 mvnw.cmd,1\f\1f1763f358c257ea3515417352b82b0165647ad1
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 w
 G.idea/sonarlint/issuestore/5/d/5d837c4ed85ecaaf932c506e80ff5d7b9f3d590d,8\4\84e47ea35f445eb5238128908f068928322bf283
 w
