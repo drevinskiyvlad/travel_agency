@@ -2726,6 +2726,10 @@ figure img {
     border: 0;
     background-color: inherit;
 }
-
+.error-message{
+    height:200px;
+    margin-top:12%;
+    text-align: center;
+}
 
 

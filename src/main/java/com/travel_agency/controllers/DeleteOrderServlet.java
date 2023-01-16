@@ -18,11 +18,11 @@ public class DeleteOrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        DBManager manager = null;
+        String redirectionPage = "user-cabinet.jsp";
         Connection con = null;
-        try{
+        try {
             String code = req.getQueryString().split("code=")[1];
-            manager = DBManager.getInstance();
+            DBManager manager = DBManager.getInstance();
             con = manager.getConnection();
 
             OrderDAO orderDAO = new OrderDAO(con);
@@ -31,10 +31,10 @@ public class DeleteOrderServlet extends HttpServlet {
             logger.info("User deleted order with code: " + code);
         } catch (Exception e) {
             logger.error("Unable to delete order" + e.getMessage());
-        } finally{
-            if(manager != null)
-                manager.closeConnection(con);
+            redirectionPage = "error.jsp";
+        } finally {
+            DBManager.closeConnection(con);
         }
-        resp.sendRedirect("user-cabinet.jsp");
+        resp.sendRedirect(redirectionPage);
     }
 }

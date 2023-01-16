@@ -100,7 +100,7 @@ public class OrderService {
         boolean tcResult = decreaseTCVacancy(con, offer);
 
         boolean offerResult = offerDAO.update(offer, offer.getVacancy() - 1);
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
 
         return offerResult && hotelResult && tcResult;
     }
@@ -135,7 +135,7 @@ public class OrderService {
         Connection con = manager.getConnection();
         OfferDAO offerDAO = new OfferDAO(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
         return offer;
     }
 
@@ -144,11 +144,11 @@ public class OrderService {
         Connection con = manager.getConnection();
         UserDAO userDAO = new UserDAO(con);
         User user = userDAO.read(userDTO.getEmail());
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
         return user;
     }
 
-    private OrderDTO initializeOrderDTO(OfferDTO offerDTO, UserDTO userDTO) throws DAOException {
+    private OrderDTO initializeOrderDTO(OfferDTO offerDTO, UserDTO userDTO) {
         String code = RandomStringGenerator.getString(8);
         String status = "registered";
         String userEmail = userDTO.getEmail();

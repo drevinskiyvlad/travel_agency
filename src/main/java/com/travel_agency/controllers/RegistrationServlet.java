@@ -26,12 +26,11 @@ public class RegistrationServlet extends HttpServlet {
         String redirectPage = "index.jsp";
         req.getSession().removeAttribute("invalid_registration_message");
 
-        DBManager dbManager = null;
         Connection con = null;
 
         try {
-            dbManager = DBManager.getInstance();
-            con = dbManager.getConnection();
+            DBManager manager = DBManager.getInstance();
+            con = manager.getConnection();
             UserDTO userDTO = initializeUserDTO(req);
             String password = req.getParameter("password");
 
@@ -46,11 +45,9 @@ public class RegistrationServlet extends HttpServlet {
             redirectPage = "registration.jsp";
         }catch(Exception e){
             logger.error("Unable to register user: " + e.getMessage(), e);
-            req.getSession().setAttribute("invalid_registration_message", "Something went wrong, try again");
-            redirectPage = "registration.jsp";
+            redirectPage = "error.jsp";
         }finally{
-            if(dbManager != null)
-                dbManager.closeConnection(con);
+                DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);

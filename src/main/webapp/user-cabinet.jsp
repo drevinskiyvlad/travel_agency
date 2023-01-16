@@ -76,9 +76,7 @@
                     <button type="submit" class="btn btn-black">Вийти</button>
                 </form>
 
-                <br>
-                <hr>
-                <br>
+                <br><hr><br>
 
                 <c:if test="${sessionScope.user.role == 'user'}">
                     <h2>Ваші замовлення:</h2>
@@ -122,7 +120,7 @@
                         </tbody>
                     </table>
                 </c:if>
-                <c:if test="${sessionScope.user.role == 'manager'}">
+                <c:if test="${sessionScope.user.role == 'manager' || sessionScope.user.role == 'admin'}">
                     <h2>Замовлення користувачів:</h2>
                     <table data-toggle="table" class="wow fadeInUp">
                         <caption>AllOrders</caption>
@@ -168,6 +166,7 @@
                     </table>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'admin'}">
+                    <br><hr><br>
                     <h2>Список користувачів:</h2>
                     <table data-toggle="table" class="wow fadeInUp">
                         <caption>UserList</caption>
@@ -178,7 +177,8 @@
                             <th>Ім'я</th>
                             <th>Фамілія</th>
                             <th>Номер телефону</th>
-                            <th>Забанений</th>
+                            <th>Заблокований</th>
+                            <th>Дії</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -190,6 +190,12 @@
                                 <td>${user.lastName}</td>
                                 <td>${user.phone}</td>
                                 <td>${user.banned}</td>
+                                <td>
+                                    <a href="blockUser?email=${user.email}">
+                                        <c:if test="${user.isBanned() == false}">Заблокувати</c:if>
+                                        <c:if test="${user.isBanned() == true}">Розблокувати</c:if>
+                                    </a>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>

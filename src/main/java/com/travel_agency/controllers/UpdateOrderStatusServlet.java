@@ -21,12 +21,12 @@ public class UpdateOrderStatusServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        DBManager manager = null;
+        String redirectionPage = "user-cabinet.jsp";
         Connection con = null;
-        try{
+        try {
             String code = req.getParameter("code");
             String status = req.getParameter("orderStatus");
-            manager = DBManager.getInstance();
+            DBManager manager = DBManager.getInstance();
             con = manager.getConnection();
 
             updateStatus(con, code, status);
@@ -34,11 +34,11 @@ public class UpdateOrderStatusServlet extends HttpServlet {
             logger.info("Manager updated order status with code: " + code + " to " + status);
         } catch (Exception e) {
             logger.error("Unable to update order" + e.getMessage());
-        } finally{
-            if(manager != null)
-                manager.closeConnection(con);
+            redirectionPage = "error.jsp";
+        } finally {
+            DBManager.closeConnection(con);
         }
-        resp.sendRedirect("user-cabinet.jsp");
+        resp.sendRedirect(redirectionPage);
     }
 
     private static void updateStatus(Connection con, String code, String status) throws DAOException {

@@ -21,6 +21,7 @@ public class ChangeOfferHotServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String redirectionPage = "user-cabinet.jsp";
         DBManager manager = null;
         Connection con = null;
         try {
@@ -34,13 +35,13 @@ public class ChangeOfferHotServlet extends HttpServlet {
             }
         } catch (Exception e) {
             logger.error("Unable to make offer hot: " + e.getMessage(), e);
-            req.setAttribute("error", "Something went wrong, try again");
+            redirectionPage = "error.jsp";
         } finally {
             if (manager != null)
-                manager.closeConnection(con);
+                DBManager.closeConnection(con);
         }
 
-        req.getRequestDispatcher("user-cabinet.jsp").forward(req, resp);
+        req.getRequestDispatcher(redirectionPage).forward(req, resp);
     }
 
     private static OfferDTO getOfferDTO(HttpServletRequest req) {
@@ -52,7 +53,7 @@ public class ChangeOfferHotServlet extends HttpServlet {
         String code = req.getQueryString().split("code=")[1];
         OfferDTO offerDTO = service.getOffer(code);
 
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
         return offerDTO;
     }
 
