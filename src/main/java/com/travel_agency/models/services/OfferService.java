@@ -2,8 +2,11 @@ package com.travel_agency.models.services;
 
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DAO.Offer;
 import com.travel_agency.models.DTO.OfferDTO;
+import com.travel_agency.utils.ValidationMessageConstants;
+import com.travel_agency.utils.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,9 +55,37 @@ public class OfferService {
         return convertOfferToDTO(offer);
     }
 
+    public boolean deleteOffer(OfferDTO offerDTO) throws DAOException {
+        Offer offer = convertDTOToOffer(offerDTO);
+        return dao.delete(offer);
+    }
+
     public boolean updateOfferIsHot(OfferDTO offerDTO) throws DAOException {
         Offer offer = convertDTOToOffer(offerDTO);
         return dao.update(offer, true);
+    }
+
+    public boolean updateOffer(String code, String type, int vacancy, double discount) throws DAOException, ValidationException {
+        validateDiscount(discount);
+
+        Offer offer = dao.read(code);
+        boolean resultDelete = dao.delete(offer);
+
+        setVariablesToOffer(type, vacancy, discount, offer);
+
+        boolean resultCreate = dao.create(offer);
+        return resultCreate && resultDelete;
+    }
+
+    private static void setVariablesToOffer(String type, int vacancy, double discount, Offer offer) {
+        offer.setType(type);
+        offer.setVacancy(vacancy);
+        offer.setDiscount(discount);
+    }
+
+    private void validateDiscount(double discount) throws ValidationException{
+        if(!Validator.validateDiscount(discount))
+            throw new ValidationException(ValidationMessageConstants.INVALID_DISCOUNT);
     }
 
     private Offer convertDTOToOffer(OfferDTO offerDTO) throws DAOException {

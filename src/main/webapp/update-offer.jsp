@@ -22,7 +22,7 @@
 
 <div id="site-content">
 
-    <header class="site-header wow fadeInDown">
+    <header class="site-header">
         <div class="container">
             <div class="header-content">
                 <div class="branding">
@@ -55,7 +55,8 @@
             <nav class="breadcrumbs">
                 <a href="index.jsp">Головна</a> &rarr;
                 <a href="our-offer.jsp">Наші пропозиції</a> &rarr;
-                <span>Пропозиція ${requestScope.offerItem.code}</span>
+                <a href="offer.jsp?code=${requestScope.offerItem.code}">Пропозиція ${requestScope.offerItem.code}</a> &rarr;
+                <span>Редагування</span>
             </nav>
         </div>
     </header> <!-- .site-header -->
@@ -71,38 +72,37 @@
                 <c:if test="${requestScope.offerItem.isHot() == false}">
                     <h2 class="entry-title"><b>Путівка до</b> ${requestScope.offerItem.city}</h2>
                 </c:if>
-                <p><b>Тип поїздки</b>: ${requestScope.offerItem.type}</p>
-                <p><b>Готель</b>: ${requestScope.offerItem.hotel}</p>
-                <p><b>Транспортна компанія</b>: ${requestScope.offerItem.transportCompany}</p>
-                <p><b>Поспіши, залишилось</b>: ${requestScope.offerItem.vacancy} місць</p>
-                <p><b>Всього за</b>:
-                    <s>${String.format("%.2f", requestScope.offerItem.fullPrice)}$</s> ${String.format("%.2f", requestScope.offerItem.price)}$
-                </p>
-                <p><b>Знижка</b>: ${String.format("%.0f", requestScope.offerItem.discount * 100)}%</p>
-                <p><b>Період</b>: 10 днів</p>
-                <c:if test="${sessionScope.user.role == 'user'}">
-                    <a href="makeOrder?code=${requestScope.offerItem.code}" class="button">Замовити</a>
-                </c:if>
-                <c:if test="${sessionScope.user.role != 'user' && requestScope.offerItem.isHot() == false}">
-                    <a href="makeOfferHot?code=${requestScope.offerItem.code}" class="button">Зробити гарячим</a>
-                </c:if>
 
-                <c:if test="${sessionScope.user.role == 'admin'}">
-                    <a href="deleteOffer?code=${requestScope.offerItem.code}" class="button">Видалити</a>
-                    <a href="update-offer.jsp?code=${requestScope.offerItem.code}" class="button">Редагувати</a>
-                </c:if>
+                <form accept-charset="UTF-8" role="form" action="updateOffer" method="get">
+                    <p><b>Тип поїздки</b>:
+                    <select id="offerType" name="offerType">
+                        <option value="rest">rest</option>
+                        <option value="excursion">excursion</option>
+                        <option value="shopping">shopping</option>
+                    </select>
+                    <p><b>Готель</b>: ${requestScope.offerItem.hotel}</p>
+                    <p><b>Транспортна компанія</b>: ${requestScope.offerItem.transportCompany}</p>
+                    <p><b>Поспіши, залишилось</b>: <input type="number" name="vacancy" class="form-control" placeholder="100"> місць</p>
+                    <p><b>Всього за</b>:
+                        <s>${String.format("%.2f", requestScope.offerItem.fullPrice)}$</s> ${String.format("%.2f", requestScope.offerItem.price)}$
+                    </p>
+                    <p><b>Знижка</b>: <input type="number" name="discount" class="form-control" placeholder="from 5 to 25">%</p>
 
-                <c:if test="${requestScope.error != null}">
+                    <input value="${requestScope.offerItem.code}" name="code" style="display:none">
+                    <button type="submit" class="button">Зберегти</button>
+                </form>
+
+                <c:if test="${sessionScope.error != null}">
                     <Label>
                         <hr>
-                        <h4>${requestScope.error}</h4>
+                        <h4>${sessionScope.error}</h4>
                     </Label>
                 </c:if>
             </div>
         </div>
     </main> <!-- .content -->
 
-    <footer class="site-footer wow fadeInUp">
+    <footer class="site-footer">
         <div class="footer-bottom">
             <div class="container">
                 <div class="branding pull-left">

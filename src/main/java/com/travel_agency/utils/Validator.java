@@ -25,4 +25,8 @@ public class Validator {
     public static boolean checkPasswordCorrect(String password, User user){
         return HashPassword.validate(password, user.getPassword());
     }
+
+    public static boolean validateDiscount(double discount){
+        return discount < 0.25 && discount > 0.05;
+    }
 }
