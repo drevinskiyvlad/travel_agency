@@ -96,25 +96,10 @@ public class OrderService {
         OfferDAO offerDAO = new OfferDAO(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
 
-        boolean hotelResult = decreaseHotelVacancy(con, offer);
-        boolean tcResult = decreaseTCVacancy(con, offer);
-
-        boolean offerResult = offerDAO.update(offer, offer.getVacancy() - 1);
+        boolean offerResult = offerDAO.update(offer, offer.getPlaces() - 1);
         DBManager.closeConnection(con);
 
-        return offerResult && hotelResult && tcResult;
-    }
-
-    private static boolean decreaseTCVacancy(Connection con, Offer offer) {
-        TransportCompanyDAO tcDAO = new TransportCompanyDAO(con);
-        TransportCompany tc = tcDAO.read(offer.getTransportCompany().getName());
-        return tcDAO.update(tc, tc.getVacancy() - 1);
-    }
-
-    private static boolean decreaseHotelVacancy(Connection con, Offer offer) {
-        HotelDAO hotelDAO = new HotelDAO(con);
-        Hotel hotel = hotelDAO.read(offer.getHotel().getName());
-        return hotelDAO.update(hotel, hotel.getVacancy() - 1);
+        return offerResult;
     }
 
     private Order convertDTOToOrder(OrderDTO orderDTO, UserDTO userDTO, OfferDTO offerDTO) throws ServiceException {

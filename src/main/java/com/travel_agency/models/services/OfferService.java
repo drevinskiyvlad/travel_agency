@@ -65,21 +65,21 @@ public class OfferService {
         return dao.update(offer, true);
     }
 
-    public boolean updateOffer(String code, String type, int vacancy, double discount) throws DAOException, ValidationException {
+    public boolean updateOffer(String code, String type, int places, double discount) throws DAOException, ValidationException {
         validateDiscount(discount);
 
         Offer offer = dao.read(code);
         boolean resultDelete = dao.delete(offer);
 
-        setVariablesToOffer(type, vacancy, discount, offer);
+        setVariablesToOffer(type, places, discount, offer);
 
         boolean resultCreate = dao.create(offer);
         return resultCreate && resultDelete;
     }
 
-    private static void setVariablesToOffer(String type, int vacancy, double discount, Offer offer) {
+    private static void setVariablesToOffer(String type, int places, double discount, Offer offer) {
         offer.setOfferType(type);
-        offer.setVacancy(vacancy);
+        offer.setPlaces(places);
         offer.setDiscount(discount);
     }
 
@@ -111,14 +111,13 @@ public class OfferService {
     protected OfferDTO convertOfferToDTO(Offer offer) {
         String code = offer.getCode();
         String type = offer.getOfferType();
-        String tc = offer.getTransportCompany().getName();
-        String hotel = offer.getHotel().getName();
-        String hotelType = offer.getHotel().getHotelType();
-        String city = offer.getHotel().getCity();
-        int vacancy = offer.getVacancy();
+        String hotel = offer.getHotelName();
+        String hotelType = offer.getHotelType();
+        String city = offer.getCity();
+        int vacancy = offer.getPlaces();
         double discount = offer.getDiscount();
         boolean isHot = offer.isHot();
         double price = offer.getPrice();
-        return new OfferDTO(code, type, tc, hotel, hotelType, city, vacancy, discount, isHot, price);
+        return new OfferDTO(code, type, hotel, hotelType, city, vacancy, discount, isHot, price);
     }
 }

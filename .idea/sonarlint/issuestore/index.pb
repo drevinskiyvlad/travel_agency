@@ -48,8 +48,6 @@ e
 5src/test/java/org/travel_agency/DAO/TestHotelDAO.java,2\a\2aa6df9b4550e03de6caef627dd1927de7ddbbfb
 p
 @src/test/java/org/travel_agency/DAO/TestTransportCompanyDAO.java,3\4\34ab25457409d89b27f180feedfdaccadbb4a57b
-e
-5src/test/java/org/travel_agency/DAO/TestOrderDAO.java,6\1\61d5a3f6b09e6bde10cd55aa842c12727790cbee
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 l
@@ -60,8 +58,6 @@ n
 >src/main/java/com/travel_agency/controllers/LogOutServlet.java,d\3\d3ca5cad2aa2ed5c18f7d09919e15ec177dd2a6c
 v
 Fsrc/main/java/com/travel_agency/controllers/ChangeOfferHotServlet.java,8\5\85aaa38d0e370dcfcbf9c16a20779c5b7f5e8a7c
-q
-Asrc/main/java/com/travel_agency/models/services/OrderService.java,3\3\339625ccb1ca3af9e6b773bf1032a8c7ac6bd7b0
 M
 src/main/webapp/css/style.css,2\c\2c1f525046eaa5ad3e39cc3d3b2f4c4fab4ff318
 y

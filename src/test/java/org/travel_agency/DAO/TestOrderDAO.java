@@ -32,10 +32,8 @@ class TestOrderDAO {
 
     @BeforeAll
     void initialize(){
-        User user = new User(0, "test@email.com", "password", "user", "Test", "User", "1234567890");
-        TransportCompany tc = new TransportCompany(0, "testCompany", "testAddress", 150, 200.00);
-        Hotel hotel = new Hotel(0, "testHotel", "testAddress", "Inn", 150, 200.00);
-        Offer offer = new Offer(0, "123", "rest", tc, hotel, 0.15, false);
+        User user = new User(0, "test@email.com", "password", "user", "Test", "User", "1234567890",false);
+        Offer offer = new Offer(0,"123","City","rest", "Inn", "Name",100,0.15,false,150);
         order = new Order(0,"123", user, offer,"registered");
         con = Mockito.mock(Connection.class);
         dao = new OrderDAO(con);
@@ -48,7 +46,7 @@ class TestOrderDAO {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateOrder(order,dao,con,ps,rs);
+        //MockitoDAOSetUp.CreateOrder(order,dao,con,ps,rs);
 
         boolean result = dao.create(order);
 
@@ -60,7 +58,7 @@ class TestOrderDAO {
 
     @Test
     void testRead() throws Exception {
-        MockitoDAOSetUp.ReadOrder(order,true,con,ps,rs);
+        //MockitoDAOSetUp.ReadOrder(order,true,con,ps,rs);
 
         Order result = dao.read(order.getCode());
 
@@ -72,7 +70,7 @@ class TestOrderDAO {
     void testUpdateStatus() throws SQLException {
         String newStatus = "canceled";
 
-        MockitoDAOSetUp.UpdateOrderStatus(order, con,ps, rs);
+        //MockitoDAOSetUp.UpdateOrderStatus(order, con,ps, rs);
 
         boolean result = dao.update(order, newStatus);
         assertTrue(result);
@@ -80,7 +78,7 @@ class TestOrderDAO {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoDAOSetUp.DeleteOrder(order,con,ps);
+        //MockitoDAOSetUp.DeleteOrder(order,con,ps);
 
         boolean result = dao.delete(order);
 
@@ -89,7 +87,7 @@ class TestOrderDAO {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoDAOSetUp.ReadAllOrders(order,con,ps,rs);
+        //MockitoDAOSetUp.ReadAllOrders(order,con,ps,rs);
 
         List<Order> expected = new ArrayList<>();
         expected.add(order);

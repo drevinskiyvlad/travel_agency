@@ -21,10 +21,9 @@ public class OfferDTO implements Serializable {
     private double price;
     private double fullPrice;
 
-    public OfferDTO(String code, String type, String transportCompany, String hotel, String hotelType, String city, int vacancy, double discount, boolean isHot, double price) {
+    public OfferDTO(String code, String type, String hotel, String hotelType, String city, int vacancy, double discount, boolean isHot, double price) {
         this.code = code;
         this.type = type;
-        this.transportCompany = transportCompany;
         this.hotel = hotel;
         this.hotelType = hotelType;
         this.city = city;
