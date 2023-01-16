@@ -42,7 +42,7 @@ public class UserCabinetFillingFilter implements Filter {
         List<OrderDTO> orders = service.getAllOrdersFromUser(userDTO);
         req.getSession().setAttribute("userOrders", orders);
         req.getSession().setAttribute("totalPrice", service.getTotalPrice(orders));
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
     }
 
     private void fillManagerCabinet(HttpServletRequest req) {
@@ -53,7 +53,7 @@ public class UserCabinetFillingFilter implements Filter {
         List<OrderDTO> orders = service.getAllOrders();
         req.getSession().setAttribute("orders", orders);
         req.getSession().setAttribute("totalPrice", service.getTotalPrice(orders));
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
     }
     private void fillAdminCabinet(HttpServletRequest req) {
         fillManagerCabinet(req);
@@ -61,8 +61,10 @@ public class UserCabinetFillingFilter implements Filter {
         Connection con = manager.getConnection();
         UserDAO userDAO = new UserDAO(con);
         UserService service = new UserService(userDAO);
-        req.getSession().setAttribute("allUsers", service.getAllUsers());
-        manager.closeConnection(con);
+        List<UserDTO> users = service.getAllUsers();
+        users.remove(req.getSession().getAttribute("user"));
+        req.getSession().setAttribute("allUsers", users);
+        DBManager.closeConnection(con);
     }
 
 

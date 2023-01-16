@@ -24,6 +24,6 @@ public class OfferListFilter implements Filter {
         OfferService service = new OfferService(dao);
         req.getSession().setAttribute("offers", service.getAllOffers());
         req.getSession().setAttribute("hot_offers", service.getAllHotOffers());
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
     }
 }

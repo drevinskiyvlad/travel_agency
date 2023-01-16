@@ -91,6 +91,18 @@ public class UserDAO implements DAO<User, String> {
         }
     }
 
+    public boolean update(boolean value, String email) throws DAOException {
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_BANNED)) {
+            ps.setBoolean(1, value);
+            ps.setString(2, email);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Unable to update user banned: " + e.getMessage(), e);
+            throw new DAOException("Unable to update user banned: " + e.getMessage());
+        }
+    }
+
     public boolean updateUserRole(User user, String newRole) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_ROLE)) {
             int roleId = readUserRole(newRole);

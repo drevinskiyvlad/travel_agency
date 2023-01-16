@@ -9,6 +9,7 @@ public class Constants {
     public static final String FIND_USER = "select * from user where email LIKE ?";
     public static final String FIND_USER_BY_ID = "select * from user where id LIKE ?";
     public static final String CHANGE_USER_EMAIL = "UPDATE user SET email = ? WHERE phone = ?";
+    public static final String CHANGE_USER_BANNED = "UPDATE user SET banned = ? WHERE email = ?";
     public static final String CHANGE_USER_ROLE = "UPDATE user SET user_role_id = ? WHERE email = ?";
     public static final String DELETE_USER = "DELETE FROM user WHERE email = ?";
     public static final String FIND_ALL_USERS = "SELECT * FROM user";

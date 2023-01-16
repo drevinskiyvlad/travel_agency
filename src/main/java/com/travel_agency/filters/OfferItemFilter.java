@@ -30,7 +30,7 @@ public class OfferItemFilter implements Filter {
         String code = req.getQueryString().split("code=")[1];
         OfferDTO offerDTO = service.getOffer(code);
 
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
         return offerDTO;
     }
 

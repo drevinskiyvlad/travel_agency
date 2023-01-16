@@ -55,6 +55,11 @@ public class UserService {
         return makeListOfDTOs(result);
     }
 
+    public boolean changeUserBlocked(String email) throws DAOException {
+        User user = dao.read(email);
+        return dao.update(!user.isBanned(), email);
+    }
+
     private List<UserDTO> makeListOfDTOs(List<User> users) {
         List<UserDTO> userDTOs = new CopyOnWriteArrayList<>();
         for(User u: users){
