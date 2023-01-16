@@ -23,7 +23,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectPage = "index.jsp";
+        String redirectPage = "user-cabinet.jsp";
         req.getSession().removeAttribute("invalid_registration_message");
 
         Connection con = null;

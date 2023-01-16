@@ -81,10 +81,9 @@
                         <option value="shopping">shopping</option>
                     </select>
                     <p><b>Готель</b>: ${requestScope.offerItem.hotel}</p>
-                    <p><b>Транспортна компанія</b>: ${requestScope.offerItem.transportCompany}</p>
-                    <p><b>Поспіши, залишилось</b>: <input type="number" name="vacancy" class="form-control" placeholder="100"> місць</p>
-                    <p><b>Всього за</b>:
-                        <s>${String.format("%.2f", requestScope.offerItem.fullPrice)}$</s> ${String.format("%.2f", requestScope.offerItem.price)}$
+                    <p><b>Кількість місць</b>: <input type="number" name="vacancy" class="form-control" placeholder="100"> місць</p>
+                    <p><b>Ціна</b>:
+                        <s>${String.format("%.2f", requestScope.offerItem.price)}$
                     </p>
                     <p><b>Знижка</b>: <input type="number" name="discount" class="form-control" placeholder="from 5 to 25">%</p>
 

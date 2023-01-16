@@ -64,8 +64,6 @@ y
 Isrc/main/java/com/travel_agency/controllers/UpdateOrderStatusServlet.java,3\4\34c151085851c6a3ae5cb7b3b6fb423916b90466
 s
 Csrc/main/java/com/travel_agency/controllers/DeleteOrderServlet.java,6\b\6be435d36874f29413867e8b4bceb988b4aafc90
-t
-Dsrc/main/java/com/travel_agency/controllers/RegistrationServlet.java,7\c\7cb14b484e2f6523bd5119cc00348f8fdf1f3a5a
 q
 Asrc/main/java/com/travel_agency/controllers/BlockUserServlet.java,e\9\e99bffa6963d3c616eb52df7910fc41d2d559622
 I
@@ -84,5 +82,3 @@ l
 <src/main/java/com/travel_agency/exceptions/DAOException.java,4\3\4300ed7edb803f97687cf78681eb96355f54dc39
 <
 logs/log.log,5\5\556ba4b2b1dccf4c3c379694e46cd98762049bab
-M
-src/main/webapp/our-offer.jsp,c\1\c1605707ead16d2cdda005a0fc049eceb9e69c5d

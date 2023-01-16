@@ -46,7 +46,7 @@ class TestOrderDAO {
 
     @Test
     void testCreate() throws SQLException {
-        //MockitoDAOSetUp.CreateOrder(order,dao,con,ps,rs);
+        MockitoDAOSetUp.CreateOrder(order,dao,con,ps,rs);
 
         boolean result = dao.create(order);
 
@@ -58,7 +58,7 @@ class TestOrderDAO {
 
     @Test
     void testRead() throws Exception {
-        //MockitoDAOSetUp.ReadOrder(order,true,con,ps,rs);
+        MockitoDAOSetUp.ReadOrder(order,true,con,ps,rs);
 
         Order result = dao.read(order.getCode());
 
@@ -70,7 +70,7 @@ class TestOrderDAO {
     void testUpdateStatus() throws SQLException {
         String newStatus = "canceled";
 
-        //MockitoDAOSetUp.UpdateOrderStatus(order, con,ps, rs);
+        MockitoDAOSetUp.UpdateOrderStatus(order, con,ps, rs);
 
         boolean result = dao.update(order, newStatus);
         assertTrue(result);
@@ -78,7 +78,7 @@ class TestOrderDAO {
 
     @Test
     void testDelete() throws SQLException {
-        //MockitoDAOSetUp.DeleteOrder(order,con,ps);
+        MockitoDAOSetUp.DeleteOrder(order,con,ps);
 
         boolean result = dao.delete(order);
 
@@ -87,7 +87,7 @@ class TestOrderDAO {
 
     @Test
     void testReadAll() throws SQLException {
-        //MockitoDAOSetUp.ReadAllOrders(order,con,ps,rs);
+        MockitoDAOSetUp.ReadAllOrders(order,con,ps,rs);
 
         List<Order> expected = new ArrayList<>();
         expected.add(order);
@@ -96,8 +96,6 @@ class TestOrderDAO {
 
         assertEquals(expected, offers);
     }
-
-
 
 }
 

@@ -91,7 +91,7 @@
                                                                     alt="${offer.city}"></figure>
                                 <h2 class="entry-title"><a href=""><b>Путівка до</b> ${offer.city}</a></h2>
                                 <p><b>Готель</b>: ${offer.hotel}</p>
-                                <p><b>Транспортна компанія</b>: ${offer.transportCompany}</p>
+                                <p><b>Тип</b>: ${offer.offerType}</p>
                                 <p><b>Всього за</b>:
                                     <s>${String.format("%.2f", offer.fullPrice)}$</s> ${String.format("%.2f", offer.price)}$
                                 </p>

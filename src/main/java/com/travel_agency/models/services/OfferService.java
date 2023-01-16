@@ -34,7 +34,7 @@ public class OfferService {
     }
 
     public List<OfferDTO> getAllHotOffers() {
-        List<Offer> offers = null;
+        List<Offer> offers;
         try {
             offers = dao.readAll();
         } catch (DAOException e) {

@@ -189,11 +189,11 @@
                                 <td>${user.firstName}</td>
                                 <td>${user.lastName}</td>
                                 <td>${user.phone}</td>
-                                <td>${user.banned}</td>
+                                <td>${user.blocked}</td>
                                 <td>
                                     <a href="blockUser?email=${user.email}">
-                                        <c:if test="${user.isBanned() == false}">Заблокувати</c:if>
-                                        <c:if test="${user.isBanned() == true}">Розблокувати</c:if>
+                                        <c:if test="${user.isBlocked() == false}">Заблокувати</c:if>
+                                        <c:if test="${user.isBlocked() == true}">Розблокувати</c:if>
                                     </a>
                                 </td>
                             </tr>

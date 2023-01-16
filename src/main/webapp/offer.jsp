@@ -71,10 +71,9 @@
                 <c:if test="${requestScope.offerItem.isHot() == false}">
                     <h2 class="entry-title"><b>Путівка до</b> ${requestScope.offerItem.city}</h2>
                 </c:if>
-                <p><b>Тип поїздки</b>: ${requestScope.offerItem.type}</p>
+                <p><b>Тип поїздки</b>: ${requestScope.offerItem.offerType}</p>
                 <p><b>Готель</b>: ${requestScope.offerItem.hotel}</p>
                 <p><b>Тип готелю</b>: ${requestScope.offerItem.hotelType}</p>
-                <p><b>Транспортна компанія</b>: ${requestScope.offerItem.transportCompany}</p>
                 <p><b>Поспіши, залишилось</b>: ${requestScope.offerItem.vacancy} місць</p>
                 <p><b>Всього за</b>:
                     <s>${String.format("%.2f", requestScope.offerItem.fullPrice)}$</s> ${String.format("%.2f", requestScope.offerItem.price)}$

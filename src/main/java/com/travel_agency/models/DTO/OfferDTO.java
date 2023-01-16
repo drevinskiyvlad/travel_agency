@@ -10,24 +10,23 @@ import java.io.Serializable;
 public class OfferDTO implements Serializable {
     private static final long serialVersionUID = 1;
     private String code;
-    private String type;
-    private String transportCompany;
+    private String offerType;
     private String hotel;
     private String hotelType;
     private String city;
-    private int vacancy;
+    private int places;
     private double discount;
     private boolean isHot;
     private double price;
     private double fullPrice;
 
-    public OfferDTO(String code, String type, String hotel, String hotelType, String city, int vacancy, double discount, boolean isHot, double price) {
+    public OfferDTO(String code, String offerType, String hotel, String hotelType, String city, int places, double discount, boolean isHot, double price) {
         this.code = code;
-        this.type = type;
+        this.offerType = offerType;
         this.hotel = hotel;
         this.hotelType = hotelType;
         this.city = city;
-        this.vacancy = vacancy;
+        this.places = places;
         this.discount = discount;
         this.isHot = isHot;
         this.price = price;
