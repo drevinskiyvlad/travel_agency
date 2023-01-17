@@ -74,7 +74,7 @@
                 <p><b>Тип поїздки</b>: ${requestScope.offerItem.offerType}</p>
                 <p><b>Готель</b>: ${requestScope.offerItem.hotel}</p>
                 <p><b>Тип готелю</b>: ${requestScope.offerItem.hotelType}</p>
-                <p><b>Поспіши, залишилось</b>: ${requestScope.offerItem.vacancy} місць</p>
+                <p><b>Поспіши, залишилось</b>: ${requestScope.offerItem.places} місць</p>
                 <p><b>Всього за</b>:
                     <s>${String.format("%.2f", requestScope.offerItem.fullPrice)}$</s> ${String.format("%.2f", requestScope.offerItem.price)}$
                 </p>

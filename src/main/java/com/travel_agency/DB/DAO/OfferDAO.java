@@ -37,13 +37,14 @@ public class OfferDAO implements DAO<Offer, String>{
     }
     private void setVariablesToCreateStatement(Offer offer, PreparedStatement ps) throws SQLException, IllegalArgumentException {
         ps.setString(1, offer.getCode());
-        ps.setInt(2, readOfferType(offer.getOfferType()));
-        ps.setInt(3, readHotelType(offer.getHotelType()));
-        ps.setString(4, offer.getHotelName());
-        ps.setInt(5, offer.getPlaces());
-        ps.setDouble(6, offer.getDiscount());
-        ps.setBoolean(7, offer.isHot());
-        ps.setDouble(8, offer.getPrice());
+        ps.setString(2, offer.getCity());
+        ps.setInt(3, readOfferType(offer.getOfferType()));
+        ps.setInt(4, readHotelType(offer.getHotelType()));
+        ps.setString(5, offer.getHotelName());
+        ps.setInt(6, offer.getPlaces());
+        ps.setDouble(7, offer.getDiscount());
+        ps.setBoolean(8, offer.isHot());
+        ps.setDouble(9, offer.getPrice());
 
     }
 
@@ -164,6 +165,30 @@ public class OfferDAO implements DAO<Offer, String>{
         return result;
     }
 
+    public List<String> readAllHotelTypes() throws DAOException {
+        List<String> result = new CopyOnWriteArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_HOTEL_TYPES);
+             ResultSet rs = ps.executeQuery()) {
+            addHotelTypesToList(result, rs);
+        } catch (SQLException e) {
+            logger.error("Unable to read list of hotel types: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list hotel types: " + e.getMessage());
+        }
+        return result;
+    }
+
+    public List<String> readAllOfferTypes() throws DAOException {
+        List<String> result = new CopyOnWriteArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFER_TYPES);
+             ResultSet rs = ps.executeQuery()) {
+            addOfferTypesToList(result, rs);
+        } catch (SQLException e) {
+            logger.error("Unable to read list of hotel types: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list hotel types: " + e.getMessage());
+        }
+        return result;
+    }
+
     public int readOfferType(String name) throws IllegalArgumentException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER_TYPE_BY_NAME)) {
@@ -236,7 +261,19 @@ public class OfferDAO implements DAO<Offer, String>{
         throw new IllegalArgumentException("Unknown hotel type name");
     }
 
+    private void addHotelTypesToList(List<String> result, ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            int id = rs.getInt(Fields.HOTEL_TYPE_ID);
+            result.add(readHotelType(id));
+        }
+    }
 
+    private void addOfferTypesToList(List<String> result, ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            int id = rs.getInt(Fields.HOTEL_TYPE_ID);
+            result.add(readOfferType(id));
+        }
+    }
 
     private void addOffersToList(List<Offer> result, ResultSet rs) throws SQLException {
         while (rs.next()) {

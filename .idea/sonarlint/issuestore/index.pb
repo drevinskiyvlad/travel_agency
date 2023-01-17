@@ -68,8 +68,6 @@ q
 Asrc/main/java/com/travel_agency/controllers/BlockUserServlet.java,e\9\e99bffa6963d3c616eb52df7910fc41d2d559622
 I
 src/main/webapp/error.jsp,c\b\cba3df22242d379bdb72d00919d2e8d49101d1bf
-l
-<src/main/java/com/travel_agency/filters/OfferListFilter.java,9\6\9681d20445fd6236966d262711d58355f0b30a4f
 u
 Esrc/main/java/com/travel_agency/filters/UserCabinetFillingFilter.java,5\0\50130a74f5cfda0abb3e196faacc55fbf7d0f699
 a

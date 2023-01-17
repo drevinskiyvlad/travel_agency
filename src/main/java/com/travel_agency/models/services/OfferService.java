@@ -65,22 +65,15 @@ public class OfferService {
         return dao.update(offer, true);
     }
 
-    public boolean updateOffer(String code, String type, int places, double discount) throws DAOException, ValidationException {
-        validateDiscount(discount);
+    public boolean updateOffer(OfferDTO offerDTO) throws DAOException, ValidationException {
+        validateDiscount(offerDTO.getDiscount());
 
-        Offer offer = dao.read(code);
+        Offer offer = convertDTOToOffer(offerDTO);
         boolean resultDelete = dao.delete(offer);
 
-        setVariablesToOffer(type, places, discount, offer);
-
         boolean resultCreate = dao.create(offer);
-        return resultCreate && resultDelete;
-    }
 
-    private static void setVariablesToOffer(String type, int places, double discount, Offer offer) {
-        offer.setOfferType(type);
-        offer.setPlaces(places);
-        offer.setDiscount(discount);
+        return resultCreate && resultDelete;
     }
 
     private void validateDiscount(double discount) throws ValidationException{
@@ -89,7 +82,16 @@ public class OfferService {
     }
 
     private Offer convertDTOToOffer(OfferDTO offerDTO) throws DAOException {
-        return dao.read(offerDTO.getCode());
+        String code = offerDTO.getCode();
+        String city = offerDTO.getCity();
+        String offerType = offerDTO.getOfferType();
+        String hotelType = offerDTO.getHotelType();
+        String hotelName = offerDTO.getHotel();
+        int places = offerDTO.getPlaces();
+        double discount = offerDTO.getDiscount();
+        boolean isHot = offerDTO.isHot();
+        double price = offerDTO.getPrice();
+        return new Offer(0,code,city,offerType,hotelType,hotelName,places,discount,isHot,price);
     }
 
     private List<OfferDTO> makeListOfDTOs(List<Offer> offers, boolean onlyHot) {

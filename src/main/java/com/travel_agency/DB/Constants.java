@@ -18,7 +18,7 @@ public class Constants {
 
 
     //Offer request constants
-    public static final String ADD_OFFER = "INSERT INTO offer(code,city,offer_type_id,hotel_type_id,hotel_name,places,discount,is_hot,price) \n" +
+    public static final String ADD_OFFER = "INSERT INTO offer(code,city,offer_type_id,hotel_type_id,hotel_name,places,discount,is_hot,price)" +
             "VALUES(?,?,?,?,?,?,?,?,?);";
     public static final String FIND_OFFER = "SELECT * FROM offer WHERE code LIKE ?";
     public static final String FIND_OFFER_BY_ID = "SELECT * FROM offer WHERE id LIKE ?";
@@ -26,6 +26,8 @@ public class Constants {
     public static final String CHANGE_OFFER_PLACES = "UPDATE offer SET places = ? WHERE code = ?";
     public static final String DELETE_OFFER = "DELETE FROM offer WHERE code = ?";
     public static final String FIND_ALL_OFFERS = "SELECT * FROM offer";
+    public static final String FIND_ALL_HOTEL_TYPES = "SELECT * FROM hotel_type";
+    public static final String FIND_ALL_OFFER_TYPES = "SELECT * FROM offer_type";
     public static final String FIND_OFFER_TYPE_BY_ID = "select offer_type_name from offer_type where id = ?";
     public static final String FIND_OFFER_TYPE_BY_NAME = "select id from offer_type where offer_type_name = ?";
     public static final String FIND_HOTEL_TYPE_BY_ID = "select hotel_type_name from hotel_type where id = ?";

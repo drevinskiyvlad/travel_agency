@@ -4,9 +4,9 @@ import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
+import com.travel_agency.models.DTO.OfferDTO;
 import com.travel_agency.models.services.OfferService;
 import com.travel_agency.utils.ValidationMessageConstants;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class UpdateOfferServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(UpdateOfferServlet.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("error");
 
         String code = req.getParameter("code");
@@ -34,9 +34,10 @@ public class UpdateOfferServlet extends HttpServlet {
             OfferDAO offerDAO = new OfferDAO(con);
             OfferService service = new OfferService(offerDAO);
 
-            if(!updateOffer(req, service))
+            if(!updateOffer(req, service, code))
                 logger.error("Something went wrong, return value of update offer is false");
 
+            logger.info("Offer with code {} successfully updated", code);
         } catch (ValidationException e) {
             req.getSession().setAttribute("error", e.getMessage());
             logger.error("Invalid parameters while updating offer: " + e.getMessage());
@@ -51,17 +52,38 @@ public class UpdateOfferServlet extends HttpServlet {
         resp.sendRedirect(redirectPage);
     }
 
-    private static boolean updateOffer(HttpServletRequest req, OfferService service) throws DAOException, ValidationException {
-        String type = req.getParameter("offerType");
-        String vacancyString = req.getParameter("vacancy");
+    private boolean updateOffer(HttpServletRequest req, OfferService service,String code) throws DAOException, ValidationException {
+        checkIfFieldsAreNull(req);
+
+        OfferDTO offerDTO = initOfferDTO(req,service,code);
+
+        return service.updateOffer(offerDTO);
+    }
+
+    private void checkIfFieldsAreNull(HttpServletRequest req) throws ValidationException {
+        String hotel = req.getParameter("hotelName");
+        String placesString = req.getParameter("places");
+        String priceString = req.getParameter("price");
         String discountString = req.getParameter("discount");
-        String code = req.getParameter("code");
 
-        if(vacancyString.equals("") || discountString.equals(""))
+        if(placesString.equals("") || discountString.equals("") || hotel.equals("") || priceString.equals(""))
             throw new ValidationException(ValidationMessageConstants.FILL_ALL_FIELDS);
+    }
 
-        int vacancy = Integer.parseInt(vacancyString);
+    private OfferDTO initOfferDTO(HttpServletRequest req, OfferService service, String code){
+        String hotel = req.getParameter("hotelName");
+        String placesString = req.getParameter("places");
+        String priceString = req.getParameter("price");
+        String discountString = req.getParameter("discount");
+
+        OfferDTO initialOfferDTO = service.getOffer(code);
+        String offerType = req.getParameter("offerType");
+        String hotelType = req.getParameter("hotelType");
+        int places = Integer.parseInt(placesString);
         double discount = Double.parseDouble(discountString)/100;
-        return service.updateOffer(code, type, vacancy, discount);
+        double price = Double.parseDouble(priceString);
+        String city = initialOfferDTO.getCity();
+        boolean isHot = initialOfferDTO.isHot();
+        return new OfferDTO(code,offerType,hotel,hotelType,city,places,discount,isHot,price);
     }
 }

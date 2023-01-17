@@ -6,8 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreateOfferFilter implements Filter {
     @Override

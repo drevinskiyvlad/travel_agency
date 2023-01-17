@@ -55,7 +55,8 @@
             <nav class="breadcrumbs">
                 <a href="index.jsp">Головна</a> &rarr;
                 <a href="our-offer.jsp">Наші пропозиції</a> &rarr;
-                <a href="offer.jsp?code=${requestScope.offerItem.code}">Пропозиція ${requestScope.offerItem.code}</a> &rarr;
+                <a href="offer.jsp?code=${requestScope.offerItem.code}">Пропозиція ${requestScope.offerItem.code}</a>
+                &rarr;
                 <span>Редагування</span>
             </nav>
         </div>
@@ -75,17 +76,27 @@
 
                 <form accept-charset="UTF-8" role="form" action="updateOffer" method="get">
                     <p><b>Тип поїздки</b>:
-                    <select id="offerType" name="offerType">
-                        <option value="rest">rest</option>
-                        <option value="excursion">excursion</option>
-                        <option value="shopping">shopping</option>
-                    </select>
-                    <p><b>Готель</b>: ${requestScope.offerItem.hotel}</p>
-                    <p><b>Кількість місць</b>: <input type="number" name="vacancy" class="form-control" placeholder="100"> місць</p>
+                        <select id="offerType" name="offerType">
+                            <c:forEach items="${sessionScope.offerTypes}" var="type">
+                                <option value="${type}">${type}</option>
+                            </c:forEach>
+                        </select>
+                    <p><b>Готель</b>: <input type="text" name="hotelName" class="form-control"
+                                             placeholder="Hotel France" value="${requestScope.offerItem.hotel}"></p>
+                    <p><b>Тип Готелю</b>:
+                        <select id="hotelType" name="hotelType">
+                            <c:forEach items="${sessionScope.hotelTypes}" var="type">
+                                <option value="${type}">${type}</option>
+                            </c:forEach>
+                        </select>
+                    <p><b>Кількість місць</b>: <input type="number" name="places" class="form-control"
+                                                      placeholder="100" value="${requestScope.offerItem.places}"> місць</p>
                     <p><b>Ціна</b>:
-                        <s>${String.format("%.2f", requestScope.offerItem.price)}$
+                        <input type="number" name="price" step="0.1" class="form-control"
+                               placeholder="500" value="${requestScope.offerItem.price}">$
                     </p>
-                    <p><b>Знижка</b>: <input type="number" name="discount" class="form-control" placeholder="from 5 to 25">%</p>
+                    <p><b>Знижка</b>: <input type="number" name="discount" class="form-control"
+                                             placeholder="from 5 to 25">%</p>
 
                     <input value="${requestScope.offerItem.code}" name="code" style="display:none">
                     <button type="submit" class="button">Зберегти</button>
