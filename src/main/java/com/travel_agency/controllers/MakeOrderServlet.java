@@ -5,7 +5,6 @@ import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.DTO.OfferDTO;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.OrderService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ public class MakeOrderServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(MakeOrderServlet.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String redirectPage = "our-offer.jsp";
 
         Connection con = null;
@@ -35,7 +34,6 @@ public class MakeOrderServlet extends HttpServlet {
             OrderService service = new OrderService(dao);
             if (!service.makeOrder(offerDTO, userDTO)) {
                 req.setAttribute("error", "Something went wrong, try again");
-                redirectPage = "offer.jsp?code=" + offerDTO.getCode();
             }
         } catch (Exception e) {
             logger.error("Unable to make order: " + e.getMessage(), e);
@@ -44,6 +42,6 @@ public class MakeOrderServlet extends HttpServlet {
             DBManager.closeConnection(con);
         }
 
-        req.getRequestDispatcher(redirectPage).forward(req, resp);
+        resp.sendRedirect(redirectPage);
     }
 }

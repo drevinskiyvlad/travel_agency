@@ -4,7 +4,6 @@ import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.DTO.OfferDTO;
 import com.travel_agency.models.services.OfferService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +19,8 @@ public class ChangeOfferHotServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(ChangeOfferHotServlet.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String redirectionPage = "user-cabinet.jsp";
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String redirectionPage = "our-offer.jsp";
         DBManager manager = null;
         Connection con = null;
         try {
@@ -41,7 +40,7 @@ public class ChangeOfferHotServlet extends HttpServlet {
                 DBManager.closeConnection(con);
         }
 
-        req.getRequestDispatcher(redirectionPage).forward(req, resp);
+        resp.sendRedirect(redirectionPage);
     }
 
     private static OfferDTO getOfferDTO(HttpServletRequest req) {
