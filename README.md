@@ -23,3 +23,4 @@ selecting tours:
   The system administrator has the same rights as the manager, and can additionally:
 - add / delete tour, change tour information; +
 - block / unblock user. +
+![img.png](img.png)
