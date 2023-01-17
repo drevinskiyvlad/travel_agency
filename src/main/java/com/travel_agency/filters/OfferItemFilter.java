@@ -27,7 +27,7 @@ public class OfferItemFilter implements Filter {
         Connection con = manager.getConnection();
         OfferService service = getOfferService(con);
 
-        String code = req.getQueryString().split("code=")[1];
+        String code = req.getParameter("code");
         OfferDTO offerDTO = service.getOffer(code);
 
         DBManager.closeConnection(con);

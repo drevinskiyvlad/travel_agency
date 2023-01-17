@@ -13,6 +13,7 @@ public class Constants {
     public static final String CHANGE_USER_ROLE = "UPDATE user SET user_role_id = ? WHERE email = ?";
     public static final String DELETE_USER = "DELETE FROM user WHERE email = ?";
     public static final String FIND_ALL_USERS = "SELECT * FROM user";
+    public static final String FIND_ALL_USERS_PAGINATION = "select SQL_CALC_FOUND_ROWS * from user limit ?, ?";
     public static final String FIND_USER_ROLE_BY_ID = "select user_role_name from user_role where id = ?";
     public static final String FIND_USER_ROLE_BY_NAME = "select id from user_role where user_role_name = ?";
 

@@ -141,6 +141,20 @@ public class UserDAO implements DAO<User, String> {
         return result;
     }
 
+    public List<User> readAllWithPagination(int offset, int numOfRecords) throws DAOException {
+        List<User> result = new CopyOnWriteArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USERS_PAGINATION)) {
+            ps.setInt(1,offset);
+            ps.setInt(2,numOfRecords);
+            ResultSet rs = ps.executeQuery();
+            addUsersToList(result, rs);
+        } catch (SQLException e) {
+            logger.error("(pagination)Unable to read list user: " + e.getMessage(), e);
+            throw new DAOException("(pagination)Unable to real list user: " + e.getMessage());
+        }
+        return result;
+    }
+
     public int readUserRole(String name) throws IllegalArgumentException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME)) {

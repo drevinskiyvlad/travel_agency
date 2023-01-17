@@ -44,10 +44,12 @@ public class UserService {
         return convertUserToDTO(user);
     }
 
+    //public List<UserDTO> getAllUsers(int offset, int numOfRecords) {
     public List<UserDTO> getAllUsers() {
         List<User> result = new CopyOnWriteArrayList<>();
         try {
             result = dao.readAll();
+//            result = dao.readAllWithPagination(offset,numOfRecords);
         } catch (DAOException e) {
             logger.error("Unable to get all users" + e.getMessage(), e);
         }

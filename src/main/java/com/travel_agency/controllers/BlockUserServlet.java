@@ -22,7 +22,7 @@ public class BlockUserServlet extends HttpServlet {
         String redirectionPage = "user-cabinet.jsp";
 
         try {
-            String email = req.getQueryString().split("email=")[1];
+            String email = req.getParameter("email");
             updateUserBlockedStatus(email);
             logger.info("User {} successfully banned",email);
         } catch (Exception e) {

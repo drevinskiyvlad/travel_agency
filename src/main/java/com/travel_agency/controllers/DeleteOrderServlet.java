@@ -21,7 +21,7 @@ public class DeleteOrderServlet extends HttpServlet {
         String redirectionPage = "user-cabinet.jsp";
         Connection con = null;
         try {
-            String code = req.getQueryString().split("code=")[1];
+            String code = req.getParameter("code");
             DBManager manager = DBManager.getInstance();
             con = manager.getConnection();
 

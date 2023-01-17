@@ -50,16 +50,6 @@ p
 @src/test/java/org/travel_agency/DAO/TestTransportCompanyDAO.java,3\4\34ab25457409d89b27f180feedfdaccadbb4a57b
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-l
-<src/main/java/com/travel_agency/filters/AuthCheckFilter.java,e\e\ee46e06c23c85c154db90e1c6832a1b8783f8c2b
-k
-;src/main/java/com/travel_agency/filters/EncodingFilter.java,d\d\dd52d8184070894eaf77ddcbc7d7c006e14d0b16
-n
->src/main/java/com/travel_agency/controllers/LogOutServlet.java,d\3\d3ca5cad2aa2ed5c18f7d09919e15ec177dd2a6c
-y
-Isrc/main/java/com/travel_agency/controllers/UpdateOrderStatusServlet.java,3\4\34c151085851c6a3ae5cb7b3b6fb423916b90466
-s
-Csrc/main/java/com/travel_agency/controllers/DeleteOrderServlet.java,6\b\6be435d36874f29413867e8b4bceb988b4aafc90
 I
 src/main/webapp/error.jsp,c\b\cba3df22242d379bdb72d00919d2e8d49101d1bf
 a
