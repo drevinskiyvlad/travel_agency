@@ -19,7 +19,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class UserDAO implements DAO<User, String> {
     private static final Logger logger = LogManager.getLogger(UserDAO.class);
     private final Connection con;
-    @Getter private int numberOfPages; // for pagination
+    @Getter
+    private int numberOfPages; // for pagination
 
     public UserDAO(Connection con) {
         this.con = con;
@@ -54,7 +55,7 @@ public class UserDAO implements DAO<User, String> {
         } catch (SQLException e) {
             logger.error("Unable to read user: " + e.getMessage(), e);
             throw new DAOException("Unable to read user: " + e.getMessage());
-        }finally {
+        } finally {
             close(rs);
             close(ps);
         }
@@ -74,22 +75,23 @@ public class UserDAO implements DAO<User, String> {
         } catch (SQLException e) {
             logger.error("Unable to read user: " + e.getMessage(), e);
             throw new DAOException("Unable to read user: " + e.getMessage());
-        }finally {
+        } finally {
             close(rs);
         }
         return null;
     }
 
     @Override
-    public boolean update(User user, String newEmail) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_EMAIL)) {
-            ps.setString(1, newEmail);
-            ps.setString(2, user.getPhone());
+    public boolean update(User user, String newRole) throws DAOException {
+        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_ROLE)) {
+            int roleId = readUserRole(newRole);
+            ps.setInt(1, roleId);
+            ps.setString(2, user.getEmail());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update user: " + e.getMessage(), e);
-            throw new DAOException("Unable to update user: " + e.getMessage());
+            logger.error("Unable to update user role: " + e.getMessage(), e);
+            throw new DAOException("Unable to update user role: " + e.getMessage());
         }
     }
 
@@ -105,19 +107,6 @@ public class UserDAO implements DAO<User, String> {
         }
     }
 
-    public boolean updateUserRole(User user, String newRole) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_ROLE)) {
-            int roleId = readUserRole(newRole);
-            ps.setInt(1, roleId);
-            ps.setString(2, user.getEmail());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            logger.error("Unable to update user role: " + e.getMessage(), e);
-            throw new DAOException("Unable to update user role: " + e.getMessage());
-        }
-    }
-
     @Override
     public boolean delete(User user) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_USER)) {
@@ -130,25 +119,13 @@ public class UserDAO implements DAO<User, String> {
         }
     }
 
-
-    public List<User> readAll() throws DAOException {
-        List<User> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USERS);
-             ResultSet rs = ps.executeQuery()) {
-            addUsersToList(result, rs);
-        } catch (SQLException e) {
-            logger.error("Unable to read list user: " + e.getMessage(), e);
-            throw new DAOException("Unable to real list user: " + e.getMessage());
-        }
-        return result;
-    }
     @Override
     public List<User> readAll(int offset, int numOfRecords) throws DAOException {
         List<User> result = new CopyOnWriteArrayList<>();
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USERS)) {
-            ps.setInt(1,offset);
-            ps.setInt(2,numOfRecords);
+            ps.setInt(1, offset);
+            ps.setInt(2, numOfRecords);
             rs = ps.executeQuery();
             addUsersToList(result, rs);
 
@@ -156,15 +133,34 @@ public class UserDAO implements DAO<User, String> {
 
             rs = ps.executeQuery(Constants.USER_GET_NUMBER_OF_RECORDS);
             if (rs.next())
-                this.numberOfPages = (int)Math.ceil(rs.getInt(1)*1.0 / numOfRecords);
+                this.numberOfPages = (int) Math.ceil(rs.getInt(1) * 1.0 / numOfRecords);
 
         } catch (SQLException e) {
             logger.error("Unable to read list user: " + e.getMessage(), e);
             throw new DAOException("Unable to real list user: " + e.getMessage());
-        }finally{
+        } finally {
             close(rs);
         }
         return result;
+    }
+
+    public List<String> readAllUserRoles() throws DAOException {
+        List<String> result = new CopyOnWriteArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USER_ROLES);
+             ResultSet rs = ps.executeQuery()) {
+            addUserRolesToList(result, rs);
+        } catch (SQLException e) {
+            logger.error("Unable to read list of user roles: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list user roles: " + e.getMessage());
+        }
+        return result;
+    }
+
+    private void addUserRolesToList(List<String> result, ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            int id = rs.getInt(Fields.USER_ROLE_ID);
+            result.add(readUserRole(id));
+        }
     }
 
     public int readUserRole(String name) throws IllegalArgumentException {
@@ -179,7 +175,7 @@ public class UserDAO implements DAO<User, String> {
 
         } catch (SQLException e) {
             logger.error("Unable to read user role: " + e.getMessage(), e);
-        }finally {
+        } finally {
             close(rs);
         }
         throw new IllegalArgumentException("Unknown user role name");
@@ -198,7 +194,7 @@ public class UserDAO implements DAO<User, String> {
 
         } catch (SQLException e) {
             logger.error("Unable to read user role: " + e.getMessage(), e);
-        }finally {
+        } finally {
             close(rs);
         }
         throw new IllegalArgumentException("Unknown user role name");
@@ -230,7 +226,7 @@ public class UserDAO implements DAO<User, String> {
         } catch (IllegalArgumentException e) {
             return null;
         }
-        User user = new User(id, email, password, role, firstName, lastName, phone,blocked);
+        User user = new User(id, email, password, role, firstName, lastName, phone, blocked);
         user.setBlocked(blocked);
         return user;
     }
@@ -242,8 +238,8 @@ public class UserDAO implements DAO<User, String> {
         }
     }
 
-    private void close(AutoCloseable autoCloseable){
-        if(autoCloseable != null){
+    private void close(AutoCloseable autoCloseable) {
+        if (autoCloseable != null) {
             try {
                 autoCloseable.close();
             } catch (Exception e) {

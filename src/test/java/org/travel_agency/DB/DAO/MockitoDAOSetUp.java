@@ -1,4 +1,4 @@
-package org.travel_agency.DAO;
+package org.travel_agency.DB.DAO;
 
 import com.travel_agency.DB.Constants;
 import com.travel_agency.DB.DAO.OfferDAO;
@@ -49,12 +49,6 @@ public class MockitoDAOSetUp {
         ps.setString(5, user.getLastName());
         ps.setString(6, user.getPhone());
         ps.setBoolean(7, user.isBlocked());
-    }
-
-    protected static void UpdateUserEmail(User user, String newEmail, Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(Constants.CHANGE_USER_EMAIL)).thenReturn(ps);
-        ps.setString(1, newEmail);
-        ps.setString(2, user.getPhone());
     }
 
     protected static void UpdateRole(User user, String newRole, UserDAO dao, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {

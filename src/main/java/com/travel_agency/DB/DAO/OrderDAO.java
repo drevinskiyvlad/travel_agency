@@ -142,6 +142,25 @@ public class OrderDAO implements DAO<Order, String>{
         return result;
     }
 
+    public List<String> readAllOrderStatuses() throws DAOException {
+        List<String> result = new CopyOnWriteArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDER_STATUS);
+             ResultSet rs = ps.executeQuery()) {
+            addOrderStatusToList(result, rs);
+        } catch (SQLException e) {
+            logger.error("Unable to read list of order status: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list order status: " + e.getMessage());
+        }
+        return result;
+    }
+
+    private void addOrderStatusToList(List<String> result, ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            int id = rs.getInt(Fields.ORDER_STATUS_ID);
+            result.add(readOrderStatus(id));
+        }
+    }
+
     private int getUserId(String userName) throws DAOException {
         UserDAO dao = new UserDAO(con);
         return dao.read(userName).getId();

@@ -155,10 +155,16 @@
                             <td>
                                 <form accept-charset="UTF-8" role="form" action="updateOrderStatus" method="get">
                                     <select name="orderStatus" id="orderStatus">
-                                        <option value="${order.orderStatus}">${order.orderStatus}</option>
-                                        <option value="registered">registered</option>
-                                        <option value="paid">paid</option>
-                                        <option value="canceled">canceled</option>
+                                        <c:forEach items="${requestScope.orderStatuses}" var="status">
+                                            <c:choose>
+                                                <c:when test="${order.orderStatus eq status}">
+                                                    <option value="${status}" selected>${status}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${status}">${status}</option>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
                                     </select>
                                     <input value="${order.code}" name="code" style="display:none">
                                     <button type="submit" class="check-mark">
@@ -206,7 +212,26 @@
                         <c:forEach items="${requestScope.allUsers}" var="user">
                             <tr>
                                 <td>${user.email}</td>
-                                <td>${user.role}</td>
+                                <td>
+                                    <form accept-charset="UTF-8" role="form" action="updateUserRole" method="get">
+                                        <select name="userRole" id="userRole">
+                                            <c:forEach items="${requestScope.userRoles}" var="role">
+                                                <c:choose>
+                                                    <c:when test="${user.role eq role}">
+                                                        <option value="${role}" selected>${role}</option>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <option value="${role}">${role}</option>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </select>
+                                        <input value="${user.email}" name="email" style="display:none">
+                                        <button type="submit" class="check-mark">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+                                    </form>
+                                </td>
                                 <td>${user.firstName}</td>
                                 <td>${user.lastName}</td>
                                 <td>${user.phone}</td>

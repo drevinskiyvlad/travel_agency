@@ -13,6 +13,7 @@ public class Constants {
     public static final String CHANGE_USER_ROLE = "UPDATE user SET user_role_id = ? WHERE email = ?";
     public static final String DELETE_USER = "DELETE FROM user WHERE email = ?";
     public static final String FIND_ALL_USERS = "select * from user limit ?, ?";
+    public static final String FIND_ALL_USER_ROLES = "select * from user_role";
     public static final String FIND_USER_ROLE_BY_ID = "select user_role_name from user_role where id = ?";
     public static final String FIND_USER_ROLE_BY_NAME = "select id from user_role where user_role_name = ?";
 
@@ -41,6 +42,7 @@ public class Constants {
     public static final String CHANGE_ORDER_STATUS = "UPDATE user_order SET order_status_id = ? WHERE code = ?";
     public static final String DELETE_ORDER = "DELETE FROM user_order WHERE code = ?";
     public static final String FIND_ALL_ORDERS = "SELECT * FROM user_order LIMIT ?, ?";
+    public static final String FIND_ALL_ORDER_STATUS = "SELECT * FROM order_status";
     public static final String FIND_ALL_ORDERS_OF_USER = "SELECT * FROM user_order WHERE user_id = ?";
     public static final String FIND_ORDER_STATUS_BY_ID = "select order_status_name from order_status where id = ?";
     public static final String FIND_ORDER_STATUS_BY_NAME = "select id from order_status where order_status_name = ?";
