@@ -46,7 +46,7 @@ class TestUserDAO {
 
     @Test
     void testCreate() throws SQLException {
-        //org.travel_agency.DAO.MockitoDAOSetUp.CreateUser(user, dao, con, ps, rs);
+        MockitoDAOSetUp.CreateUser(user, dao, con, ps, rs);
 
         boolean result = dao.create(user);
 
@@ -55,7 +55,7 @@ class TestUserDAO {
 
     @Test
     void testRead() throws Exception {
-        //org.travel_agency.DAO.MockitoDAOSetUp.ReadUser(user, true, con, ps, rs);
+        MockitoDAOSetUp.ReadUser(user, true, con, ps, rs);
 
         User result = dao.read(user.getEmail());
 
@@ -67,7 +67,7 @@ class TestUserDAO {
     void testUpdate() throws SQLException {
         String newRole = "admin";
 
-        //org.travel_agency.DAO.MockitoDAOSetUp.UpdateRole(user,newRole,dao,con,ps,rs);
+        MockitoDAOSetUp.UpdateRole(user,newRole,dao,con,ps,rs);
 
         boolean result = dao.update(user, newRole);
 
@@ -76,7 +76,7 @@ class TestUserDAO {
 
     @Test
     void testDelete() throws SQLException {
-        //org.travel_agency.DAO.MockitoDAOSetUp.DeleteUser(user,con,ps);
+        MockitoDAOSetUp.DeleteUser(user,con,ps);
 
         boolean result = dao.delete(user);
 
@@ -85,7 +85,7 @@ class TestUserDAO {
 
     @Test
     void testReadAll() throws SQLException {
-        //org.travel_agency.DAO.MockitoDAOSetUp.ReadAllUsers(user,con,ps,rs);
+        MockitoDAOSetUp.ReadAllUsers(user,con,ps,rs);
 
         List<User> expectedUsers = new ArrayList<>();
         expectedUsers.add(user);
