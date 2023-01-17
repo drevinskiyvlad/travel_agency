@@ -22,10 +22,10 @@ public class OfferService {
         this.dao = dao;
     }
 
-    public List<OfferDTO> getAllOffers() {
+    public List<OfferDTO> getAllOffers(int offset, int numOfRecords) {
         List<Offer> offers;
         try {
-            offers = dao.readAll();
+            offers = dao.readAll(offset, numOfRecords);
         } catch (DAOException e) {
             logger.error("Unable to read offers: " + e.getMessage(), e);
             return new ArrayList<>();
@@ -33,10 +33,10 @@ public class OfferService {
         return makeListOfDTOs(offers, false);
     }
 
-    public List<OfferDTO> getAllHotOffers() {
+    public List<OfferDTO> getAllHotOffers(int offset, int numOfRecords) {
         List<Offer> offers;
         try {
-            offers = dao.readAll();
+            offers = dao.readAll(offset, numOfRecords);
         } catch (DAOException e) {
             logger.error("Unable to read offers: " + e.getMessage(), e);
             return new ArrayList<>();
@@ -89,7 +89,7 @@ public class OfferService {
             throw new ValidationException(ValidationMessageConstants.INVALID_DISCOUNT);
     }
 
-    private Offer convertDTOToOffer(OfferDTO offerDTO) throws DAOException {
+    private Offer convertDTOToOffer(OfferDTO offerDTO) {
         String code = offerDTO.getCode();
         String city = offerDTO.getCity();
         String offerType = offerDTO.getOfferType();

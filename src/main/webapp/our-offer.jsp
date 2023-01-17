@@ -110,10 +110,16 @@
                 </div>
 
                 <div class="pagination wow fadeInUp">
-                    <span class="page-numbers current">1</span>
-                    <a href="#" class="page-numbers">2</a>
-                    <a href="#" class="page-numbers">3</a>
-                    <a href="#" class="page-numbers">4</a>
+                    <c:forEach begin="1" end="${requestScope.numberOfPagesInOffers}" var="i">
+                        <c:choose>
+                            <c:when test="${requestScope.currentPage eq i}">
+                                <span class="page-numbers current">${i}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="offerPagination?offerListPage=${i}" class="page-numbers">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
                 </div>
 
             </div>

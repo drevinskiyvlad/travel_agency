@@ -9,5 +9,5 @@ public interface DAO<E, K> {
     E read(K key) throws DAOException;
     boolean update(E entity, K newValue) throws DAOException;
     boolean delete(E entity) throws DAOException;
-    List<E> readAll() throws DAOException;
+    List<E> readAll(int offset, int numOfRecords) throws DAOException;
 }

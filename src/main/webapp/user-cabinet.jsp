@@ -8,10 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
 
     <title>User cabinet</title>
+
     <!-- Loading third party fonts -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,600,700" rel="stylesheet"
           type="text/css">
     <link href="fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+
     <!-- Loading files for table -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -22,6 +24,7 @@
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table.min.js"></script>
+
     <!-- Loading main css file -->
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -42,7 +45,8 @@
                     <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
                     <ul class="menu">
                         <li class="menu-item"><a href="our-offer.jsp">Наші пропозиції</a></li>
-                        <li class="menu-item current-menu-item"><a href="user-cabinet.jsp">До кабінету: ${sessionScope.user.firstName}</a>
+                        <li class="menu-item current-menu-item"><a href="user-cabinet.jsp">До
+                            кабінету: ${sessionScope.user.firstName}</a>
                         </li>
                     </ul>
                 </nav>
@@ -76,7 +80,9 @@
                     <button type="submit" class="btn btn-black">Вийти</button>
                 </form>
 
-                <br><hr><br>
+                <br>
+                <hr>
+                <br>
 
                 <c:if test="${sessionScope.user.role == 'user'}">
                     <h2>Ваші замовлення:</h2>
@@ -121,6 +127,7 @@
                     </table>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'manager' || sessionScope.user.role == 'admin'}">
+
                     <h2>Замовлення користувачів:</h2>
                     <table data-toggle="table" class="wow fadeInUp">
                         <caption>AllOrders</caption>
@@ -164,9 +171,23 @@
                         </c:forEach>
                         </tbody>
                     </table>
+                    <div class="pagination wow fadeInUp">
+                        <c:forEach begin="1" end="${requestScope.numberOfPagesInOrders}" var="i">
+                            <c:choose>
+                                <c:when test="${requestScope.currentOrderPage eq i}">
+                                    <span class="page-numbers current">${i}</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="orderPagination?orderListPage=${i}" class="page-numbers">${i}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </div>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'admin'}">
-                    <br><hr><br>
+                    <br>
+                    <hr>
+                    <br>
                     <h2>Список користувачів:</h2>
                     <table data-toggle="table" class="wow fadeInUp">
                         <caption>UserList</caption>
@@ -200,16 +221,22 @@
                         </c:forEach>
                         </tbody>
                     </table>
+                    <div class="pagination wow fadeInUp">
+                        <c:forEach begin="1" end="${requestScope.numberOfPagesInUserList}" var="i">
+                            <c:choose>
+                                <c:when test="${requestScope.currentPage eq i}">
+                                    <span class="page-numbers current">${i}</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="userPagination?userListPage=${i}" class="page-numbers">${i}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </div>
                 </c:if>
+
+
                 <hr>
-
-
-                <div class="pagination wow fadeInUp">
-                    <span class="page-numbers current">1</span>
-                    <a href="#" class="page-numbers">2</a>
-                    <a href="#" class="page-numbers">3</a>
-                    <a href="#" class="page-numbers">4</a>
-                </div>
 
             </div>
         </div>
@@ -241,5 +268,4 @@
 <script src="js/min/app-min.js"></script>
 
 </body>
-
 </html>

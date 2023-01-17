@@ -4,6 +4,7 @@ import com.travel_agency.DB.Constants;
 import com.travel_agency.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.Offer;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +18,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class OfferDAO implements DAO<Offer, String>{
     private static final Logger logger = LogManager.getLogger(OfferDAO.class);
     private final Connection con;
+
+    @Getter private int numberOfPages; // for pagination
 
     public OfferDAO(Connection con) {
         this.con = con;
@@ -45,7 +48,6 @@ public class OfferDAO implements DAO<Offer, String>{
         ps.setDouble(7, offer.getDiscount());
         ps.setBoolean(8, offer.isHot());
         ps.setDouble(9, offer.getPrice());
-
     }
 
     @Override
@@ -153,14 +155,25 @@ public class OfferDAO implements DAO<Offer, String>{
     }
 
     @Override
-    public List<Offer> readAll() throws DAOException {
+    public List<Offer> readAll(int offset, int numOfRecords) throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFERS);
-             ResultSet rs = ps.executeQuery()) {
+        ResultSet rs = null;
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFERS)){
+            ps.setInt(1,offset);
+            ps.setInt(2,numOfRecords);
+            rs = ps.executeQuery();
             addOffersToList(result, rs);
+            rs.close();
+
+            rs = ps.executeQuery(Constants.OFFER_GET_NUMBER_OF_RECORDS);
+            if (rs.next())
+                numberOfPages = (int)Math.ceil(rs.getInt(1)*1.0 / numOfRecords);
+
         } catch (SQLException e) {
             logger.error("Unable to read list of offers: " + e.getMessage(), e);
             throw new DAOException("Unable to read list offer: " + e.getMessage());
+        }finally{
+            close(rs);
         }
         return result;
     }

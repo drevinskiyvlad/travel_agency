@@ -42,10 +42,10 @@ public class OrderService {
         }
     }
 
-    public List<OrderDTO> getAllOrders() {
+    public List<OrderDTO> getAllOrders(int offset, int numOfRecords) {
         List<Order> orders;
         try {
-            orders = dao.readAll();
+            orders = dao.readAll(offset,numOfRecords);
         } catch (DAOException e) {
             logger.error("Unable to read orders: " + e.getMessage(), e);
             return new ArrayList<>();

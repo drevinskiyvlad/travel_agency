@@ -3,6 +3,7 @@ package com.travel_agency.filters;
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.services.OfferService;
+import com.travel_agency.pagination.PaginationConstants;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -22,8 +23,12 @@ public class OfferListFilter implements Filter {
         Connection con = manager.getConnection();
         OfferDAO dao = new OfferDAO(con);
         OfferService service = new OfferService(dao);
-        req.setAttribute("offers", service.getAllOffers());
-        req.setAttribute("hot_offers", service.getAllHotOffers());
+
+        req.setAttribute("offers", service.getAllOffers(0, PaginationConstants.OFFERS_RECORDS_PER_PAGE));
+        req.setAttribute("hot_offers", service.getAllHotOffers(0, PaginationConstants.OFFERS_RECORDS_PER_PAGE));
+        req.setAttribute("numberOfPagesInOffers",dao.getNumberOfPages());
+        req.setAttribute("currentPage", 1);
+
         DBManager.closeConnection(con);
     }
 }

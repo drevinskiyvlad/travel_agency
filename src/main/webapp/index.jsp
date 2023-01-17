@@ -132,7 +132,7 @@
 					<div class="container">
 						<h2 class="section-title">Нові гарячі пропозиції</h2>
 						<div class="row">
-							<c:forEach items="${requestScope.hot_offers}" var="offer">
+							<c:forEach items="${requestScope.hot_offers}" end="2" var="offer">
 							<div class="col-md-3 col-sm-6 col-xs-12 offer-block" style="background-color:rgba(255,0,0,0.29)">
 								<article class="offer wow bounceIn">
 									<figure class="featured-image"><img src="images/cities/${offer.city}.jpg" alt="${offer.city}"></figure>

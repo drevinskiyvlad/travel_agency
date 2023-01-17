@@ -7,6 +7,7 @@ import com.travel_agency.models.DTO.OrderDTO;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.OrderService;
 import com.travel_agency.models.services.UserService;
+import com.travel_agency.pagination.PaginationConstants;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -50,7 +51,9 @@ public class UserCabinetFillingFilter implements Filter {
         Connection con = manager.getConnection();
         OrderDAO orderDAO = new OrderDAO(con);
         OrderService service = new OrderService(orderDAO);
-        List<OrderDTO> orders = service.getAllOrders();
+        List<OrderDTO> orders = service.getAllOrders(0,PaginationConstants.ORDER_LIST_RECORDS_PER_PAGE);
+        req.setAttribute("numberOfPagesInOrders",orderDAO.getNumberOfPages());
+        req.setAttribute("currentOrderPage", 1);
         req.setAttribute("orders", orders);
         DBManager.closeConnection(con);
     }
@@ -61,8 +64,10 @@ public class UserCabinetFillingFilter implements Filter {
         Connection con = manager.getConnection();
         UserDAO userDAO = new UserDAO(con);
         UserService service = new UserService(userDAO);
-        List<UserDTO> users = service.getAllUsers();
+        List<UserDTO> users = service.getAllUsers(0, PaginationConstants.USER_LIST_RECORDS_PER_PAGE);
         users.remove(req.getSession().getAttribute("user"));
+        req.setAttribute("numberOfPagesInUserList", userDAO.getNumberOfPages());
+        req.setAttribute("currentPage", 1);
         req.setAttribute("allUsers", users);
         DBManager.closeConnection(con);
     }

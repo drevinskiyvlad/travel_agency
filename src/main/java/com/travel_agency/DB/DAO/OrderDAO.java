@@ -6,6 +6,7 @@ import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.Offer;
 import com.travel_agency.models.DAO.Order;
 import com.travel_agency.models.DAO.User;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class OrderDAO implements DAO<Order, String>{
     private static final Logger logger = LogManager.getLogger(OrderDAO.class);
     private final Connection con;
+    @Getter private int numberOfPages; // for pagination
 
     public OrderDAO(Connection con) {
         this.con = con;
@@ -102,14 +104,24 @@ public class OrderDAO implements DAO<Order, String>{
     }
 
     @Override
-    public List<Order> readAll() throws DAOException {
+    public List<Order> readAll(int offset, int numOfRecords) throws DAOException {
         List<Order> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDERS);
-             ResultSet rs = ps.executeQuery()) {
+        ResultSet rs = null;
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDERS)){
+            ps.setInt(1,offset);
+            ps.setInt(2,numOfRecords);
+            rs = ps.executeQuery();
             addOrdersToList(result, rs);
+            rs.close();
+
+            rs = ps.executeQuery(Constants.ORDER_GET_NUMBER_OF_RECORDS);
+            if (rs.next())
+                numberOfPages = (int)Math.ceil(rs.getInt(1)*1.0 / numOfRecords);
         } catch (SQLException e) {
             logger.error("Unable to read list of offers: " + e.getMessage(), e);
             throw new DAOException("Unable to read list of orders: " + e.getMessage());
+        } finally{
+            close(rs);
         }
         return result;
     }

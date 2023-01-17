@@ -527,6 +527,7 @@ table {
 }
 
 .offer-block{
+    width:30%;
     margin-left: 15px;
     margin-bottom: 10px;
     border-radius: 5px;
@@ -825,7 +826,7 @@ table {
 
 .pagination {
     text-align: center;
-    margin-top: 50px;
+    display: block;
 }
 
 .pagination .page-numbers {

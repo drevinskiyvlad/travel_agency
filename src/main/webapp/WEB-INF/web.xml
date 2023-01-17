@@ -71,5 +71,7 @@
     <filter-mapping>
         <filter-name>user-cabinet-filling-filter</filter-name>
         <url-pattern>/user-cabinet.jsp</url-pattern>
+        <url-pattern>/orderPagination</url-pattern>
+        <url-pattern>/userPagination</url-pattern>
     </filter-mapping>
 </web-app>
