@@ -13,17 +13,17 @@ public class OfferListFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-        addOffersToSession(req);
+        addOffersToRequest(req);
         chain.doFilter(servletRequest,servletResponse);
     }
 
-    private static void addOffersToSession(HttpServletRequest req) {
+    private static void addOffersToRequest(HttpServletRequest req) {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
         OfferDAO dao = new OfferDAO(con);
         OfferService service = new OfferService(dao);
-        req.getSession().setAttribute("offers", service.getAllOffers());
-        req.getSession().setAttribute("hot_offers", service.getAllHotOffers());
+        req.setAttribute("offers", service.getAllOffers());
+        req.setAttribute("hot_offers", service.getAllHotOffers());
         DBManager.closeConnection(con);
     }
 }

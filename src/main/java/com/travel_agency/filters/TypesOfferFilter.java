@@ -34,8 +34,8 @@ public class TypesOfferFilter implements Filter {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
         OfferDAO dao = new OfferDAO(con);
-        req.getSession().setAttribute("offerTypes", dao.readAllOfferTypes());
-        req.getSession().setAttribute("hotelTypes", dao.readAllHotelTypes());
+        req.setAttribute("offerTypes", dao.readAllOfferTypes());
+        req.setAttribute("hotelTypes", dao.readAllHotelTypes());
         DBManager.closeConnection(con);
     }
 }

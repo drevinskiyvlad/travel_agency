@@ -83,7 +83,7 @@
                     <a href="#" class="wow fadeInRight" data-wow-delay="1.2s" data-filter=".australia">Australia</a>
                 </div>
                 <div class="filterable-items">
-                    <c:forEach items="${sessionScope.offers}" var="offer">
+                    <c:forEach items="${requestScope.offers}" var="offer">
                         <div class="filterable-item south-america offer-block"
                              <c:if test="${offer.isHot()}">style="background-color:rgba(255,0,0,0.29)"</c:if>>
                             <article class="offer offer-item">

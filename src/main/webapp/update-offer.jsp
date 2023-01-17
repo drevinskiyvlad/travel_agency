@@ -77,7 +77,7 @@
                 <form accept-charset="UTF-8" role="form" action="updateOffer" method="get">
                     <p><b>Тип поїздки</b>:
                         <select id="offerType" name="offerType">
-                            <c:forEach items="${sessionScope.offerTypes}" var="type">
+                            <c:forEach items="${requestScope.offerTypes}" var="type">
                                 <option value="${type}">${type}</option>
                             </c:forEach>
                         </select>
@@ -85,7 +85,7 @@
                                              placeholder="Hotel France" value="${requestScope.offerItem.hotel}"></p>
                     <p><b>Тип Готелю</b>:
                         <select id="hotelType" name="hotelType">
-                            <c:forEach items="${sessionScope.hotelTypes}" var="type">
+                            <c:forEach items="${requestScope.hotelTypes}" var="type">
                                 <option value="${type}">${type}</option>
                             </c:forEach>
                         </select>
