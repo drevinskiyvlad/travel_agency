@@ -62,36 +62,29 @@
     <main class="content">
         <div class="fullwidth-block">
             <div class="container">
+
+                <c:if test="${sessionScope.user.role == 'admin'}">
+                    <div class="add-offer-button">
+                        <a href="add-offer.jsp" class="button">Створити пропозицію</a>
+                    </div>
+                </c:if>
+
                 <div class="filter-links filterable-nav">
-                    <select class="mobile-filter">
-                        <option value="*">Show all</option>
-                        <option value=".south-america">South America</option>
-                        <option value=".asia">Asia</option>
-                        <option value=".africa">Africa</option>
-                        <option value=".north-america">North America</option>
-                        <option value=".europe">Europe</option>
-                        <option value=".australia">Australia</option>
-                    </select>
-                    <a href="#" class=" current wow fadeInRight" data-filter="*">Show all</a>
-                    <a href="#" class="wow fadeInRight" data-wow-delay=".2s" data-filter=".south-america">South
-                        America</a>
-                    <a href="#" class="wow fadeInRight" data-wow-delay=".4s" data-filter=".asia">Asia</a>
-                    <a href="#" class="wow fadeInRight" data-wow-delay=".6s" data-filter=".africa">Africa</a>
-                    <a href="#" class="wow fadeInRight" data-wow-delay=".8s" data-filter=".north-america">North
-                        America</a>
-                    <a href="#" class="wow fadeInRight" data-wow-delay="1s" data-filter=".europe">Europe</a>
-                    <a href="#" class="wow fadeInRight" data-wow-delay="1.2s" data-filter=".australia">Australia</a>
+
                 </div>
+
                 <div class="filterable-items">
-                    <c:forEach items="${sessionScope.offers}" var="offer">
-                        <div class="filterable-item south-america offer-block"
+                    <c:forEach items="${requestScope.offers}" var="offer">
+                        <div class="filterable-item offer-block"
                              <c:if test="${offer.isHot()}">style="background-color:rgba(255,0,0,0.29)"</c:if>>
                             <article class="offer offer-item">
                                 <figure class="featured-image"><img src="images/cities/${offer.city}.jpg"
                                                                     alt="${offer.city}"></figure>
                                 <h2 class="entry-title"><a href=""><b>Путівка до</b> ${offer.city}</a></h2>
+                                <p><b>Тип</b>: ${offer.offerType}</p>
                                 <p><b>Готель</b>: ${offer.hotel}</p>
-                                <p><b>Транспортна компанія</b>: ${offer.transportCompany}</p>
+                                <p><b>Тип готелю</b>: ${offer.hotelType}</p>
+                                <p><b>Кількість місць</b>: ${offer.places}</p>
                                 <p><b>Всього за</b>:
                                     <s>${String.format("%.2f", offer.fullPrice)}$</s> ${String.format("%.2f", offer.price)}$
                                 </p>
@@ -102,10 +95,16 @@
                 </div>
 
                 <div class="pagination wow fadeInUp">
-                    <span class="page-numbers current">1</span>
-                    <a href="#" class="page-numbers">2</a>
-                    <a href="#" class="page-numbers">3</a>
-                    <a href="#" class="page-numbers">4</a>
+                    <c:forEach begin="1" end="${requestScope.numberOfPagesInOffers}" var="i">
+                        <c:choose>
+                            <c:when test="${requestScope.currentPage eq i}">
+                                <span class="page-numbers current">${i}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="offerPagination?offerListPage=${i}" class="page-numbers">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
                 </div>
 
             </div>
@@ -125,7 +124,7 @@
                 </div>
 
                 <div class="contact-links pull-right">
-                    <i class="fa fa-map-marker"></i> 15 Bandery ave, Kyiv<br>
+                    <i class="fa fa-map-marker"></i> Провулок Бандери 15, Київ<br>
                     <i class="fa fa-phone"></i> +380 68 111 22 33<br>
                     <i class="fa fa-envelope"></i> doe@companyname.com
                 </div>

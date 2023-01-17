@@ -1,26 +1,18 @@
 package com.travel_agency.models.DAO;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.Objects;
 
+@Data
+@AllArgsConstructor
 public class Order {
-    @Getter @Setter private int id;
-    @Getter @Setter private String code;
-    @Getter @Setter private User user;
-    @Getter @Setter private Offer offer;
-    @Getter @Setter private String orderStatus;
-    @Getter @Setter private double price;
-
-    public Order(int id, String code, User user, Offer offer, String orderStatus) {
-        this.id = id;
-        this.code = code;
-        this.user = user;
-        this.offer = offer;
-        this.orderStatus = orderStatus;
-        price = offer.getPrice();
-    }
+    private int id;
+    private String code;
+    private User user;
+    private Offer offer;
+    private String orderStatus;
 
     @Override
     public String toString() {
@@ -31,7 +23,6 @@ public class Order {
                 " " + user.getLastName() +
                 ", offer=" + offer.getCode() +
                 ", orderStatus='" + orderStatus + '\'' +
-                ", price=" + price +
                 '}';
     }
 

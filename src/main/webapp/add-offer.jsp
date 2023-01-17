@@ -35,13 +35,8 @@
                     <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
                     <ul class="menu">
                         <li class="menu-item  current-menu-item"><a href="our-offer.jsp">Наші пропозиції</a></li>
-                        <c:if test="${sessionScope.user == null}">
-                            <li class="menu-item"><a href="user-cabinet.jsp">Увійти</a></li>
-                        </c:if>
-                        <c:if test="${sessionScope.user != null}">
-                            <li class="menu-item"><a href="user-cabinet.jsp">До
-                                кабінету: ${sessionScope.user.firstName}</a></li>
-                        </c:if>
+                        <li class="menu-item"><a href="user-cabinet.jsp">До кабінету: ${sessionScope.user.firstName}</a>
+                        </li>
                     </ul>
                 </nav>
 
@@ -55,42 +50,42 @@
             <nav class="breadcrumbs">
                 <a href="index.jsp">Головна</a> &rarr;
                 <a href="our-offer.jsp">Наші пропозиції</a> &rarr;
-                <span>Пропозиція ${requestScope.offerItem.code}</span>
+                <span>Створити пропозиції</span>
             </nav>
         </div>
     </header> <!-- .site-header -->
 
     <main class="content">
-        <div class="offer-container">
-            <div class="offer-image"><img src="images/cities/${requestScope.offerItem.city}.jpg"
-                                          alt="${requestScope.offerItem.city}"></div>
+        <div class="offer-container" style="width:100%">
             <div class="information">
-                <c:if test="${requestScope.offerItem.isHot()}">
-                    <h2 class="entry-title"><b>Неймовірний горящий тур до міста</b> ${requestScope.offerItem.city}</h2>
-                </c:if>
-                <c:if test="${requestScope.offerItem.isHot() == false}">
-                    <h2 class="entry-title"><b>Путівка до</b> ${requestScope.offerItem.city}</h2>
-                </c:if>
-                <p><b>Тип поїздки</b>: ${requestScope.offerItem.offerType}</p>
-                <p><b>Готель</b>: ${requestScope.offerItem.hotel}</p>
-                <p><b>Тип готелю</b>: ${requestScope.offerItem.hotelType}</p>
-                <p><b>Поспіши, залишилось</b>: ${requestScope.offerItem.places} місць</p>
-                <p><b>Всього за</b>:
-                    <s>${String.format("%.2f", requestScope.offerItem.fullPrice)}$</s> ${String.format("%.2f", requestScope.offerItem.price)}$
-                </p>
-                <p><b>Знижка</b>: ${String.format("%.0f", requestScope.offerItem.discount * 100)}%</p>
-                <p><b>Період</b>: 10 днів</p>
-                <c:if test="${sessionScope.user.role == 'user'}">
-                    <a href="makeOrder?code=${requestScope.offerItem.code}" class="button">Замовити</a>
-                </c:if>
-                <c:if test="${sessionScope.user.role != 'user' && requestScope.offerItem.isHot() == false}">
-                    <a href="makeOfferHot?code=${requestScope.offerItem.code}" class="button">Зробити гарячим</a>
-                </c:if>
-
-                <c:if test="${sessionScope.user.role == 'admin'}">
-                    <a href="deleteOffer?code=${requestScope.offerItem.code}" class="button">Видалити</a>
-                    <a href="update-offer.jsp?code=${requestScope.offerItem.code}" class="button">Редагувати</a>
-                </c:if>
+                <form accept-charset="UTF-8" role="form" action="addOffer" method="get">
+                    <p><b>Місто</b>: <input type="text" name="city" class="form-control"
+                                            placeholder="Kyiv">
+                    <p><b>Тип поїздки</b>:
+                        <select id="offerType" name="offerType">
+                            <c:forEach items="${requestScope.offerTypes}" var="type">
+                                <option value="${type}">${type}</option>
+                            </c:forEach>
+                        </select>
+                    <p><b>Готель</b>: <input type="text" name="hotelName" class="form-control"
+                                             placeholder="Hotel France"></p>
+                    <p><b>Тип Готелю</b>:
+                        <select id="hotelType" name="hotelType">
+                            <c:forEach items="${requestScope.hotelTypes}" var="type">
+                                <option value="${type}">${type}</option>
+                            </c:forEach>
+                        </select>
+                    <p><b>Кількість місць</b>: <input type="number" name="places" class="form-control"
+                                                      placeholder="100"> місць</p>
+                    <p><b>Ціна</b>:
+                        <input type="number" name="price" step="0.1" class="form-control"
+                               placeholder="500">$
+                    </p>
+                    <p><b>Знижка</b>: <input type="number" name="discount" class="form-control"
+                                             placeholder="from 5 to 25">%</p>
+                    <button type="submit" class="button">Додати</button>
+                </form>
+                </form>
 
                 <c:if test="${requestScope.error != null}">
                     <Label>

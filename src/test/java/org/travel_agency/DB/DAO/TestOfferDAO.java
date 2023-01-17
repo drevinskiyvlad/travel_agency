@@ -1,9 +1,7 @@
-package org.travel_agency.DAO;
+package org.travel_agency.DB.DAO;
 
 import com.travel_agency.DB.DAO.OfferDAO;
-import com.travel_agency.models.DAO.Hotel;
 import com.travel_agency.models.DAO.Offer;
-import com.travel_agency.models.DAO.TransportCompany;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.travel_agency.DB.DAO.MockitoDAOSetUp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,9 +36,7 @@ class TestOfferDAO {
 
     @BeforeAll
     void initialize(){
-        TransportCompany tc = new TransportCompany(0, "testCompany", "testAddress", 150, 200.00);
-        Hotel hotel = new Hotel(0, "testHotel", "testAddress", "Inn", 150, 200.00);
-        offer = new Offer(0,"123","rest", tc, hotel,0.15,false);
+        offer = new Offer(0,"123","City","rest", "Inn", "Name",100,0.15,false,150);
         con = Mockito.mock(Connection.class);
         dao = new OfferDAO(con);
     }
@@ -50,7 +47,7 @@ class TestOfferDAO {
     }
     @Test
     void testCreate() throws SQLException {
-        MockitoSetUp.CreateOffer(offer,dao,con,ps,rs);
+        MockitoDAOSetUp.CreateOffer(offer,dao,con,ps,rs);
 
         boolean result = dao.create(offer);
 
@@ -60,7 +57,7 @@ class TestOfferDAO {
 
     @Test
     void testRead() throws Exception {
-        MockitoSetUp.ReadOffer(offer,true,con,ps,rs);
+        MockitoDAOSetUp.ReadOffer(offer,true,con,ps,rs);
 
         Offer result = dao.read(offer.getCode());
 
@@ -79,7 +76,7 @@ class TestOfferDAO {
     void testUpdateIsHot() throws SQLException {
         boolean isHot = true;
 
-        MockitoSetUp.UpdateOfferIsHot(offer,isHot,con,ps);
+        MockitoDAOSetUp.UpdateOfferIsHot(offer,isHot,con,ps);
 
         boolean result = dao.update(offer, isHot);
         assertTrue(result);
@@ -91,7 +88,7 @@ class TestOfferDAO {
     void testUpdateVacancy() throws SQLException {
         int vacancy = 15;
 
-        MockitoSetUp.UpdateOfferVacancy(offer,vacancy,con,ps);
+        MockitoDAOSetUp.UpdateOfferVacancy(offer,vacancy,con,ps);
 
         boolean result = dao.update(offer, vacancy);
         assertTrue(result);
@@ -99,7 +96,7 @@ class TestOfferDAO {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoSetUp.DeleteOffer(offer,con,ps);
+        MockitoDAOSetUp.DeleteOffer(offer,con,ps);
 
         boolean result = dao.delete(offer);
 
@@ -110,12 +107,12 @@ class TestOfferDAO {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoSetUp.ReadAllOffers(offer,con,ps,rs);
+        MockitoDAOSetUp.ReadAllOffers(offer,con,ps,rs);
 
         List<Offer> expected = new ArrayList<>();
         expected.add(offer);
 
-        List<Offer> offers = dao.readAll();
+        List<Offer> offers = dao.readAll(0,0);
 
         assertEquals(expected, offers);
     }

@@ -1,7 +1,6 @@
 package com.travel_agency.utils;
 
 import com.travel_agency.models.DAO.User;
-import com.travel_agency.utils.HashPassword;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,8 +19,14 @@ public class Validator {
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
     }
-
-    public static boolean validatePassword(String password, User user){
+    public static boolean validatePassword(String password){
+        return password.length() >= 4;
+    }
+    public static boolean checkPasswordCorrect(String password, User user){
         return HashPassword.validate(password, user.getPassword());
+    }
+
+    public static boolean validateDiscount(double discount){
+        return discount < 0.25 && discount > 0.05;
     }
 }

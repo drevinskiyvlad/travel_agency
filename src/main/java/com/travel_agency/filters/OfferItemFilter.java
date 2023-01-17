@@ -27,10 +27,10 @@ public class OfferItemFilter implements Filter {
         Connection con = manager.getConnection();
         OfferService service = getOfferService(con);
 
-        String code = req.getQueryString().split("=")[1];
+        String code = req.getParameter("code");
         OfferDTO offerDTO = service.getOffer(code);
 
-        manager.closeConnection(con);
+        DBManager.closeConnection(con);
         return offerDTO;
     }
 

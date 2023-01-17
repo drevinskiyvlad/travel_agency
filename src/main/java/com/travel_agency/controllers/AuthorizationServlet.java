@@ -2,9 +2,9 @@ package com.travel_agency.controllers;
 
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
+import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.UserService;
-import com.travel_agency.exceptions.ValidationException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,29 +17,35 @@ import java.sql.Connection;
 
 @WebServlet("/authorization")
 public class AuthorizationServlet extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(AuthorizationServlet.class);
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.getSession().setAttribute("invalid_authorization_message", null);
+        req.getSession().removeAttribute("invalid_authorization_message");
+        String redirectPage = "user-cabinet.jsp";
 
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
+        Connection con = null;
         try {
+            DBManager manager = DBManager.getInstance();
+            con = manager.getConnection();
             UserDAO userDAO = new UserDAO(con);
             UserService userService = new UserService(userDAO);
             UserDTO userDTO = userService.signIn(email, password);
             req.getSession().setAttribute("user", userDTO);
+
+            logger.info("User {} signed in successfully", userDTO.getEmail());
         } catch (ValidationException e) {
-            logger.info("User dont loggined: " + e.getMessage());
             req.getSession().setAttribute("invalid_authorization_message", e.getMessage());
-        }finally{
-            manager.closeConnection(con);
+        } catch(Exception e){
+            logger.error("User dont loggined: " + e.getMessage(), e);
+            redirectPage = "error.jsp";
+        } finally{
+            DBManager.closeConnection(con);
         }
 
-        resp.sendRedirect("user-cabinet.jsp");
+        resp.sendRedirect(redirectPage);
     }
 }

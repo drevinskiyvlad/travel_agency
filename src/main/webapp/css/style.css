@@ -513,12 +513,21 @@ table {
     background-color: #34d6e6;
 }
 
+.gray-button:hover, .button:active {
+    background-color: rgba(0,0,0,0.4);
+}
+
+.gray-button {
+    background-color: rgba(0,0,0,0.3);
+}
+
 .offer {
     margin-bottom: 30px;
     margin-top: 20px;
 }
 
 .offer-block{
+    width:30%;
     margin-left: 15px;
     margin-bottom: 10px;
     border-radius: 5px;
@@ -817,7 +826,7 @@ table {
 
 .pagination {
     text-align: center;
-    margin-top: 50px;
+    display: block;
 }
 
 .pagination .page-numbers {
@@ -2662,23 +2671,6 @@ figure img {
     }
 }
 
-/*.btn-black {*/
-/*    background-color: #000 !important;*/
-/*    color: #fff;*/
-/*}*/
-/*.btn-secondary {*/
-/*    background-color: rgba(0,0,0,0.3) !important;*/
-/*    color: #fff;*/
-/*}*/
-
-/*.login-form{*/
-/*    width:50%;*/
-/*}*/
-
-/*.col-md-6{*/
-/*    margin: 3% auto 5% 35%;*/
-/*}*/
-
 .main {
     padding: 0px 10px;
 }
@@ -2712,3 +2704,18 @@ figure img {
     color: #fff;
 }
 
+.check-mark{
+    margin-left: 3%;
+    color: #000;
+    border: 0;
+    background-color: inherit;
+}
+.error-message{
+    height:200px;
+    margin-top:12%;
+    text-align: center;
+}
+
+.add-offer-button{
+    margin: 0 3% 3%;
+}

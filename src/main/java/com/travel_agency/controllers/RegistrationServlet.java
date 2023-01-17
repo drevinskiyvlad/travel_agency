@@ -5,6 +5,7 @@ import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.UserService;
 import com.travel_agency.exceptions.ValidationException;
+import com.travel_agency.utils.ValidationMessageConstants;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,13 +23,14 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectPage = "index.jsp";
-        req.getSession().setAttribute("invalid_registration_message", null);
+        String redirectPage = "user-cabinet.jsp";
+        req.getSession().removeAttribute("invalid_registration_message");
 
-        DBManager dbManager = DBManager.getInstance();
-        Connection con = dbManager.getConnection();
+        Connection con = null;
 
         try {
+            DBManager manager = DBManager.getInstance();
+            con = manager.getConnection();
             UserDTO userDTO = initializeUserDTO(req);
             String password = req.getParameter("password");
 
@@ -41,8 +43,11 @@ public class RegistrationServlet extends HttpServlet {
         }catch(ValidationException e){
             req.getSession().setAttribute("invalid_registration_message", e.getMessage());
             redirectPage = "registration.jsp";
+        }catch(Exception e){
+            logger.error("Unable to register user: " + e.getMessage(), e);
+            redirectPage = "error.jsp";
         }finally{
-            dbManager.closeConnection(con);
+                DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
@@ -55,7 +60,7 @@ public class RegistrationServlet extends HttpServlet {
         String phone = req.getParameter("phone");
 
         if(email.equals("") || firstName.equals("") || lastName.equals("") || phone.equals("")){
-            throw new ValidationException("All fields must be filled");
+            throw new ValidationException(ValidationMessageConstants.FILL_ALL_FIELDS);
         }
 
         return new UserDTO(email,"user",firstName,lastName,phone,false);
