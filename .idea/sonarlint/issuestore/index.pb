@@ -56,8 +56,6 @@ k
 ;src/main/java/com/travel_agency/filters/EncodingFilter.java,d\d\dd52d8184070894eaf77ddcbc7d7c006e14d0b16
 n
 >src/main/java/com/travel_agency/controllers/LogOutServlet.java,d\3\d3ca5cad2aa2ed5c18f7d09919e15ec177dd2a6c
-M
-src/main/webapp/css/style.css,2\c\2c1f525046eaa5ad3e39cc3d3b2f4c4fab4ff318
 y
 Isrc/main/java/com/travel_agency/controllers/UpdateOrderStatusServlet.java,3\4\34c151085851c6a3ae5cb7b3b6fb423916b90466
 s

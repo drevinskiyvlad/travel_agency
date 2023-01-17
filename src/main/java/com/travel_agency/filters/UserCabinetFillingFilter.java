@@ -31,7 +31,6 @@ public class UserCabinetFillingFilter implements Filter {
             case("user") -> fillUserCabinet(req,userDTO);
             case("manager") -> fillManagerCabinet(req);
             case("admin") -> fillAdminCabinet(req);
-            default -> {}
         }
     }
 

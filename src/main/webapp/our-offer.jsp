@@ -62,6 +62,13 @@
     <main class="content">
         <div class="fullwidth-block">
             <div class="container">
+
+                <c:if test="${sessionScope.user.role == 'admin'}">
+                    <div class="add-offer-button">
+                        <a href="add-offer.jsp" class="button">Створити пропозицію</a>
+                    </div>
+                </c:if>
+
                 <div class="filter-links filterable-nav">
                     <select class="mobile-filter">
                         <option value="*">Show all</option>
@@ -82,6 +89,7 @@
                     <a href="#" class="wow fadeInRight" data-wow-delay="1s" data-filter=".europe">Europe</a>
                     <a href="#" class="wow fadeInRight" data-wow-delay="1.2s" data-filter=".australia">Australia</a>
                 </div>
+
                 <div class="filterable-items">
                     <c:forEach items="${requestScope.offers}" var="offer">
                         <div class="filterable-item south-america offer-block"

@@ -17,9 +17,10 @@ import java.sql.Connection;
 @WebServlet("/blockUser")
 public class BlockUserServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(BlockUserServlet.class);
-    String redirectionPage = "user-cabinet.jsp";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String redirectionPage = "user-cabinet.jsp";
+
         try {
             String email = req.getQueryString().split("email=")[1];
             updateUserBlockedStatus(email);

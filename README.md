@@ -21,5 +21,5 @@ selecting tours:
   percentage, which is also determined by the manager. +
 - 
   The system administrator has the same rights as the manager, and can additionally:
-- add / delete tour, change tour information;
-- block / unblock user.
+- add / delete tour, change tour information; +
+- block / unblock user. +

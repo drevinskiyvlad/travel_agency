@@ -76,6 +76,14 @@ public class OfferService {
         return resultCreate && resultDelete;
     }
 
+    public boolean createOffer(OfferDTO offerDTO) throws DAOException, ValidationException {
+        validateDiscount(offerDTO.getDiscount());
+
+        Offer offer = convertDTOToOffer(offerDTO);
+
+        return dao.create(offer);
+    }
+
     private void validateDiscount(double discount) throws ValidationException{
         if(!Validator.validateDiscount(discount))
             throw new ValidationException(ValidationMessageConstants.INVALID_DISCOUNT);
@@ -122,4 +130,6 @@ public class OfferService {
         double price = offer.getPrice();
         return new OfferDTO(code, type, hotel, hotelType, city, vacancy, discount, isHot, price);
     }
+
+
 }

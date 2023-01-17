@@ -50,15 +50,15 @@
             <nav class="breadcrumbs">
                 <a href="index.jsp">Головна</a> &rarr;
                 <a href="our-offer.jsp">Наші пропозиції</a> &rarr;
-                <span>Створення пропозиції</span>
+                <span>Створити пропозиції</span>
             </nav>
         </div>
     </header> <!-- .site-header -->
 
     <main class="content">
-        <div class="offer-container">
+        <div class="offer-container" style="width:100%">
             <div class="information">
-                <form accept-charset="UTF-8" role="form" action="updateOffer" method="get">
+                <form accept-charset="UTF-8" role="form" action="addOffer" method="get">
                     <p><b>Місто</b>: <input type="text" name="city" class="form-control"
                                             placeholder="Kyiv">
                     <p><b>Тип поїздки</b>:

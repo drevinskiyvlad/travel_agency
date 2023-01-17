@@ -42,7 +42,7 @@
                     <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
                     <ul class="menu">
                         <li class="menu-item"><a href="our-offer.jsp">Наші пропозиції</a></li>
-                        <li class="menu-item"><a href="user-cabinet.jsp">До кабінету: ${sessionScope.user.firstName}</a>
+                        <li class="menu-item current-menu-item"><a href="user-cabinet.jsp">До кабінету: ${sessionScope.user.firstName}</a>
                         </li>
                     </ul>
                 </nav>
