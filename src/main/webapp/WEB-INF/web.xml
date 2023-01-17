@@ -36,7 +36,6 @@
 
     <filter-mapping>
         <filter-name>offer-list-filter</filter-name>
-        <url-pattern>/index.jsp</url-pattern>
         <url-pattern>/our-offer.jsp</url-pattern>
     </filter-mapping>
 

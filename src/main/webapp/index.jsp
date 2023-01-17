@@ -127,28 +127,6 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="fullwidth-block offers-section" data-bg-color="#f1f1f1">
-					<div class="container">
-						<h2 class="section-title">Нові гарячі пропозиції</h2>
-						<div class="row">
-							<c:forEach items="${requestScope.hot_offers}" end="2" var="offer">
-							<div class="col-md-3 col-sm-6 col-xs-12 offer-block" style="background-color:rgba(255,0,0,0.29)">
-								<article class="offer wow bounceIn">
-									<figure class="featured-image"><img src="images/cities/${offer.city}.jpg" alt="${offer.city}"></figure>
-									<h2 class="entry-title"><a href=""><b>Путівка до</b> ${offer.city}</a></h2>
-									<p><b>Тип</b>: ${offer.offerType}</p>
-									<p><b>Готель</b>: ${offer.hotel}</p>
-									<p><b>Тип готелю</b>: ${offer.hotelType}</p>
-									<p><b>Кількість місць</b>: ${offer.places}</p>
-									<p><b>Всього за</b>: <s>${String.format("%.2f", offer.fullPrice)}$</s> ${String.format("%.2f", offer.price)}$</p>
-									<a href="offer.jsp?code=${offer.code}" class="button">Подивитись деталі</a>
-								</article>
-							</div>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
 			</main> <!-- .content -->
 
 			<footer class="site-footer wow fadeInUp">

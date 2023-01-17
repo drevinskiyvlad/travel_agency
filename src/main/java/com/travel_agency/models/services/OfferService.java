@@ -30,18 +30,7 @@ public class OfferService {
             logger.error("Unable to read offers: " + e.getMessage(), e);
             return new ArrayList<>();
         }
-        return makeListOfDTOs(offers, false);
-    }
-
-    public List<OfferDTO> getAllHotOffers(int offset, int numOfRecords) {
-        List<Offer> offers;
-        try {
-            offers = dao.readAll(offset, numOfRecords);
-        } catch (DAOException e) {
-            logger.error("Unable to read offers: " + e.getMessage(), e);
-            return new ArrayList<>();
-        }
-        return makeListOfDTOs(offers, true);
+        return makeListOfDTOs(offers);
     }
 
     public OfferDTO getOffer(String code) {
@@ -84,8 +73,8 @@ public class OfferService {
         return dao.create(offer);
     }
 
-    private void validateDiscount(double discount) throws ValidationException{
-        if(!Validator.validateDiscount(discount))
+    private void validateDiscount(double discount) throws ValidationException {
+        if (!Validator.validateDiscount(discount))
             throw new ValidationException(ValidationMessageConstants.INVALID_DISCOUNT);
     }
 
@@ -99,24 +88,21 @@ public class OfferService {
         double discount = offerDTO.getDiscount();
         boolean isHot = offerDTO.isHot();
         double price = offerDTO.getPrice();
-        return new Offer(0,code,city,offerType,hotelType,hotelName,places,discount,isHot,price);
+        return new Offer(0, code, city, offerType, hotelType, hotelName, places, discount, isHot, price);
     }
 
-    private List<OfferDTO> makeListOfDTOs(List<Offer> offers, boolean onlyHot) {
+    private List<OfferDTO> makeListOfDTOs(List<Offer> offers) {
         List<OfferDTO> result = new CopyOnWriteArrayList<>();
         for (Offer o : offers) {
             if (o.isHot())
                 result.add(convertOfferToDTO(o));
         }
-
-        if (!onlyHot) {
-            for (Offer o : offers) {
-                if (!o.isHot())
-                    result.add(convertOfferToDTO(o));
-            }
+        for (Offer o : offers) {
+            if (!o.isHot())
+                result.add(convertOfferToDTO(o));
         }
         return result;
-    }
+}
 
     protected OfferDTO convertOfferToDTO(Offer offer) {
         String code = offer.getCode();

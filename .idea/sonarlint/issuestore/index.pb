@@ -40,8 +40,6 @@ p
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 I
 src/main/webapp/error.jsp,c\b\cba3df22242d379bdb72d00919d2e8d49101d1bf
-a
-1src/main/java/com/travel_agency/DB/DBManager.java,4\f\4f72c5d95b77ef05a86c32299ec4b44a009bcde6
 s
 Csrc/main/java/com/travel_agency/exceptions/ValidationException.java,5\3\53e0a852950b76ada5fb6cecafa0bf5b49dabf7c
 l
@@ -94,22 +92,12 @@ s
 Csrc/main/java/com/travel_agency/controllers/DeleteOfferServlet.java,c\0\c0b4e30de520156e88a0983ba43e058bcd31239e
 s
 Csrc/main/java/com/travel_agency/controllers/DeleteOrderServlet.java,6\b\6be435d36874f29413867e8b4bceb988b4aafc90
-l
-<src/main/java/com/travel_agency/filters/OfferItemFilter.java,5\7\57024ca6a2281da3de153ddc020b4861a7e92aa4
 M
 src/main/webapp/add-offer.jsp,c\a\caa222ca1e0b5faaafdf9e16eabab23090b4860d
 _
 /src/main/java/com/travel_agency/DB/DAO/DAO.java,0\9\0954dd1d6782138947bf4812323752507a32b143
-h
-8src/test/java/org/travel_agency/DB/DAO/TestOfferDAO.java,4\9\49b910f7d3220adbf23b602d6a9fd32ce9f0e32a
-l
-<src/main/java/com/travel_agency/filters/OfferListFilter.java,9\6\9681d20445fd6236966d262711d58355f0b30a4f
 p
 @src/main/java/com/travel_agency/models/services/UserService.java,8\3\839edc119748ce5af976ddc0b9ec0551fc498500
-q
-Asrc/main/java/com/travel_agency/models/services/OfferService.java,3\1\312fa16f94378d70a87a3c3daec4ec9fd666ade0
-h
-8src/test/java/org/travel_agency/DB/DAO/TestOrderDAO.java,a\3\a33dab59492f9b1d1c38071449288affedcf8b6a
 w
 Gsrc/main/java/com/travel_agency/pagination/OffersPaginationServlet.java,5\7\574e0bf9f9482533c67874b8621faf6149ef10f2
 y
@@ -118,8 +106,6 @@ s
 Csrc/main/java/com/travel_agency/pagination/PaginationConstants.java,f\0\f0f50c1495c40350858ec97191efacda25ebde77
 <
 logs/log.log,5\5\556ba4b2b1dccf4c3c379694e46cd98762049bab
-O
-src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
 M
 src/main/webapp/css/style.css,2\c\2c1f525046eaa5ad3e39cc3d3b2f4c4fab4ff318
 v
