@@ -92,7 +92,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${sessionScope.userOrders}" var="order">
+                        <c:forEach items="${requestScope.userOrders}" var="order">
                             <c:if test="${order.orderStatus == 'registered'}"><tr style="background-color: rgba(0,212,255,0.1)"></c:if>
                             <c:if test="${order.orderStatus == 'paid'}"><tr style="background-color: rgba(0,255,0,0.1)"></c:if>
                             <c:if test="${order.orderStatus == 'canceled'}"><tr style="background-color: rgba(255,0,0,0.1)"></c:if>
@@ -115,7 +115,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><b>Всього:</b><br>${String.format("%.2f", sessionScope.totalPrice)}</td>
+                            <td><b>Всього:</b><br>${String.format("%.2f", requestScope.totalPrice)}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -134,7 +134,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${sessionScope.orders}" var="order">
+                        <c:forEach items="${requestScope.orders}" var="order">
                             <c:if test="${order.orderStatus == 'registered'}"><tr style="background-color: rgba(0,212,255,0.1)"></c:if>
                             <c:if test="${order.orderStatus == 'paid'}"><tr style="background-color: rgba(0,255,0,0.1)"></c:if>
                             <c:if test="${order.orderStatus == 'canceled'}"><tr style="background-color: rgba(255,0,0,0.1)"></c:if>
@@ -182,7 +182,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${sessionScope.allUsers}" var="user">
+                        <c:forEach items="${requestScope.allUsers}" var="user">
                             <tr>
                                 <td>${user.email}</td>
                                 <td>${user.role}</td>

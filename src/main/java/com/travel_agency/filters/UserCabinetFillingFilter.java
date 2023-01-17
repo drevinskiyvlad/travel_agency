@@ -31,6 +31,7 @@ public class UserCabinetFillingFilter implements Filter {
             case("user") -> fillUserCabinet(req,userDTO);
             case("manager") -> fillManagerCabinet(req);
             case("admin") -> fillAdminCabinet(req);
+            default -> {}
         }
     }
 
@@ -40,8 +41,8 @@ public class UserCabinetFillingFilter implements Filter {
         OrderDAO orderDAO = new OrderDAO(con);
         OrderService service = new OrderService(orderDAO);
         List<OrderDTO> orders = service.getAllOrdersFromUser(userDTO);
-        req.getSession().setAttribute("userOrders", orders);
-        req.getSession().setAttribute("totalPrice", service.getTotalPrice(orders));
+        req.setAttribute("userOrders", orders);
+        req.setAttribute("totalPrice", service.getTotalPrice(orders));
         DBManager.closeConnection(con);
     }
 
@@ -51,10 +52,10 @@ public class UserCabinetFillingFilter implements Filter {
         OrderDAO orderDAO = new OrderDAO(con);
         OrderService service = new OrderService(orderDAO);
         List<OrderDTO> orders = service.getAllOrders();
-        req.getSession().setAttribute("orders", orders);
-        req.getSession().setAttribute("totalPrice", service.getTotalPrice(orders));
+        req.setAttribute("orders", orders);
         DBManager.closeConnection(con);
     }
+
     private void fillAdminCabinet(HttpServletRequest req) {
         fillManagerCabinet(req);
         DBManager manager = DBManager.getInstance();
@@ -63,7 +64,7 @@ public class UserCabinetFillingFilter implements Filter {
         UserService service = new UserService(userDAO);
         List<UserDTO> users = service.getAllUsers();
         users.remove(req.getSession().getAttribute("user"));
-        req.getSession().setAttribute("allUsers", users);
+        req.setAttribute("allUsers", users);
         DBManager.closeConnection(con);
     }
 

@@ -56,24 +56,16 @@ k
 ;src/main/java/com/travel_agency/filters/EncodingFilter.java,d\d\dd52d8184070894eaf77ddcbc7d7c006e14d0b16
 n
 >src/main/java/com/travel_agency/controllers/LogOutServlet.java,d\3\d3ca5cad2aa2ed5c18f7d09919e15ec177dd2a6c
-v
-Fsrc/main/java/com/travel_agency/controllers/ChangeOfferHotServlet.java,8\5\85aaa38d0e370dcfcbf9c16a20779c5b7f5e8a7c
 M
 src/main/webapp/css/style.css,2\c\2c1f525046eaa5ad3e39cc3d3b2f4c4fab4ff318
 y
 Isrc/main/java/com/travel_agency/controllers/UpdateOrderStatusServlet.java,3\4\34c151085851c6a3ae5cb7b3b6fb423916b90466
 s
 Csrc/main/java/com/travel_agency/controllers/DeleteOrderServlet.java,6\b\6be435d36874f29413867e8b4bceb988b4aafc90
-q
-Asrc/main/java/com/travel_agency/controllers/BlockUserServlet.java,e\9\e99bffa6963d3c616eb52df7910fc41d2d559622
 I
 src/main/webapp/error.jsp,c\b\cba3df22242d379bdb72d00919d2e8d49101d1bf
-u
-Esrc/main/java/com/travel_agency/filters/UserCabinetFillingFilter.java,5\0\50130a74f5cfda0abb3e196faacc55fbf7d0f699
 a
 1src/main/java/com/travel_agency/DB/DBManager.java,4\f\4f72c5d95b77ef05a86c32299ec4b44a009bcde6
-q
-Asrc/main/java/com/travel_agency/controllers/MakeOrderServlet.java,9\6\9630d020cf9e58485fd6f66d9a462d15f550347a
 s
 Csrc/main/java/com/travel_agency/exceptions/ValidationException.java,5\3\53e0a852950b76ada5fb6cecafa0bf5b49dabf7c
 l

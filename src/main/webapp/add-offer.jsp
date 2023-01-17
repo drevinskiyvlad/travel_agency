@@ -58,20 +58,33 @@
     <main class="content">
         <div class="offer-container">
             <div class="information">
-                <form accept-charset="UTF-8" role="form" action="createOffer" method="get">
+                <form accept-charset="UTF-8" role="form" action="updateOffer" method="get">
+                    <p><b>Місто</b>: <input type="text" name="city" class="form-control"
+                                            placeholder="Kyiv">
                     <p><b>Тип поїздки</b>:
                         <select id="offerType" name="offerType">
-                            <option value="rest">rest</option>
-                            <option value="excursion">excursion</option>
-                            <option value="shopping">shopping</option>
+                            <c:forEach items="${requestScope.offerTypes}" var="type">
+                                <option value="${type}">${type}</option>
+                            </c:forEach>
                         </select>
-                    <p><b>Транспортна компанія</b>:
-                    <p><b>Готель</b>:
-                    <p><b>Тип готелю</b>:
-                    <p><b>Знижка</b>: %</p>
-                    <p><b>Гаряча пропозиція</b>: %</p>
-
+                    <p><b>Готель</b>: <input type="text" name="hotelName" class="form-control"
+                                             placeholder="Hotel France"></p>
+                    <p><b>Тип Готелю</b>:
+                        <select id="hotelType" name="hotelType">
+                            <c:forEach items="${requestScope.hotelTypes}" var="type">
+                                <option value="${type}">${type}</option>
+                            </c:forEach>
+                        </select>
+                    <p><b>Кількість місць</b>: <input type="number" name="places" class="form-control"
+                                                      placeholder="100"> місць</p>
+                    <p><b>Ціна</b>:
+                        <input type="number" name="price" step="0.1" class="form-control"
+                               placeholder="500">$
+                    </p>
+                    <p><b>Знижка</b>: <input type="number" name="discount" class="form-control"
+                                             placeholder="from 5 to 25">%</p>
                     <button type="submit" class="button">Додати</button>
+                </form>
                 </form>
 
                 <c:if test="${requestScope.error != null}">
