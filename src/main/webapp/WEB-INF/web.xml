@@ -4,6 +4,11 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
+<!--    <error-page>-->
+<!--        <exception-type>java.lang.Throwable</exception-type>-->
+<!--        <location>/error.jsp</location>-->
+<!--    </error-page>-->
+
     <filter>
         <filter-name>encoding-filter</filter-name>
         <filter-class>com.travel_agency.filters.EncodingFilter</filter-class>
@@ -15,6 +20,20 @@
     
     <filter-mapping>
         <filter-name>encoding-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>session-locale-filter</filter-name>
+        <filter-class>com.travel_agency.filters.SessionLocaleFilter</filter-class>
+        <init-param>
+            <param-name>baseLanguage</param-name>
+            <param-value>ua</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>session-locale-filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

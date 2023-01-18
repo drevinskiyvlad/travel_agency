@@ -990,6 +990,16 @@ table {
     border-color: #E42626;
 }
 
+.social-links a.ua:hover {
+    color: #51BAFF;
+    border-color: #51BAFF;
+}
+
+.social-links a.en:hover {
+    color: #FF7B51;
+    border-color: #FF7B51;
+}
+
 .filterable-items .filterable-item {
     -webkit-transition-property: -webkit-transform, opacity;
     transition-property: transform, opacity;

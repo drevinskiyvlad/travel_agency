@@ -1,7 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="language"/>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${sessionScope.lang}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,20 +32,21 @@
             <div class="header-content">
                 <div class="branding">
                     <img src="images/logo.png" alt="Company Name" class="logo">
-                    <h1 class="site-title"><a href="index.jsp">Travel agency</a></h1>
-                    <small class="site-description">Подорожуйте разом з нами</small>
+                    <h1 class="site-title"><a href="index.jsp"><fmt:message key="header.companyName"/></a></h1>
+                    <small class="site-description"><fmt:message key="header.tagline"/></small>
                 </div>
 
                 <nav class="main-navigation">
                     <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
                     <ul class="menu">
-                        <li class="menu-item  current-menu-item"><a href="our-offer.jsp">Наші пропозиції</a></li>
+                        <li class="menu-item current-menu-item"><a href="our-offer.jsp"><fmt:message key="header.ourOffer"/></a></li>
                         <c:if test="${sessionScope.user == null}">
-                            <li class="menu-item"><a href="user-cabinet.jsp">Увійти</a></li>
+                            <li class="menu-item"><a href="user-cabinet.jsp"><fmt:message
+                                    key="header.userCabinetUnlogined"/></a></li>
                         </c:if>
                         <c:if test="${sessionScope.user != null}">
-                            <li class="menu-item"><a href="user-cabinet.jsp">До
-                                кабінету: ${sessionScope.user.firstName}</a></li>
+                            <li class="menu-item"><a href="user-cabinet.jsp"><fmt:message
+                                    key="header.userCabinet"/> ${sessionScope.user.firstName}</a></li>
                         </c:if>
                     </ul>
                 </nav>
@@ -51,10 +57,14 @@
                     <a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
                     <a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
                 </div>
+                <div class="social-links">
+                    <a href="?sessionLocale=ua" class="ua"><img src="images/ukraine.png" alt="ua"></a>
+                    <a href="?sessionLocale=en" class="en"><img src="images/usa.png" alt="en"></a>
+                </div>
             </div>
             <nav class="breadcrumbs">
-                <a href="index.jsp">Головна</a> &rarr;
-                <span>Наші пропозиції</span>
+                <a href="index.jsp"><fmt:message key="header.mainPage"/></a> &rarr;
+                <span><fmt:message key="header.ourOffer"/></span>
             </nav>
         </div>
     </header> <!-- .site-header -->
@@ -65,7 +75,7 @@
 
                 <c:if test="${sessionScope.user.role == 'admin'}">
                     <div class="add-offer-button">
-                        <a href="add-offer.jsp" class="button">Створити пропозицію</a>
+                        <a href="add-offer.jsp" class="button"><fmt:message key="ourOffer.addOffer"/></a>
                     </div>
                 </c:if>
 
@@ -80,15 +90,15 @@
                             <article class="offer offer-item">
                                 <figure class="featured-image"><img src="images/cities/${offer.city}.jpg"
                                                                     alt="${offer.city}"></figure>
-                                <h2 class="entry-title"><a href=""><b>Путівка до</b> ${offer.city}</a></h2>
-                                <p><b>Тип</b>: ${offer.offerType}</p>
-                                <p><b>Готель</b>: ${offer.hotel}</p>
-                                <p><b>Тип готелю</b>: ${offer.hotelType}</p>
-                                <p><b>Кількість місць</b>: ${offer.places}</p>
-                                <p><b>Всього за</b>:
+                                <h2 class="entry-title"><b><fmt:message key="ourOffer.offer.tripTo"/></b> ${offer.city}</h2>
+                                <p><b><fmt:message key="ourOffer.offer.type"/></b>: ${offer.offerType}</p>
+                                <p><b><fmt:message key="ourOffer.offer.hotel"/></b>: ${offer.hotel}</p>
+                                <p><b><fmt:message key="ourOffer.offer.hotelType"/></b>: ${offer.hotelType}</p>
+                                <p><b><fmt:message key="ourOffer.offer.places"/></b>: ${offer.places}</p>
+                                <p><b><fmt:message key="ourOffer.offer.price"/></b>:
                                     <s>${String.format("%.2f", offer.fullPrice)}$</s> ${String.format("%.2f", offer.price)}$
                                 </p>
-                                <a href="offer.jsp?code=${offer.code}" class="button">Подивитись деталі</a>
+                                <a href="offer.jsp?code=${offer.code}" class="button"><fmt:message key="ourOffer.offer.details"/></a>
                             </article>
                         </div>
                     </c:forEach>
@@ -119,12 +129,12 @@
             <div class="container">
                 <div class="branding pull-left">
                     <img src="images/logo-footer.png" alt="Company Name" class="logo">
-                    <h1 class="site-title"><a href="index.jsp">Travel agency</a></h1>
-                    <small class="site-description">Ми покажемо вам іншу сторону цього світу</small>
+                    <h1 class="site-title"><a href="index.jsp"><fmt:message key="header.companyName"/></a></h1>
+                    <small class="site-description"><fmt:message key="footer.tagline"/></small>
                 </div>
 
                 <div class="contact-links pull-right">
-                    <i class="fa fa-map-marker"></i> Провулок Бандери 15, Київ<br>
+                    <i class="fa fa-map-marker"></i> <fmt:message key="footer.address"/><br>
                     <i class="fa fa-phone"></i> +380 68 111 22 33<br>
                     <i class="fa fa-envelope"></i> doe@companyname.com
                 </div>
