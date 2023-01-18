@@ -1,6 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -188,21 +188,10 @@
                         </c:forEach>
                         </tbody>
                     </table>
-<%--                    <div class="pagination wow fadeInUp">--%>
-<%--                        <c:forEach begin="1" end="${requestScope.numberOfPagesInOrders}" var="i">--%>
-<%--                            <c:choose>--%>
-<%--                                <c:when test="${requestScope.currentOrderPage eq i}">--%>
-<%--                                    <span class="page-numbers current">${i}</span>--%>
-<%--                                </c:when>--%>
-<%--                                <c:otherwise>--%>
-<%--                                    <a href="orderPagination?orderListPage=${i}" class="page-numbers">${i}</a>--%>
-<%--                                </c:otherwise>--%>
-<%--                            </c:choose>--%>
-<%--                        </c:forEach>--%>
-<%--                    </div>--%>
+
                     <my:pagination numberOfPages="${requestScope.numberOfPagesInOrders}"
                                    currentPage="${requestScope.currentOrderPage}"
-                                   redirectTo="orderPagination"/>
+                                   redirectTo="orderPagination?orderListPage="/>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'admin'}">
                     <br>
@@ -260,18 +249,9 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div class="pagination wow fadeInUp">
-                        <c:forEach begin="1" end="${requestScope.numberOfPagesInUserList}" var="i">
-                            <c:choose>
-                                <c:when test="${requestScope.currentPage eq i}">
-                                    <span class="page-numbers current">${i}</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="userPagination?userListPage=${i}" class="page-numbers">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </div>
+                    <my:pagination numberOfPages="${requestScope.numberOfPagesInUserList}"
+                                   currentPage="${requestScope.currentPage}"
+                                   redirectTo="userPagination?userListPage="/>
                 </c:if>
 
 

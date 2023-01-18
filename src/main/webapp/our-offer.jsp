@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -103,19 +104,9 @@
                         </div>
                     </c:forEach>
                 </div>
-
-                <div class="pagination wow fadeInUp">
-                    <c:forEach begin="1" end="${requestScope.numberOfPagesInOffers}" var="i">
-                        <c:choose>
-                            <c:when test="${requestScope.currentPage eq i}">
-                                <span class="page-numbers current">${i}</span>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="offerPagination?offerListPage=${i}" class="page-numbers">${i}</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </div>
+                <my:pagination numberOfPages="${requestScope.numberOfPagesInOffers}"
+                               currentPage="${requestScope.currentPage}"
+                               redirectTo="offerPagination?offerListPage="/>
 
             </div>
 
