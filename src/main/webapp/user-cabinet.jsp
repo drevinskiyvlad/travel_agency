@@ -87,9 +87,7 @@
                 <h3><fmt:message key="userCabinet.lastName"/>: ${sessionScope.user.lastName}</h3><br>
                 <h3><fmt:message key="userCabinet.phone"/>: ${sessionScope.user.phone}</h3><br>
 
-                <form accept-charset="UTF-8" role="form" action="logout" method="get">
-                    <button type="submit" class="btn btn-black"><fmt:message key="userCabinet.exit"/></button>
-                </form>
+                <a href="controller?action=logout" class="btn btn-black"><fmt:message key="userCabinet.exit"/></a>
 
                 <br>
                 <hr>
@@ -122,7 +120,7 @@
                             <td>${order.orderStatus}</td>
                             <td>${String.format("%.2f", order.price)}$</td>
                             <td>
-                                <a href="deleteOrder?code=${order.code}">
+                                <a href="controller?action=deleteOrder&code=${order.code}">
                                     <fmt:message key="userCabinet.delete"/>
                                 </a>
                             </td>
@@ -164,7 +162,7 @@
                             </td>
                             <td>${order.userEmail}</td>
                             <td>
-                                <form accept-charset="UTF-8" role="form" action="updateOrderStatus" method="get">
+                                <form accept-charset="UTF-8" role="form" action="controller?action=updateOrderStatus" method="post">
                                     <select name="orderStatus" id="orderStatus">
                                         <c:forEach items="${requestScope.orderStatuses}" var="status">
                                             <c:choose>
@@ -216,7 +214,7 @@
                             <tr>
                                 <td>${user.email}</td>
                                 <td>
-                                    <form accept-charset="UTF-8" role="form" action="updateUserRole" method="get">
+                                    <form accept-charset="UTF-8" role="form" action="controller?action=updateUserRole" method="post">
                                         <select name="userRole" id="userRole">
                                             <c:forEach items="${requestScope.userRoles}" var="role">
                                                 <c:choose>
@@ -240,7 +238,7 @@
                                 <td>${user.phone}</td>
                                 <td>${user.blocked}</td>
                                 <td>
-                                    <a href="blockUser?email=${user.email}">
+                                    <a href="controller?action=blockUser&email=${user.email}">
                                         <c:if test="${user.isBlocked() == false}"><fmt:message key="userCabinet.block"/></c:if>
                                         <c:if test="${user.isBlocked() == true}"><fmt:message key="userCabinet.unblock"/></c:if>
                                     </a>

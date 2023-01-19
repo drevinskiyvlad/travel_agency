@@ -73,7 +73,7 @@
     <main class="content">
         <div class="offer-container" style="width:100%">
             <div class="information">
-                <form accept-charset="UTF-8" role="form" action="addOffer" method="get">
+                <form accept-charset="UTF-8" role="form" action="controller?action=addOffer" method="post">
                     <p><b><fmt:message key="offer.city"/></b>: <input type="text" name="city" class="form-control"
                                             placeholder="Kyiv">
                     <p><b><fmt:message key="offer.type"/></b>:

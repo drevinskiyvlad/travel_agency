@@ -58,7 +58,7 @@
         <div class="col-md-6 col-sm-12">
             <div class="login-form">
                 <c:if test="${sessionScope.user == null}">
-                    <form accept-charset="UTF-8" role="form" action="authorization" method="post">
+                    <form accept-charset="UTF-8" role="form" action="controller?action=signIn" method="post">
                     <div class="form-group">
                         <label><fmt:message key="auth.email"/></label>
                         <input type="text" name="email" class="form-control" placeholder="doe@example.com">

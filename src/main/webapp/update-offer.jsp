@@ -83,7 +83,7 @@
                     <h2 class="entry-title"><b><fmt:message key="offer.tour"/></b> ${requestScope.offerItem.city}</h2>
                 </c:if>
 
-                <form accept-charset="UTF-8" role="form" action="updateOffer" method="get">
+                <form accept-charset="UTF-8" role="form" action="controller?action=updateOffer" method="post">
                     <p><b><fmt:message key="offer.type"/></b>:
                         <select id="offerType" name="offerType">
                             <c:forEach items="${requestScope.offerTypes}" var="type">

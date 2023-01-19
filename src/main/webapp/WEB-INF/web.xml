@@ -4,10 +4,10 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
-<!--    <error-page>-->
-<!--        <exception-type>java.lang.Throwable</exception-type>-->
-<!--        <location>/error.jsp</location>-->
-<!--    </error-page>-->
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
 
     <filter>
         <filter-name>encoding-filter</filter-name>
@@ -67,7 +67,6 @@
         <filter-name>offer-item-filter</filter-name>
         <url-pattern>/offer.jsp</url-pattern>
         <url-pattern>/update-offer.jsp</url-pattern>
-        <url-pattern>/makeOrder</url-pattern>
     </filter-mapping>
 
     <filter>

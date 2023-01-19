@@ -57,7 +57,7 @@
     <div class="main">
         <div class="col-md-6 col-sm-12">
             <div class="login-form">
-                <form accept-charset="UTF-8" role="form" action="registration" method="post">
+                <form accept-charset="UTF-8" role="form" action="controller?action=signUp" method="post">
                     <c:if test="${sessionScope.invalid_registration_message != null}">
                         <Label>
                             <h4>${sessionScope.invalid_registration_message}</h4><hr>

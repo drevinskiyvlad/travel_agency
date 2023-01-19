@@ -90,14 +90,14 @@
                 </p>
                 <p><b><fmt:message key="offer.discount"/></b>: ${String.format("%.0f", requestScope.offerItem.discount * 100)}%</p>
                 <c:if test="${sessionScope.user.role == 'user'}">
-                    <a href="makeOrder?code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.order"/></a>
+                    <a href="controller?action=makeOrder&code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.order"/></a>
                 </c:if>
                 <c:if test="${sessionScope.user != null && sessionScope.user.role != 'user' && requestScope.offerItem.isHot() == false}">
-                    <a href="makeOfferHot?code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.makeHot"/></a>
+                    <a href="controller?action=makeOfferHot&code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.makeHot"/></a>
                 </c:if>
 
                 <c:if test="${sessionScope.user.role == 'admin'}">
-                    <a href="deleteOffer?code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.delete"/></a>
+                    <a href="controller?action=deleteOffer&code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.delete"/></a>
                     <a href="update-offer.jsp?code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.edit"/></a>
                 </c:if>
 

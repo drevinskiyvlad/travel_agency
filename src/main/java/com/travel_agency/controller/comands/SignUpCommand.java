@@ -1,13 +1,13 @@
-package com.travel_agency.controllers;
+package com.travel_agency.controller.comands;
 
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
+import com.travel_agency.controller.Command;
+import com.travel_agency.controller.Path;
+import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.UserService;
-import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.utils.ValidationMessageConstants;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -16,21 +16,18 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/registration")
-public class RegistrationServlet extends HttpServlet {
-
-    private static final Logger logger = LogManager.getLogger(RegistrationServlet.class);
+public class SignUpCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(SignUpCommand.class);
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectPage = "user-cabinet.jsp";
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String redirectPage = Path.USER_CABINET;
         req.getSession().removeAttribute("invalid_registration_message");
 
         Connection con = null;
 
         try {
-            DBManager manager = DBManager.getInstance();
-            con = manager.getConnection();
+            con = DBManager.getInstance().getConnection();
             UserDTO userDTO = initializeUserDTO(req);
             String password = req.getParameter("password");
 
@@ -42,15 +39,16 @@ public class RegistrationServlet extends HttpServlet {
             req.getSession().setAttribute("user", userDTO);
         }catch(ValidationException e){
             req.getSession().setAttribute("invalid_registration_message", e.getMessage());
-            redirectPage = "registration.jsp";
+            redirectPage = Path.REGISTRATION;
         }catch(Exception e){
             logger.error("Unable to register user: " + e.getMessage(), e);
-            redirectPage = "error.jsp";
+            redirectPage = Path.ERROR;
         }finally{
-                DBManager.closeConnection(con);
+            DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
+        return Path.COMMAND_REDIRECT;
     }
 
     private UserDTO initializeUserDTO(HttpServletRequest req) throws ValidationException {

@@ -1,11 +1,11 @@
-package com.travel_agency.controllers;
+package com.travel_agency.controller.comands;
 
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
+import com.travel_agency.controller.Command;
+import com.travel_agency.controller.Path;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.services.UserService;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -14,27 +14,26 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/blockUser")
-public class BlockUserServlet extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger(BlockUserServlet.class);
+public class BlockUserCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(BlockUserCommand.class);
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectionPage = "user-cabinet.jsp";
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String redirectionPage = Path.USER_CABINET;
 
         try {
             String email = req.getParameter("email");
             updateUserBlockedStatus(email);
-            logger.info("User {} successfully banned",email);
+            logger.info("User {} successfully changed block status",email);
         } catch (Exception e) {
             logger.error("Unable to change blocked status" + e.getMessage(),e);
-            redirectionPage = "error.jsp";
+            redirectionPage = Path.ERROR;
         }
         resp.sendRedirect(redirectionPage);
+        return Path.COMMAND_REDIRECT;
     }
 
     private static void updateUserBlockedStatus(String email) throws DAOException {
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
+        Connection con = DBManager.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(con);
         UserService service = new UserService(userDAO);
         service.changeUserBlocked(email);
