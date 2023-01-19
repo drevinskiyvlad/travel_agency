@@ -1,7 +1,7 @@
 package org.travel_agency.DB.DAO;
 
-import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
-import com.travel_agency.models.DAO.User;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.entity.User;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

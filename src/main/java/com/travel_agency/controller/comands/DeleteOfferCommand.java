@@ -1,7 +1,7 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.DB.DBManager;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;

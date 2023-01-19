@@ -1,13 +1,13 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.DB.DBManager;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
-import com.travel_agency.models.DTO.OfferDTO;
-import com.travel_agency.models.services.OfferService;
+import com.travel_agency.model.DTO.OfferDTO;
+import com.travel_agency.model.services.OfferService;
 import com.travel_agency.utils.RandomStringGenerator;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import jakarta.servlet.http.HttpServletRequest;

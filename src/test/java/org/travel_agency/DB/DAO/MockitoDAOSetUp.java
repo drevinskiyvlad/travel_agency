@@ -1,11 +1,11 @@
 package org.travel_agency.DB.DAO;
 
 import com.travel_agency.utils.Constants.MySQLDAOConstants;
-import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.DB.DAO.impl.MySQL.MySQLOrderDAO;
-import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
-import com.travel_agency.DB.Fields;
-import com.travel_agency.models.DAO.*;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.DB.Fields;
+import com.travel_agency.model.entity.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

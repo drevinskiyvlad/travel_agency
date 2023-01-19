@@ -1,11 +1,11 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
-import com.travel_agency.DB.DBManager;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.exceptions.DAOException;
-import com.travel_agency.models.DAO.User;
+import com.travel_agency.model.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;

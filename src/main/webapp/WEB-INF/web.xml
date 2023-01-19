@@ -11,7 +11,7 @@
 
     <filter>
         <filter-name>encoding-filter</filter-name>
-        <filter-class>com.travel_agency.filters.EncodingFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.EncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -25,7 +25,7 @@
 
     <filter>
         <filter-name>session-locale-filter</filter-name>
-        <filter-class>com.travel_agency.filters.SessionLocaleFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.SessionLocaleFilter</filter-class>
         <init-param>
             <param-name>baseLanguage</param-name>
             <param-value>ua</param-value>
@@ -39,7 +39,7 @@
 
     <filter>
         <filter-name>auth-filter</filter-name>
-        <filter-class>com.travel_agency.filters.AuthCheckFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.AuthCheckFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -50,7 +50,7 @@
 
     <filter>
         <filter-name>offer-list-filter</filter-name>
-        <filter-class>com.travel_agency.filters.OfferListFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.OfferListFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -61,7 +61,7 @@
 
     <filter>
         <filter-name>offer-item-filter</filter-name>
-        <filter-class>com.travel_agency.filters.OfferItemFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.OfferItemFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -72,7 +72,7 @@
 
     <filter>
         <filter-name>types-offer-filter</filter-name>
-        <filter-class>com.travel_agency.filters.TypesOfferFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.TypesOfferFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -83,7 +83,7 @@
 
     <filter>
         <filter-name>user-cabinet-filling-filter</filter-name>
-        <filter-class>com.travel_agency.filters.UserCabinetFillingFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.UserCabinetFillingFilter</filter-class>
     </filter>
 
     <filter-mapping>

@@ -1,6 +1,6 @@
 package com.travel_agency.utils;
 
-import com.travel_agency.models.DAO.User;
+import com.travel_agency.model.entity.User;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
