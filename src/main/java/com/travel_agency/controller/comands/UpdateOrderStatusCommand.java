@@ -3,7 +3,7 @@ package com.travel_agency.controller.comands;
 import com.travel_agency.DB.DAO.OrderDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.Order;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ public class UpdateOrderStatusCommand implements Command {
     private static final Logger logger = LogManager.getLogger(UpdateOrderStatusCommand.class);
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectionPage = Path.USER_CABINET;
+        String redirectionPage = PathConstants.USER_CABINET;
         Connection con = null;
         try {
             String code = req.getParameter("code");
@@ -30,12 +30,12 @@ public class UpdateOrderStatusCommand implements Command {
             logger.info("Manager updated order status with code: " + code + " to " + status);
         } catch (Exception e) {
             logger.error("Unable to update order" + e.getMessage());
-            redirectionPage = Path.ERROR;
+            redirectionPage = PathConstants.ERROR;
         } finally {
             DBManager.closeConnection(con);
         }
         resp.sendRedirect(redirectionPage);
-        return Path.COMMAND_REDIRECT;
+        return PathConstants.COMMAND_REDIRECT;
     }
 
     private static void updateStatus(Connection con, String code, String status) throws DAOException {

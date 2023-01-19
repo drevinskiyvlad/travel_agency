@@ -3,7 +3,7 @@ package com.travel_agency.controller.comands;
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.UserService;
@@ -20,7 +20,7 @@ public class SignInCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("invalid_authorization_message");
-        String redirectPage = Path.USER_CABINET;
+        String redirectPage = PathConstants.USER_CABINET;
 
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -39,13 +39,13 @@ public class SignInCommand implements Command {
             req.getSession().setAttribute("invalid_authorization_message", e.getMessage());
         } catch(Exception e){
             logger.error("User dont signed in: " + e.getMessage(), e);
-            redirectPage = Path.ERROR;
+            redirectPage = PathConstants.ERROR;
         } finally{
             DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
 
-        return(Path.COMMAND_REDIRECT);
+        return(PathConstants.COMMAND_REDIRECT);
     }
 }

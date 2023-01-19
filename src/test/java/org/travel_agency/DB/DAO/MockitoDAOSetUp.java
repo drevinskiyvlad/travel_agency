@@ -1,6 +1,6 @@
 package org.travel_agency.DB.DAO;
 
-import com.travel_agency.DB.Constants;
+import com.travel_agency.utils.Constants.DAOConstants;
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DAO.OrderDAO;
 import com.travel_agency.DB.DAO.UserDAO;
@@ -20,9 +20,9 @@ public class MockitoDAOSetUp {
 
     //All user setups
     protected static void ReadUser(User user, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.FIND_USER)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_USER_BY_ID)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_USER_ROLE_BY_ID)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_USER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_USER_BY_ID)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_USER_ROLE_BY_ID)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         if (withResultSet)
             when(rs.next()).thenReturn(true);
@@ -38,8 +38,8 @@ public class MockitoDAOSetUp {
     }
 
     protected static void CreateUser(User user, UserDAO dao, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.ADD_USER)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.ADD_USER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_USER_ROLE_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
         ps.setString(1, user.getEmail());
@@ -52,9 +52,9 @@ public class MockitoDAOSetUp {
     }
 
     protected static void UpdateRole(User user, String newRole, UserDAO dao, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.CHANGE_USER_ROLE))
+        when(con.prepareStatement(DAOConstants.CHANGE_USER_ROLE))
                 .thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME))
+        when(con.prepareStatement(DAOConstants.FIND_USER_ROLE_BY_NAME))
                 .thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
@@ -65,13 +65,13 @@ public class MockitoDAOSetUp {
     }
 
     protected static void DeleteUser(User user, Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(Constants.DELETE_USER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.DELETE_USER)).thenReturn(ps);
         ps.setString(1, user.getEmail());
         when(ps.executeUpdate()).thenReturn(1);
     }
 
     protected static void ReadAllUsers(User user, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.FIND_ALL_USERS)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_ALL_USERS)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true)//for addUsersToList
                 .thenReturn(true)//for read user
@@ -84,9 +84,9 @@ public class MockitoDAOSetUp {
 
     //All offer setups
     protected static void CreateOffer(Offer offer, OfferDAO dao, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.ADD_OFFER)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_OFFER_TYPE_BY_NAME)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_NAME)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.ADD_OFFER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_OFFER_TYPE_BY_NAME)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_HOTEL_TYPE_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
         ps.setString(1, offer.getCode());
@@ -100,10 +100,10 @@ public class MockitoDAOSetUp {
     }
 
     protected static void ReadOffer(Offer offer, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.FIND_OFFER)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_OFFER_BY_ID)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_OFFER_TYPE_BY_ID)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_ID)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_OFFER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_OFFER_BY_ID)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_OFFER_TYPE_BY_ID)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_HOTEL_TYPE_BY_ID)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         if (withResultSet) when(rs.next()).thenReturn(true);
         when(rs.getInt(Fields.OFFER_ID)).thenReturn(offer.getId());
@@ -121,24 +121,24 @@ public class MockitoDAOSetUp {
     }
 
     protected static void UpdateOfferIsHot(Offer offer, boolean isHot, Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(Constants.CHANGE_OFFER_IS_HOT)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.CHANGE_OFFER_IS_HOT)).thenReturn(ps);
         ps.setBoolean(1, isHot);
         ps.setString(2, offer.getCode());
     }
 
     protected static void UpdateOfferVacancy(Offer offer, int vacancy, Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(Constants.CHANGE_OFFER_PLACES)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.CHANGE_OFFER_PLACES)).thenReturn(ps);
         ps.setInt(1, vacancy);
         ps.setString(2, offer.getCode());
     }
 
     protected static void DeleteOffer(Offer offer, Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(Constants.DELETE_OFFER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.DELETE_OFFER)).thenReturn(ps);
         ps.setString(1, offer.getCode());
     }
 
     protected static void ReadAllOffers(Offer offer, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.FIND_ALL_OFFERS)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_ALL_OFFERS)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true)//for addOffersToList
                 .thenReturn(true)//for read offer
@@ -152,8 +152,8 @@ public class MockitoDAOSetUp {
 
     //All order setups
     protected static void CreateOrder(Order order, OrderDAO dao, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.ADD_ORDER)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_ORDER_STATUS_BY_NAME)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.ADD_ORDER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_ORDER_STATUS_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
         ps.setString(1, order.getCode());
@@ -163,8 +163,8 @@ public class MockitoDAOSetUp {
     }
 
     protected static void ReadOrder(Order order, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.FIND_ORDER)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_ORDER_STATUS_BY_ID)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_ORDER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_ORDER_STATUS_BY_ID)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         if (withResultSet) when(rs.next()).thenReturn(true);
         when(rs.getInt(Fields.ORDER_ID)).thenReturn(order.getId());
@@ -178,8 +178,8 @@ public class MockitoDAOSetUp {
     }
 
     protected static void UpdateOrderStatus(Order order, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.CHANGE_ORDER_STATUS)).thenReturn(ps);
-        when(con.prepareStatement(Constants.FIND_ORDER_STATUS_BY_NAME)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.CHANGE_ORDER_STATUS)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_ORDER_STATUS_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
         ps.setInt(1, 3);
@@ -187,12 +187,12 @@ public class MockitoDAOSetUp {
     }
 
     protected static void DeleteOrder(Order order, Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(Constants.DELETE_ORDER)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.DELETE_ORDER)).thenReturn(ps);
         ps.setString(1, order.getCode());
     }
 
     protected static void ReadAllOrders(Order order, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(Constants.FIND_ALL_ORDERS)).thenReturn(ps);
+        when(con.prepareStatement(DAOConstants.FIND_ALL_ORDERS)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true)//for addOrdersToList
                 .thenReturn(true)//for read order

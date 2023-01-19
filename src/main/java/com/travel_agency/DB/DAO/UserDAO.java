@@ -1,6 +1,6 @@
 package com.travel_agency.DB.DAO;
 
-import com.travel_agency.DB.Constants;
+import com.travel_agency.utils.Constants.DAOConstants;
 import com.travel_agency.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.User;
@@ -28,7 +28,7 @@ public class UserDAO implements DAO<User, String> {
 
     @Override
     public boolean create(User user) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.ADD_USER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.ADD_USER)) {
 
             setVariablesToCreateStatement(user, ps);
             ps.executeUpdate();
@@ -45,7 +45,7 @@ public class UserDAO implements DAO<User, String> {
         ResultSet rs = null;
         PreparedStatement ps = null;
         try {
-            ps = con.prepareStatement(Constants.FIND_USER);
+            ps = con.prepareStatement(DAOConstants.FIND_USER);
             ps.setString(1, email);
             rs = ps.executeQuery();
 
@@ -64,7 +64,7 @@ public class UserDAO implements DAO<User, String> {
 
     public User read(int id) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_BY_ID)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_USER_BY_ID)) {
 
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -83,7 +83,7 @@ public class UserDAO implements DAO<User, String> {
 
     @Override
     public boolean update(User user, String newRole) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_ROLE)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.CHANGE_USER_ROLE)) {
             int roleId = readUserRole(newRole);
             ps.setInt(1, roleId);
             ps.setString(2, user.getEmail());
@@ -96,7 +96,7 @@ public class UserDAO implements DAO<User, String> {
     }
 
     public boolean update(boolean value, String email) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_USER_BLOCKED)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.CHANGE_USER_BLOCKED)) {
             ps.setBoolean(1, value);
             ps.setString(2, email);
             ps.executeUpdate();
@@ -109,7 +109,7 @@ public class UserDAO implements DAO<User, String> {
 
     @Override
     public boolean delete(User user) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_USER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.DELETE_USER)) {
             ps.setString(1, user.getEmail());
             ps.executeUpdate();
             return true;
@@ -123,7 +123,7 @@ public class UserDAO implements DAO<User, String> {
     public List<User> readAll(int offset, int numOfRecords) throws DAOException {
         List<User> result = new CopyOnWriteArrayList<>();
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USERS)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_USERS)) {
             ps.setInt(1, offset);
             ps.setInt(2, numOfRecords);
             rs = ps.executeQuery();
@@ -131,7 +131,7 @@ public class UserDAO implements DAO<User, String> {
 
             rs.close();
 
-            rs = ps.executeQuery(Constants.USER_GET_NUMBER_OF_RECORDS);
+            rs = ps.executeQuery(DAOConstants.USER_GET_NUMBER_OF_RECORDS);
             if (rs.next())
                 this.numberOfPages = (int) Math.ceil(rs.getInt(1) * 1.0 / numOfRecords);
 
@@ -146,7 +146,7 @@ public class UserDAO implements DAO<User, String> {
 
     public List<String> readAllUserRoles() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_USER_ROLES);
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_USER_ROLES);
              ResultSet rs = ps.executeQuery()) {
             addUserRolesToList(result, rs);
         } catch (SQLException e) {
@@ -165,7 +165,7 @@ public class UserDAO implements DAO<User, String> {
 
     public int readUserRole(String name) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_NAME)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_USER_ROLE_BY_NAME)) {
             ps.setString(1, name);
             rs = ps.executeQuery();
 
@@ -183,7 +183,7 @@ public class UserDAO implements DAO<User, String> {
 
     public String readUserRole(int id) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_USER_ROLE_BY_ID)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_USER_ROLE_BY_ID)) {
 
             ps.setInt(1, id);
             rs = ps.executeQuery();

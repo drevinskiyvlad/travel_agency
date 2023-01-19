@@ -3,7 +3,7 @@ package com.travel_agency.controller.comands;
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.models.DTO.OfferDTO;
 import com.travel_agency.models.services.OfferService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ public class MakeOfferHotCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectionPage = Path.OUR_OFFER;
+        String redirectionPage = PathConstants.OUR_OFFER;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
@@ -37,12 +37,12 @@ public class MakeOfferHotCommand implements Command {
             logger.info("Offer with code {} successfuly made hot", code);
         } catch (Exception e) {
             logger.error("Unable to make offer hot: " + e.getMessage(), e);
-            redirectionPage = Path.ERROR;
+            redirectionPage = PathConstants.ERROR;
         } finally {
             DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectionPage);
-        return Path.COMMAND_REDIRECT;
+        return PathConstants.COMMAND_REDIRECT;
     }
 }

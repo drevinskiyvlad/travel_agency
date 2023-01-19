@@ -3,7 +3,7 @@ package com.travel_agency.controller.comands;
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.models.DTO.OfferDTO;
 import com.travel_agency.models.services.OfferService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ public class DeleteOfferCommand implements Command {
     private static final Logger logger = LogManager.getLogger(DeleteOfferCommand.class);
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectPage = Path.OUR_OFFER;
+        String redirectPage = PathConstants.OUR_OFFER;
 
         Connection con = null;
         try {
@@ -31,18 +31,18 @@ public class DeleteOfferCommand implements Command {
 
             if (!service.deleteOffer(offerDTO)) {
                 req.setAttribute("error", "Something went wrong, try again");
-                redirectPage = Path.OFFER + "?code=" + code;
+                redirectPage = PathConstants.OFFER + "?code=" + code;
             }
 
             logger.info("Deleted offer with code: " + code);
         } catch (Exception e) {
             logger.error("Unable to delete offer: " + e.getMessage(), e);
-            redirectPage = Path.ERROR;
+            redirectPage = PathConstants.ERROR;
         } finally {
             DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
-        return Path.COMMAND_REDIRECT;
+        return PathConstants.COMMAND_REDIRECT;
     }
 }

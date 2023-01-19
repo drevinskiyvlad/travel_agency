@@ -3,7 +3,7 @@ package com.travel_agency.controller.comands;
 import com.travel_agency.DB.DAO.OrderDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +16,7 @@ public class DeleteOrderCommand implements Command {
     private static final Logger logger = LogManager.getLogger(DeleteOrderCommand.class);
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectionPage = Path.USER_CABINET;
+        String redirectionPage = PathConstants.USER_CABINET;
         Connection con = null;
         try {
             String code = req.getParameter("code");
@@ -28,12 +28,12 @@ public class DeleteOrderCommand implements Command {
             logger.info("User deleted order with code: " + code);
         } catch (Exception e) {
             logger.error("Unable to delete order" + e.getMessage());
-            redirectionPage = Path.ERROR;
+            redirectionPage = PathConstants.ERROR;
         } finally {
             DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectionPage);
-        return Path.COMMAND_REDIRECT;
+        return PathConstants.COMMAND_REDIRECT;
     }
 }

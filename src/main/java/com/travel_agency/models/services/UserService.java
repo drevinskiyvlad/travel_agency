@@ -5,7 +5,7 @@ import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DAO.User;
 import com.travel_agency.models.DTO.UserDTO;
-import com.travel_agency.utils.ValidationMessageConstants;
+import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import com.travel_agency.utils.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

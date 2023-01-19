@@ -1,4 +1,4 @@
-package com.travel_agency.utils;
+package com.travel_agency.utils.Constants;
 
 public class ValidationMessageConstants {
     private ValidationMessageConstants() {

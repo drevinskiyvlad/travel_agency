@@ -4,7 +4,7 @@ import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DAO.OrderDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.models.DTO.OfferDTO;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.OfferService;
@@ -21,7 +21,7 @@ public class MakeOrderCommand implements Command {
     private static final Logger logger = LogManager.getLogger(MakeOrderCommand.class);
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectPage = Path.OUR_OFFER;
+        String redirectPage = PathConstants.OUR_OFFER;
 
         Connection con = null;
         try {
@@ -40,13 +40,13 @@ public class MakeOrderCommand implements Command {
             logger.info("User {} successfully made order", userDTO.getEmail());
         } catch (Exception e) {
             logger.error("Unable to make order: " + e.getMessage(), e);
-            redirectPage = Path.ERROR;
+            redirectPage = PathConstants.ERROR;
         } finally {
             DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
-        return Path.COMMAND_REDIRECT;
+        return PathConstants.COMMAND_REDIRECT;
     }
 
     private OfferDTO getOfferDTO(HttpServletRequest req, Connection con) {

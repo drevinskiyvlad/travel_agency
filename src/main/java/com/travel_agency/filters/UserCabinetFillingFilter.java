@@ -1,6 +1,5 @@
 package com.travel_agency.filters;
 
-import com.travel_agency.DB.DAO.DAO;
 import com.travel_agency.DB.DAO.OrderDAO;
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
@@ -9,7 +8,7 @@ import com.travel_agency.models.DTO.OrderDTO;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.OrderService;
 import com.travel_agency.models.services.UserService;
-import com.travel_agency.pagination.PaginationConstants;
+import com.travel_agency.utils.Constants.PaginationConstants;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;

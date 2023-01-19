@@ -3,12 +3,12 @@ package com.travel_agency.controller.comands;
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DTO.OfferDTO;
 import com.travel_agency.models.services.OfferService;
-import com.travel_agency.utils.ValidationMessageConstants;
+import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +24,7 @@ public class UpdateOfferCommand implements Command {
         req.getSession().removeAttribute("error");
 
         String code = req.getParameter("code");
-        String redirectPage = Path.OUR_OFFER;
+        String redirectPage = PathConstants.OUR_OFFER;
         Connection con = null;
 
         try {
@@ -39,16 +39,16 @@ public class UpdateOfferCommand implements Command {
         } catch (ValidationException e) {
             req.getSession().setAttribute("error", e.getMessage());
             logger.error("Invalid parameters while updating offer: " + e.getMessage());
-            redirectPage = Path.UPDATE_OFFER + "?code=" + code;
+            redirectPage = PathConstants.UPDATE_OFFER + "?code=" + code;
         } catch (Exception e) {
             logger.error("Unable to update offer:" + e.getMessage(), e);
-            redirectPage = Path.ERROR;
+            redirectPage = PathConstants.ERROR;
         } finally {
             DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
-        return Path.COMMAND_REDIRECT;
+        return PathConstants.COMMAND_REDIRECT;
     }
 
     private boolean updateOffer(HttpServletRequest req, OfferService service,String code) throws DAOException, ValidationException {

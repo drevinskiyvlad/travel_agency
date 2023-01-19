@@ -1,6 +1,6 @@
 package com.travel_agency.DB.DAO;
 
-import com.travel_agency.DB.Constants;
+import com.travel_agency.utils.Constants.DAOConstants;
 import com.travel_agency.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.Offer;
@@ -28,7 +28,7 @@ public class OfferDAO{
 
 
     public boolean create(Offer offer) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.ADD_OFFER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.ADD_OFFER)) {
 
             setVariablesToCreateStatement(offer, ps);
             ps.executeUpdate();
@@ -54,7 +54,7 @@ public class OfferDAO{
 
     public Offer read(String code) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_OFFER)) {
 
             ps.setString(1, code);
             rs = ps.executeQuery();
@@ -73,7 +73,7 @@ public class OfferDAO{
 
     public Offer read(int id) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER_BY_ID)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_OFFER_BY_ID)) {
 
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -113,7 +113,7 @@ public class OfferDAO{
     }
 
     public boolean update(Offer offer, boolean isHot) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_IS_HOT)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.CHANGE_OFFER_IS_HOT)) {
             ps.setBoolean(1, isHot);
             ps.setString(2, offer.getCode());
             ps.executeUpdate();
@@ -125,7 +125,7 @@ public class OfferDAO{
     }
 
     public boolean update(Offer offer, int newValue) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_PLACES)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.CHANGE_OFFER_PLACES)) {
             ps.setInt(1, newValue);
             ps.setString(2, offer.getCode());
             ps.executeUpdate();
@@ -139,7 +139,7 @@ public class OfferDAO{
 
 
     public boolean delete(Offer offer) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_OFFER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.DELETE_OFFER)) {
             ps.setString(1, offer.getCode());
             ps.executeUpdate();
             return true;
@@ -165,14 +165,14 @@ public class OfferDAO{
         if(notHotOffset<0) notHotOffset = 0;
 
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFERS)){
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_OFFERS)){
             ps.setInt(1,notHotOffset);
             ps.setInt(2,numOfNotHotRecords);
             rs = ps.executeQuery();
             addOffersToList(result, rs);
             rs.close();
 
-            rs = ps.executeQuery(Constants.OFFER_GET_NUMBER_OF_RECORDS);
+            rs = ps.executeQuery(DAOConstants.OFFER_GET_NUMBER_OF_RECORDS);
             if (rs.next())
                 numberOfNotHotPages = rs.getInt(1)*1.0 / numOfRecords;
 
@@ -188,14 +188,14 @@ public class OfferDAO{
     private List<Offer> readAllHot(int offset, int numOfRecords) throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>();
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_HOT_OFFERS)){
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_HOT_OFFERS)){
             ps.setInt(1,offset);
             ps.setInt(2,numOfRecords);
             rs = ps.executeQuery();
             addOffersToList(result, rs);
             rs.close();
 
-            rs = ps.executeQuery(Constants.HOT_OFFER_GET_NUMBER_OF_RECORDS);
+            rs = ps.executeQuery(DAOConstants.HOT_OFFER_GET_NUMBER_OF_RECORDS);
             if (rs.next()) {
                 numberOfHotRecords = rs.getInt(1);
                 numberOfHotPages = numberOfHotRecords * 1.0 / numOfRecords;
@@ -212,7 +212,7 @@ public class OfferDAO{
 
     public List<String> readAllHotelTypes() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_HOTEL_TYPES);
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_HOTEL_TYPES);
              ResultSet rs = ps.executeQuery()) {
             addHotelTypesToList(result, rs);
         } catch (SQLException e) {
@@ -224,7 +224,7 @@ public class OfferDAO{
 
     public List<String> readAllOfferTypes() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFER_TYPES);
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_OFFER_TYPES);
              ResultSet rs = ps.executeQuery()) {
             addOfferTypesToList(result, rs);
         } catch (SQLException e) {
@@ -236,7 +236,7 @@ public class OfferDAO{
 
     public int readOfferType(String name) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER_TYPE_BY_NAME)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_OFFER_TYPE_BY_NAME)) {
             ps.setString(1, name);
             rs = ps.executeQuery();
 
@@ -254,7 +254,7 @@ public class OfferDAO{
 
     public String readOfferType(int id) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER_TYPE_BY_ID)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_OFFER_TYPE_BY_ID)) {
             ps.setInt(1, id);
             rs = ps.executeQuery();
 
@@ -272,7 +272,7 @@ public class OfferDAO{
 
     public int readHotelType(String name) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_NAME)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_HOTEL_TYPE_BY_NAME)) {
             ps.setString(1, name);
             rs = ps.executeQuery();
 
@@ -290,7 +290,7 @@ public class OfferDAO{
 
     public String readHotelType(int id) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_HOTEL_TYPE_BY_ID)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_HOTEL_TYPE_BY_ID)) {
             ps.setInt(1, id);
             rs = ps.executeQuery();
 

@@ -3,7 +3,7 @@ package com.travel_agency.controller.comands;
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ public class BlockUserCommand implements Command {
     private static final Logger logger = LogManager.getLogger(BlockUserCommand.class);
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectionPage = Path.USER_CABINET;
+        String redirectionPage = PathConstants.USER_CABINET;
 
         try {
             String email = req.getParameter("email");
@@ -26,10 +26,10 @@ public class BlockUserCommand implements Command {
             logger.info("User {} successfully changed block status",email);
         } catch (Exception e) {
             logger.error("Unable to change blocked status" + e.getMessage(),e);
-            redirectionPage = Path.ERROR;
+            redirectionPage = PathConstants.ERROR;
         }
         resp.sendRedirect(redirectionPage);
-        return Path.COMMAND_REDIRECT;
+        return PathConstants.COMMAND_REDIRECT;
     }
 
     private static void updateUserBlockedStatus(String email) throws DAOException {

@@ -1,7 +1,7 @@
 package com.travel_agency.controller.comands;
 
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -18,6 +18,6 @@ public class LogoutCommand implements Command {
             session.invalidate();
         }
         logger.info("User logged out finished");
-        return Path.AUTHORIZATION;
+        return PathConstants.AUTHORIZATION;
     }
 }

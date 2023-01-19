@@ -1,7 +1,7 @@
-package com.travel_agency.DB;
+package com.travel_agency.utils.Constants;
 
-public class Constants {
-    private Constants(){}
+public class DAOConstants {
+    private DAOConstants(){}
 
     //User request constants
     public static final String ADD_USER = "INSERT INTO user(email, password, user_role_id, first_name, last_name, phone, blocked)" +

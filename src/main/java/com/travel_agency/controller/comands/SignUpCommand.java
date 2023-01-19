@@ -3,11 +3,11 @@ package com.travel_agency.controller.comands;
 import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
-import com.travel_agency.controller.Path;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.UserService;
-import com.travel_agency.utils.ValidationMessageConstants;
+import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +21,7 @@ public class SignUpCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectPage = Path.USER_CABINET;
+        String redirectPage = PathConstants.USER_CABINET;
         req.getSession().removeAttribute("invalid_registration_message");
 
         Connection con = null;
@@ -39,16 +39,16 @@ public class SignUpCommand implements Command {
             req.getSession().setAttribute("user", userDTO);
         }catch(ValidationException e){
             req.getSession().setAttribute("invalid_registration_message", e.getMessage());
-            redirectPage = Path.REGISTRATION;
+            redirectPage = PathConstants.REGISTRATION;
         }catch(Exception e){
             logger.error("Unable to register user: " + e.getMessage(), e);
-            redirectPage = Path.ERROR;
+            redirectPage = PathConstants.ERROR;
         }finally{
             DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
-        return Path.COMMAND_REDIRECT;
+        return PathConstants.COMMAND_REDIRECT;
     }
 
     private UserDTO initializeUserDTO(HttpServletRequest req) throws ValidationException {

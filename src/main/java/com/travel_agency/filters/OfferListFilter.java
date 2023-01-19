@@ -3,7 +3,7 @@ package com.travel_agency.filters;
 import com.travel_agency.DB.DAO.OfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.services.OfferService;
-import com.travel_agency.pagination.PaginationConstants;
+import com.travel_agency.utils.Constants.PaginationConstants;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 

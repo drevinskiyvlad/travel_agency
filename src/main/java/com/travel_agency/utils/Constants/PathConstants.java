@@ -1,7 +1,7 @@
-package com.travel_agency.controller;
+package com.travel_agency.utils.Constants;
 
-public class Path {
-    private Path() {}
+public class PathConstants {
+    private PathConstants() {}
 
     //path to jsp pages
     public static final String INDEX = "index.jsp";

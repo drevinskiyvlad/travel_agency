@@ -1,6 +1,6 @@
 package com.travel_agency.DB.DAO;
 
-import com.travel_agency.DB.Constants;
+import com.travel_agency.utils.Constants.DAOConstants;
 import com.travel_agency.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.Offer;
@@ -28,7 +28,7 @@ public class OrderDAO implements DAO<Order, String>{
 
     @Override
     public boolean create(Order order) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.ADD_ORDER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.ADD_ORDER)) {
 
             setVariablesToCreateStatement(order, ps);
             ps.executeUpdate();
@@ -50,7 +50,7 @@ public class OrderDAO implements DAO<Order, String>{
     @Override
     public Order read(String code) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ORDER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ORDER)) {
 
             ps.setString(1, code);
             rs = ps.executeQuery();
@@ -69,7 +69,7 @@ public class OrderDAO implements DAO<Order, String>{
 
     @Override
     public boolean update(Order order, String newStatus) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_ORDER_STATUS)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.CHANGE_ORDER_STATUS)) {
             ps.setInt(1, readOrderStatus(newStatus));
             ps.setString(2, order.getCode());
             ps.executeUpdate();
@@ -82,7 +82,7 @@ public class OrderDAO implements DAO<Order, String>{
 
     @Override
     public boolean delete(Order order) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_ORDER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.DELETE_ORDER)) {
             ps.setString(1, order.getCode());
             ps.executeUpdate();
             return true;
@@ -93,7 +93,7 @@ public class OrderDAO implements DAO<Order, String>{
     }
 
     public boolean delete(String code) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_ORDER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.DELETE_ORDER)) {
             ps.setString(1, code);
             ps.executeUpdate();
             return true;
@@ -107,14 +107,14 @@ public class OrderDAO implements DAO<Order, String>{
     public List<Order> readAll(int offset, int numOfRecords) throws DAOException {
         List<Order> result = new CopyOnWriteArrayList<>();
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDERS)){
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_ORDERS)){
             ps.setInt(1,offset);
             ps.setInt(2,numOfRecords);
             rs = ps.executeQuery();
             addOrdersToList(result, rs);
             rs.close();
 
-            rs = ps.executeQuery(Constants.ORDER_GET_NUMBER_OF_RECORDS);
+            rs = ps.executeQuery(DAOConstants.ORDER_GET_NUMBER_OF_RECORDS);
             if (rs.next())
                 numberOfPages = (int)Math.ceil(rs.getInt(1)*1.0 / numOfRecords);
         } catch (SQLException e) {
@@ -129,7 +129,7 @@ public class OrderDAO implements DAO<Order, String>{
     public List<Order> readAll(String email) throws DAOException {
         List<Order> result = new CopyOnWriteArrayList<>();
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDERS_OF_USER)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_ORDERS_OF_USER)) {
             ps.setInt(1,getUserId(email));
             rs = ps.executeQuery();
             addOrdersToList(result, rs);
@@ -144,7 +144,7 @@ public class OrderDAO implements DAO<Order, String>{
 
     public List<String> readAllOrderStatuses() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_ORDER_STATUS);
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ALL_ORDER_STATUS);
              ResultSet rs = ps.executeQuery()) {
             addOrderStatusToList(result, rs);
         } catch (SQLException e) {
@@ -168,7 +168,7 @@ public class OrderDAO implements DAO<Order, String>{
 
     public int readOrderStatus(String name) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ORDER_STATUS_BY_NAME)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ORDER_STATUS_BY_NAME)) {
             ps.setString(1, name);
             rs = ps.executeQuery();
 
@@ -186,7 +186,7 @@ public class OrderDAO implements DAO<Order, String>{
 
     public String readOrderStatus(int id) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ORDER_STATUS_BY_ID)) {
+        try (PreparedStatement ps = con.prepareStatement(DAOConstants.FIND_ORDER_STATUS_BY_ID)) {
             ps.setInt(1, id);
             rs = ps.executeQuery();
 

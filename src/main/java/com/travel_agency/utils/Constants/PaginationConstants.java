@@ -1,4 +1,4 @@
-package com.travel_agency.pagination;
+package com.travel_agency.utils.Constants;
 
 public class PaginationConstants {
     private PaginationConstants() {
