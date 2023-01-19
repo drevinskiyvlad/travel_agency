@@ -4,7 +4,6 @@ import com.travel_agency.DB.Constants;
 import com.travel_agency.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.Offer;
-import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,17 +14,19 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class OfferDAO implements DAO<Offer, String>{
+public class OfferDAO{
     private static final Logger logger = LogManager.getLogger(OfferDAO.class);
     private final Connection con;
 
-    @Getter private int numberOfPages; // for pagination
+    private double numberOfNotHotPages; // for pagination
+    private double numberOfHotPages; // for pagination
+    private int numberOfHotRecords; // for pagination
 
     public OfferDAO(Connection con) {
         this.con = con;
     }
 
-    @Override
+
     public boolean create(Offer offer) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.ADD_OFFER)) {
 
@@ -50,7 +51,7 @@ public class OfferDAO implements DAO<Offer, String>{
         ps.setDouble(9, offer.getPrice());
     }
 
-    @Override
+
     public Offer read(String code) throws DAOException {
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_OFFER)) {
@@ -110,12 +111,6 @@ public class OfferDAO implements DAO<Offer, String>{
 
         return new Offer(id,code,city,offerType,hotelType,hotelName,places,discount,isHot,price);
     }
-    @Override
-    public boolean update(Offer offer, String newCode) throws UnsupportedOperationException {
-        String message = "Update in offer is unsupported";
-        logger.error(message);
-        throw new UnsupportedOperationException(message);
-    }
 
     public boolean update(Offer offer, boolean isHot) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.CHANGE_OFFER_IS_HOT)) {
@@ -142,7 +137,7 @@ public class OfferDAO implements DAO<Offer, String>{
     }
 
 
-    @Override
+
     public boolean delete(Offer offer) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(Constants.DELETE_OFFER)) {
             ps.setString(1, offer.getCode());
@@ -154,24 +149,61 @@ public class OfferDAO implements DAO<Offer, String>{
         }
     }
 
-    @Override
-    public List<Offer> readAll(int offset, int numOfRecords) throws DAOException {
+
+    public List<Offer> readAll(int offset, int numOfRecords, boolean onlyHot) throws DAOException {
+        List<Offer> result = new CopyOnWriteArrayList<>(readAllHot(offset, numOfRecords));
+        if(!onlyHot)
+            result.addAll(readAllNotHot(offset,numOfRecords));
+        return result;
+    }
+
+    private List<Offer> readAllNotHot(int offset, int numOfRecords) throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>();
+
+        int numOfNotHotRecords = numOfRecords - numberOfHotRecords;
+        int notHotOffset = offset - numberOfHotRecords;
+        if(notHotOffset<0) notHotOffset = 0;
+
         ResultSet rs = null;
         try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_OFFERS)){
-            ps.setInt(1,offset);
-            ps.setInt(2,numOfRecords);
+            ps.setInt(1,notHotOffset);
+            ps.setInt(2,numOfNotHotRecords);
             rs = ps.executeQuery();
             addOffersToList(result, rs);
             rs.close();
 
             rs = ps.executeQuery(Constants.OFFER_GET_NUMBER_OF_RECORDS);
             if (rs.next())
-                numberOfPages = (int)Math.ceil(rs.getInt(1)*1.0 / numOfRecords);
+                numberOfNotHotPages = rs.getInt(1)*1.0 / numOfRecords;
 
         } catch (SQLException e) {
-            logger.error("Unable to read list of offers: " + e.getMessage(), e);
-            throw new DAOException("Unable to read list offer: " + e.getMessage());
+            logger.error("Unable to read list of not hot offers: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list of not hot offers: " + e.getMessage());
+        }finally{
+            close(rs);
+        }
+        return result;
+    }
+
+    private List<Offer> readAllHot(int offset, int numOfRecords) throws DAOException {
+        List<Offer> result = new CopyOnWriteArrayList<>();
+        ResultSet rs = null;
+        try (PreparedStatement ps = con.prepareStatement(Constants.FIND_ALL_HOT_OFFERS)){
+            ps.setInt(1,offset);
+            ps.setInt(2,numOfRecords);
+            rs = ps.executeQuery();
+            addOffersToList(result, rs);
+            rs.close();
+
+            rs = ps.executeQuery(Constants.HOT_OFFER_GET_NUMBER_OF_RECORDS);
+            if (rs.next()) {
+                numberOfHotRecords = rs.getInt(1);
+                numberOfHotPages = numberOfHotRecords * 1.0 / numOfRecords;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Unable to read list of hot offers: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list of hot offer: " + e.getMessage());
         }finally{
             close(rs);
         }
@@ -293,6 +325,11 @@ public class OfferDAO implements DAO<Offer, String>{
             String code = rs.getString(Fields.OFFER_CODE);
             result.add(read(code));
         }
+    }
+
+
+    public int getNumberOfPages(){
+        return (int)Math.ceil(numberOfHotPages + numberOfNotHotPages);
     }
     private void close(AutoCloseable autoCloseable){
         if(autoCloseable != null){

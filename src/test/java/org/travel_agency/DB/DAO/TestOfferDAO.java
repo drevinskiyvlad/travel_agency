@@ -68,7 +68,7 @@ class TestOfferDAO {
     void testUpdateForException() {
         assertThrows(UnsupportedOperationException.class,
                 ()->{
-                    dao.update(offer,"NewCode");
+                    //dao.update(offer,"NewCode");
                 });
     }
 
@@ -112,7 +112,7 @@ class TestOfferDAO {
         List<Offer> expected = new ArrayList<>();
         expected.add(offer);
 
-        List<Offer> offers = dao.readAll(0,0);
+        List<Offer> offers = dao.readAll(0,0,false);
 
         assertEquals(expected, offers);
     }

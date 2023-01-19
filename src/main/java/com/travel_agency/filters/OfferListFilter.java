@@ -24,8 +24,10 @@ public class OfferListFilter implements Filter {
         OfferDAO dao = new OfferDAO(con);
         OfferService service = new OfferService(dao);
 
-        req.setAttribute("offers", service.getAllOffers(0, PaginationConstants.OFFERS_RECORDS_PER_PAGE));
+        req.setAttribute("offers", service.getAllOffers(0, PaginationConstants.OFFERS_RECORDS_PER_PAGE, false));
         req.setAttribute("numberOfPagesInOffers",dao.getNumberOfPages());
+        req.setAttribute("hotOffers", service.getAllOffers(0, PaginationConstants.OFFERS_RECORDS_PER_PAGE, true));
+        req.setAttribute("numberOfPagesInHotOffers",dao.getNumberOfPages());
         req.setAttribute("currentPage", 1);
 
         DBManager.closeConnection(con);

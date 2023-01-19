@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -148,20 +149,26 @@
             <div class="container">
                 <h2 class="section-title"><fmt:message key="index.hotOffers"/></h2>
                 <div class="row">
-                    <%--							<c:forEach items="${requestScope.hot_offers}" end="2" var="offer">--%>
-                    <%--								<div class="col-md-3 col-sm-6 col-xs-12 offer-block" style="background-color:rgba(255,0,0,0.29)">--%>
-                    <%--									<article class="offer wow bounceIn">--%>
-                    <%--										<figure class="featured-image"><img src="images/cities/${offer.city}.jpg" alt="${offer.city}"></figure>--%>
-                    <%--										<h2 class="entry-title"><a href=""><b>Путівка до</b> ${offer.city}</a></h2>--%>
-                    <%--										<p><b>Тип</b>: ${offer.offerType}</p>--%>
-                    <%--										<p><b>Готель</b>: ${offer.hotel}</p>--%>
-                    <%--										<p><b>Тип готелю</b>: ${offer.hotelType}</p>--%>
-                    <%--										<p><b>Кількість місць</b>: ${offer.places}</p>--%>
-                    <%--										<p><b>Всього за</b>: <s>${String.format("%.2f", offer.fullPrice)}$</s> ${String.format("%.2f", offer.price)}$</p>--%>
-                    <%--										<a href="offer.jsp?code=${offer.code}" class="button">Подивитись деталі</a>--%>
-                    <%--									</article>--%>
-                    <%--								</div>--%>
-                    <%--							</c:forEach>--%>
+                    <div class="filterable-items">
+                        <c:forEach items="${requestScope.hotOffers}" var="offer">
+                            <div class="filterable-item offer-block"
+                                 <c:if test="${offer.isHot()}">style="background-color:rgba(255,0,0,0.29)"</c:if>>
+                                <article class="offer offer-item">
+                                    <figure class="featured-image"><img src="images/cities/${offer.city}.jpg"
+                                                                        alt="${offer.city}"></figure>
+                                    <h2 class="entry-title"><b><fmt:message key="ourOffer.offer.tripTo"/></b> ${offer.city}</h2>
+                                    <p><b><fmt:message key="ourOffer.offer.type"/></b>: ${offer.offerType}</p>
+                                    <p><b><fmt:message key="ourOffer.offer.hotel"/></b>: ${offer.hotel}</p>
+                                    <p><b><fmt:message key="ourOffer.offer.hotelType"/></b>: ${offer.hotelType}</p>
+                                    <p><b><fmt:message key="ourOffer.offer.places"/></b>: ${offer.places}</p>
+                                    <p><b><fmt:message key="ourOffer.offer.price"/></b>:
+                                        <s>${String.format("%.2f", offer.fullPrice)}$</s> ${String.format("%.2f", offer.price)}$
+                                    </p>
+                                    <a href="offer.jsp?code=${offer.code}" class="button"><fmt:message key="ourOffer.offer.details"/></a>
+                                </article>
+                            </div>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </div>

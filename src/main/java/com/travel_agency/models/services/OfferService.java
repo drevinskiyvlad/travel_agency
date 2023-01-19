@@ -22,10 +22,10 @@ public class OfferService {
         this.dao = dao;
     }
 
-    public List<OfferDTO> getAllOffers(int offset, int numOfRecords) {
+    public List<OfferDTO> getAllOffers(int offset, int numOfRecords, boolean onlyHot) {
         List<Offer> offers;
         try {
-            offers = dao.readAll(offset, numOfRecords);
+            offers = dao.readAll(offset, numOfRecords, onlyHot);
         } catch (DAOException e) {
             logger.error("Unable to read offers: " + e.getMessage(), e);
             return new ArrayList<>();
@@ -94,11 +94,6 @@ public class OfferService {
     private List<OfferDTO> makeListOfDTOs(List<Offer> offers) {
         List<OfferDTO> result = new CopyOnWriteArrayList<>();
         for (Offer o : offers) {
-            if (o.isHot())
-                result.add(convertOfferToDTO(o));
-        }
-        for (Offer o : offers) {
-            if (!o.isHot())
                 result.add(convertOfferToDTO(o));
         }
         return result;

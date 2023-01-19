@@ -42,3 +42,4 @@ build/
 /.idea/sonarlint/
 /src/main/webapp/META-INF/
 /logs/
+/.idea/sonarlint/issuestore/

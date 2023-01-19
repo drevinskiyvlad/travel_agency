@@ -1,13 +1,9 @@
 package com.travel_agency.pagination;
 
-import com.travel_agency.DB.DAO.DAO;
 import com.travel_agency.DB.DAO.OfferDAO;
-import com.travel_agency.DB.DAO.UserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.DTO.OfferDTO;
-import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.OfferService;
-import com.travel_agency.models.services.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -26,17 +22,19 @@ public class OffersPaginationServlet extends HttpServlet {
         int recordsPerPage = PaginationConstants.OFFERS_RECORDS_PER_PAGE;
         if (req.getParameter("offerListPage") != null)
             page = Integer.parseInt(req.getParameter("offerListPage"));
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
+        Connection con = DBManager.getInstance().getConnection();
         OfferDAO dao = new OfferDAO(con);
         OfferService service = new OfferService(dao);
         List<OfferDTO> offers = service.getAllOffers(
                 (page - 1) * recordsPerPage,
-                recordsPerPage);
+                recordsPerPage,
+                false);
 
         req.setAttribute("offers", offers);
         req.setAttribute("numberOfPagesInOffers", dao.getNumberOfPages());
         req.setAttribute("currentPage", page);
         req.getRequestDispatcher("our-offer.jsp").forward(req, resp);
+
+        DBManager.closeConnection(con);
     }
 }

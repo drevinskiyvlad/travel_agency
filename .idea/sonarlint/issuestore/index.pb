@@ -49,8 +49,6 @@ _
 /src/main/java/com/travel_agency/DB/DAO/DAO.java,0\9\0954dd1d6782138947bf4812323752507a32b143
 p
 @src/main/java/com/travel_agency/models/services/UserService.java,8\3\839edc119748ce5af976ddc0b9ec0551fc498500
-w
-Gsrc/main/java/com/travel_agency/pagination/OffersPaginationServlet.java,5\7\574e0bf9f9482533c67874b8621faf6149ef10f2
 y
 Isrc/main/java/com/travel_agency/pagination/UserListPaginationServlet.java,2\9\29e383633f5ce1e0e7f2d354a84af1643bb83de0
 s

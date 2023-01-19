@@ -26,7 +26,8 @@ public class Constants {
     public static final String CHANGE_OFFER_IS_HOT = "UPDATE offer SET is_hot = ? WHERE code = ?";
     public static final String CHANGE_OFFER_PLACES = "UPDATE offer SET places = ? WHERE code = ?";
     public static final String DELETE_OFFER = "DELETE FROM offer WHERE code = ?";
-    public static final String FIND_ALL_OFFERS = "SELECT * FROM offer LIMIT ?, ?";
+    public static final String FIND_ALL_OFFERS = "SELECT * FROM offer WHERE is_hot = false LIMIT ?, ?";
+    public static final String FIND_ALL_HOT_OFFERS = "SELECT * FROM offer WHERE is_hot = true LIMIT ?,?";
     public static final String FIND_ALL_HOTEL_TYPES = "SELECT * FROM hotel_type";
     public static final String FIND_ALL_OFFER_TYPES = "SELECT * FROM offer_type";
     public static final String FIND_OFFER_TYPE_BY_ID = "select offer_type_name from offer_type where id = ?";
@@ -50,6 +51,7 @@ public class Constants {
 
     //All for pagination
     public static final String USER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from user";
-    public static final String OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer";
+    public static final String OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer WHERE is_hot = false";
+    public static final String HOT_OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer WHERE is_hot = true";
     public static final String ORDER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from user_order";
 }
