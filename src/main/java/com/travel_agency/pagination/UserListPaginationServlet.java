@@ -1,6 +1,6 @@
 package com.travel_agency.pagination;
 
-import com.travel_agency.DB.DAO.UserDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.DTO.UserDTO;
 import com.travel_agency.models.services.UserService;
@@ -25,7 +25,7 @@ public class UserListPaginationServlet extends HttpServlet {
             page = Integer.parseInt(req.getParameter("userListPage"));
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
-        UserDAO dao = new UserDAO(con);
+        MySQLUserDAO dao = new MySQLUserDAO(con);
         UserService service = new UserService(dao);
         List<UserDTO> users = service.getAllUsers(
                 (page - 1) * recordsPerPage,

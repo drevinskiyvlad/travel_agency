@@ -1,6 +1,6 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.UserDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -39,7 +39,7 @@ public class UpdateUserRoleCommand implements Command {
     }
 
     private static void updateStatus(Connection con, String email, String role) throws DAOException {
-        UserDAO userDAO = new UserDAO(con);
+        MySQLUserDAO userDAO = new MySQLUserDAO(con);
         User user = userDAO.read(email);
         userDAO.update(user, role);
     }

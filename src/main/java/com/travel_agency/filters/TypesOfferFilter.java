@@ -1,6 +1,6 @@
 package com.travel_agency.filters;
 
-import com.travel_agency.DB.DAO.OfferDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.exceptions.DAOException;
 import jakarta.servlet.*;
@@ -32,7 +32,7 @@ public class TypesOfferFilter implements Filter {
     private void setOfferTypesToSession(HttpServletRequest req) throws DAOException {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
-        OfferDAO dao = new OfferDAO(con);
+        MySQLOfferDAO dao = new MySQLOfferDAO(con);
         req.setAttribute("offerTypes", dao.readAllOfferTypes());
         req.setAttribute("hotelTypes", dao.readAllHotelTypes());
         DBManager.closeConnection(con);

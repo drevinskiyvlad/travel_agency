@@ -1,7 +1,7 @@
 package com.travel_agency.filters;
 
-import com.travel_agency.DB.DAO.OrderDAO;
-import com.travel_agency.DB.DAO.UserDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOrderDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DTO.OrderDTO;
@@ -46,9 +46,11 @@ public class UserCabinetFillingFilter implements Filter {
     private void fillUserCabinet(HttpServletRequest req,UserDTO userDTO) {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
-        OrderDAO orderDAO = new OrderDAO(con);
+        MySQLOrderDAO orderDAO = new MySQLOrderDAO(con);
         OrderService service = new OrderService(orderDAO);
-        List<OrderDTO> orders = service.getAllOrdersFromUser(userDTO);
+        List<OrderDTO> orders = service.getAllOrdersFromUser(userDTO, 0, PaginationConstants.USER_LIST_RECORDS_PER_PAGE);
+        req.setAttribute("numberOfPagesInUserOrders",orderDAO.getNumberOfUserPages());
+        req.setAttribute("currentUserOrderPage", 1);
         req.setAttribute("userOrders", orders);
         req.setAttribute("totalPrice", service.getTotalPrice(orders));
         DBManager.closeConnection(con);
@@ -57,7 +59,7 @@ public class UserCabinetFillingFilter implements Filter {
     private void fillManagerCabinet(HttpServletRequest req) throws DAOException {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
-        OrderDAO orderDAO = new OrderDAO(con);
+        MySQLOrderDAO orderDAO = new MySQLOrderDAO(con);
         OrderService service = new OrderService(orderDAO);
         List<OrderDTO> orders = service.getAllOrders(0,PaginationConstants.ORDER_LIST_RECORDS_PER_PAGE);
         req.setAttribute("orderStatuses", orderDAO.readAllOrderStatuses());
@@ -71,7 +73,7 @@ public class UserCabinetFillingFilter implements Filter {
         fillManagerCabinet(req);
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
-        UserDAO userDAO = new UserDAO(con);
+        MySQLUserDAO userDAO = new MySQLUserDAO(con);
         UserService service = new UserService(userDAO);
         List<UserDTO> users = service.getAllUsers(0, PaginationConstants.USER_LIST_RECORDS_PER_PAGE);
         users.remove(req.getSession().getAttribute("user"));

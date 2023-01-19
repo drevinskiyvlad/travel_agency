@@ -1,6 +1,6 @@
 package com.travel_agency.models.services;
 
-import com.travel_agency.DB.DAO.UserDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DAO.User;
@@ -15,9 +15,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
-    private final UserDAO dao;
+    private final MySQLUserDAO dao;
 
-    public UserService(UserDAO dao) {
+    public UserService(MySQLUserDAO dao) {
         this.dao = dao;
     }
 
@@ -56,7 +56,7 @@ public class UserService {
 
     public boolean changeUserBlocked(String email) throws DAOException {
         User user = dao.read(email);
-        return dao.update(!user.isBlocked(), email);
+        return dao.update(email, !user.isBlocked());
     }
 
     private List<UserDTO> makeListOfDTOs(List<User> users) {

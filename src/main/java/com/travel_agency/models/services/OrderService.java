@@ -1,7 +1,9 @@
 package com.travel_agency.models.services;
 
 import com.google.protobuf.ServiceException;
-import com.travel_agency.DB.DAO.*;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOrderDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.models.DAO.*;
@@ -18,10 +20,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OrderService {
-    private final OrderDAO dao;
+    private final MySQLOrderDAO dao;
     private static final Logger logger = LogManager.getLogger(OrderService.class);
 
-    public OrderService(OrderDAO dao) {
+    public OrderService(MySQLOrderDAO dao) {
         this.dao = dao;
     }
 
@@ -53,10 +55,10 @@ public class OrderService {
         return makeListOfDTOs(orders);
     }
 
-    public List<OrderDTO> getAllOrdersFromUser(UserDTO userDTO) {
+    public List<OrderDTO> getAllOrdersFromUser(UserDTO userDTO, int offset, int numOfRecords) {
         List<Order> orders;
         try {
-            orders = dao.readAll(userDTO.getEmail());
+            orders = dao.readAll(userDTO.getEmail(), offset, numOfRecords);
         } catch (DAOException e) {
             logger.error("Unable to read orders: " + e.getMessage(), e);
             return new ArrayList<>();
@@ -93,7 +95,7 @@ public class OrderService {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
 
-        OfferDAO offerDAO = new OfferDAO(con);
+        MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
 
         boolean offerResult = offerDAO.update(offer, offer.getPlaces() - 1);
@@ -118,7 +120,7 @@ public class OrderService {
     private Offer getOffer(OfferDTO offerDTO) throws DAOException {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
-        OfferDAO offerDAO = new OfferDAO(con);
+        MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
         DBManager.closeConnection(con);
         return offer;
@@ -127,7 +129,7 @@ public class OrderService {
     private User getUser(UserDTO userDTO) throws DAOException {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
-        UserDAO userDAO = new UserDAO(con);
+        MySQLUserDAO userDAO = new MySQLUserDAO(con);
         User user = userDAO.read(userDTO.getEmail());
         DBManager.closeConnection(con);
         return user;

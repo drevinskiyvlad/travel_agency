@@ -1,6 +1,6 @@
 package com.travel_agency.pagination;
 
-import com.travel_agency.DB.DAO.OfferDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.DTO.OfferDTO;
 import com.travel_agency.models.services.OfferService;
@@ -24,7 +24,7 @@ public class OffersPaginationServlet extends HttpServlet {
         if (req.getParameter("offerListPage") != null)
             page = Integer.parseInt(req.getParameter("offerListPage"));
         Connection con = DBManager.getInstance().getConnection();
-        OfferDAO dao = new OfferDAO(con);
+        MySQLOfferDAO dao = new MySQLOfferDAO(con);
         OfferService service = new OfferService(dao);
         List<OfferDTO> offers = service.getAllOffers(
                 (page - 1) * recordsPerPage,

@@ -1,6 +1,6 @@
 package com.travel_agency.models.services;
 
-import com.travel_agency.DB.DAO.OfferDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.models.DAO.Offer;
@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OfferService {
-    private final OfferDAO dao;
+    private final MySQLOfferDAO dao;
     private static final Logger logger = LogManager.getLogger(OfferService.class);
 
-    public OfferService(OfferDAO dao) {
+    public OfferService(MySQLOfferDAO dao) {
         this.dao = dao;
     }
 
@@ -44,11 +44,6 @@ public class OfferService {
         return convertOfferToDTO(offer);
     }
 
-    public boolean deleteOffer(OfferDTO offerDTO) throws DAOException {
-        Offer offer = convertDTOToOffer(offerDTO);
-        return dao.delete(offer);
-    }
-
     public boolean updateOfferIsHot(OfferDTO offerDTO) throws DAOException {
         Offer offer = convertDTOToOffer(offerDTO);
         return dao.update(offer, true);
@@ -58,7 +53,7 @@ public class OfferService {
         validateDiscount(offerDTO.getDiscount());
 
         Offer offer = convertDTOToOffer(offerDTO);
-        boolean resultDelete = dao.delete(offer);
+        boolean resultDelete = dao.delete(offerDTO.getCode());
 
         boolean resultCreate = dao.create(offer);
 

@@ -47,10 +47,6 @@ l
 <src/main/java/com/travel_agency/filters/AuthCheckFilter.java,e\e\ee46e06c23c85c154db90e1c6832a1b8783f8c2b
 _
 /src/main/java/com/travel_agency/DB/DAO/DAO.java,0\9\0954dd1d6782138947bf4812323752507a32b143
-p
-@src/main/java/com/travel_agency/models/services/UserService.java,8\3\839edc119748ce5af976ddc0b9ec0551fc498500
-y
-Isrc/main/java/com/travel_agency/pagination/UserListPaginationServlet.java,2\9\29e383633f5ce1e0e7f2d354a84af1643bb83de0
 s
 Csrc/main/java/com/travel_agency/pagination/PaginationConstants.java,f\0\f0f50c1495c40350858ec97191efacda25ebde77
 h

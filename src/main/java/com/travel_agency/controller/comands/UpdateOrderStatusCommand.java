@@ -1,6 +1,6 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.OrderDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -39,7 +39,7 @@ public class UpdateOrderStatusCommand implements Command {
     }
 
     private static void updateStatus(Connection con, String code, String status) throws DAOException {
-        OrderDAO orderDAO = new OrderDAO(con);
+        MySQLOrderDAO orderDAO = new MySQLOrderDAO(con);
         Order order = orderDAO.read(code);
         orderDAO.update(order, status);
     }

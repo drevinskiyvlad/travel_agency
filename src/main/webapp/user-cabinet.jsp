@@ -130,10 +130,13 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><b><fmt:message key="userCabinet.total"/>:</b><br>${String.format("%.2f", requestScope.totalPrice)}</td>
+                            <td><b><fmt:message key="userCabinet.total"/>:</b><br>${String.format("%.2f", requestScope.totalPrice)}$</td>
                         </tr>
                         </tbody>
                     </table>
+                    <my:pagination numberOfPages="${requestScope.numberOfPagesInUserOrders}"
+                                   currentPage="${requestScope.currentUserOrderPage}"
+                                   redirectTo="userOrdersPagination?orderListPage="/>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'manager' || sessionScope.user.role == 'admin'}">
 

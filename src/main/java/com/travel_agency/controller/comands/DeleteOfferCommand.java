@@ -1,11 +1,9 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.OfferDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
-import com.travel_agency.models.DTO.OfferDTO;
-import com.travel_agency.models.services.OfferService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -23,13 +21,11 @@ public class DeleteOfferCommand implements Command {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            OfferDAO dao = new OfferDAO(con);
-            OfferService service = new OfferService(dao);
+            MySQLOfferDAO dao = new MySQLOfferDAO(con);
 
             String code = req.getParameter("code");
-            OfferDTO offerDTO = service.getOffer(code);
 
-            if (!service.deleteOffer(offerDTO)) {
+            if (!dao.delete(code)) {
                 req.setAttribute("error", "Something went wrong, try again");
                 redirectPage = PathConstants.OFFER + "?code=" + code;
             }

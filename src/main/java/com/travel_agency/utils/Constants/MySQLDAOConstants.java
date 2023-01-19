@@ -1,7 +1,7 @@
 package com.travel_agency.utils.Constants;
 
-public class DAOConstants {
-    private DAOConstants(){}
+public class MySQLDAOConstants {
+    private MySQLDAOConstants(){}
 
     //User request constants
     public static final String ADD_USER = "INSERT INTO user(email, password, user_role_id, first_name, last_name, phone, blocked)" +
@@ -44,7 +44,7 @@ public class DAOConstants {
     public static final String DELETE_ORDER = "DELETE FROM user_order WHERE code = ?";
     public static final String FIND_ALL_ORDERS = "SELECT * FROM user_order LIMIT ?, ?";
     public static final String FIND_ALL_ORDER_STATUS = "SELECT * FROM order_status";
-    public static final String FIND_ALL_ORDERS_OF_USER = "SELECT * FROM user_order WHERE user_id = ?";
+    public static final String FIND_ALL_ORDERS_OF_USER = "SELECT * FROM user_order WHERE user_id = ? LIMIT ?,?";
     public static final String FIND_ORDER_STATUS_BY_ID = "select order_status_name from order_status where id = ?";
     public static final String FIND_ORDER_STATUS_BY_NAME = "select id from order_status where order_status_name = ?";
 
@@ -54,4 +54,5 @@ public class DAOConstants {
     public static final String OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer WHERE is_hot = false";
     public static final String HOT_OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer WHERE is_hot = true";
     public static final String ORDER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from user_order";
+    public static final String USER_ORDER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from user_order where user_id = ?";
 }

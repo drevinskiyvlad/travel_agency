@@ -1,6 +1,6 @@
 package com.travel_agency.filters;
 
-import com.travel_agency.DB.DAO.OfferDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.models.services.OfferService;
 import com.travel_agency.utils.Constants.PaginationConstants;
@@ -21,7 +21,7 @@ public class OfferListFilter implements Filter {
     private static void addOffersToRequest(HttpServletRequest req) {
         DBManager manager = DBManager.getInstance();
         Connection con = manager.getConnection();
-        OfferDAO dao = new OfferDAO(con);
+        MySQLOfferDAO dao = new MySQLOfferDAO(con);
         OfferService service = new OfferService(dao);
 
         req.setAttribute("offers", service.getAllOffers(0, PaginationConstants.OFFERS_RECORDS_PER_PAGE, false));

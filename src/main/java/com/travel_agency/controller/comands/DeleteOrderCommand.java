@@ -1,6 +1,6 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.OrderDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -22,7 +22,7 @@ public class DeleteOrderCommand implements Command {
             String code = req.getParameter("code");
             con = DBManager.getInstance().getConnection();
 
-            OrderDAO orderDAO = new OrderDAO(con);
+            MySQLOrderDAO orderDAO = new MySQLOrderDAO(con);
             orderDAO.delete(code);
 
             logger.info("User deleted order with code: " + code);

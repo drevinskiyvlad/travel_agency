@@ -1,6 +1,6 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.OfferDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -23,7 +23,7 @@ public class MakeOfferHotCommand implements Command {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            OfferDAO dao = new OfferDAO(con);
+            MySQLOfferDAO dao = new MySQLOfferDAO(con);
             OfferService service = new OfferService(dao);
 
             String code = req.getParameter("code");

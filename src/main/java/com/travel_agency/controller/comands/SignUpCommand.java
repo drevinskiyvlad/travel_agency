@@ -1,6 +1,6 @@
 package com.travel_agency.controller.comands;
 
-import com.travel_agency.DB.DAO.UserDAO;
+import com.travel_agency.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.DB.DBManager;
 import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -31,7 +31,7 @@ public class SignUpCommand implements Command {
             UserDTO userDTO = initializeUserDTO(req);
             String password = req.getParameter("password");
 
-            UserDAO userDAO = new UserDAO(con);
+            MySQLUserDAO userDAO = new MySQLUserDAO(con);
             UserService userService = new UserService(userDAO);
             userService.addUser(userDTO, password);
 
