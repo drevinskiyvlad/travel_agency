@@ -46,15 +46,12 @@ class TestOrderDAO {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateOrder(order,dao,con,ps,rs);
+        MockitoDAOSetUp.CreateOrder(order, con,ps,rs);
 
         boolean result = dao.create(order);
 
         assertTrue(result);
     }
-
-
-
 
     @Test
     void testRead() throws Exception {
@@ -64,7 +61,6 @@ class TestOrderDAO {
 
         assertEquals(order, result);
     }
-
 
     @Test
     void testUpdateStatus() throws SQLException {
@@ -80,9 +76,9 @@ class TestOrderDAO {
     void testDelete() throws SQLException {
         MockitoDAOSetUp.DeleteOrder(order,con,ps);
 
-        //boolean result = dao.delete(order);
+        boolean result = dao.delete(order.getCode());
 
-        //assertTrue(result);
+        assertTrue(result);
     }
 
     @Test
@@ -92,9 +88,24 @@ class TestOrderDAO {
         List<Order> expected = new ArrayList<>();
         expected.add(order);
 
-        List<Order> offers = dao.readAll(0,0);
+        List<Order> offers = dao.readAll(0,6);
 
         assertEquals(expected, offers);
+        assertEquals(0, dao.getNumberOfPages());
+        assertEquals(0, dao.getNumberOfUserPages());
+    }
+    @Test
+    void testReadAllOrderStatuses() throws SQLException {
+        MockitoDAOSetUp.ReadAllOrderStatuses(con,ps,rs);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("registered");
+        expected.add("paid");
+        expected.add("canceled");
+
+        List<String> userRoles = dao.readAllOrderStatuses();
+
+        assertEquals(expected, userRoles);
     }
 
 }
