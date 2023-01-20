@@ -9,6 +9,10 @@
         <location>/error.jsp</location>
     </error-page>
 
+    <listener>
+        <listener-class>com.travel_agency.controller.listeners.ContextListener</listener-class>
+    </listener>
+
     <filter>
         <filter-name>encoding-filter</filter-name>
         <filter-class>com.travel_agency.controller.filters.EncodingFilter</filter-class>
@@ -92,4 +96,6 @@
         <url-pattern>/orderPagination</url-pattern>
         <url-pattern>/userPagination</url-pattern>
     </filter-mapping>
+
+
 </web-app>

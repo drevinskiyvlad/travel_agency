@@ -32,7 +32,7 @@ public class DBManager {
     }
 
 
-    public Connection getConnection() {
+    public synchronized Connection getConnection() {
         try {
             return ds.getConnection();
         } catch (SQLException e) {
