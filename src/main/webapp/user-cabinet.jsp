@@ -1,7 +1,13 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="language"/>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${sessionScope.lang}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,22 +38,23 @@
 
 <body>
 <div id="site-content">
+
     <header class="site-header wow fadeInDown">
         <div class="container">
             <div class="header-content">
                 <div class="branding">
                     <img src="images/logo.png" alt="Company Name" class="logo">
-                    <h1 class="site-title"><a href="index.jsp">Travel agency</a></h1>
-                    <small class="site-description">Подорожуйте разом з нами</small>
+                    <h1 class="site-title"><a href="index.jsp"><fmt:message key="header.companyName"/></a></h1>
+                    <small class="site-description"><fmt:message key="header.tagline"/></small>
                 </div>
 
                 <nav class="main-navigation">
                     <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
                     <ul class="menu">
-                        <li class="menu-item"><a href="our-offer.jsp">Наші пропозиції</a></li>
-                        <li class="menu-item current-menu-item"><a href="user-cabinet.jsp">До
-                            кабінету: ${sessionScope.user.firstName}</a>
-                        </li>
+                        <li class="menu-item"><a href="our-offer.jsp"><fmt:message
+                                key="header.ourOffer"/></a></li>
+                        <li class="menu-item current-menu-item"><a href="user-cabinet.jsp"><fmt:message
+                                key="header.userCabinet"/> ${sessionScope.user.firstName}</a></li>
                     </ul>
                 </nav>
 
@@ -57,10 +64,14 @@
                     <a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
                     <a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
                 </div>
+                <div class="social-links">
+                    <a href="?sessionLocale=ua" class="ua"><img src="images/ukraine.png" alt="ua"></a>
+                    <a href="?sessionLocale=en" class="en"><img src="images/usa.png" alt="en"></a>
+                </div>
             </div>
             <nav class="breadcrumbs">
-                <a href="index.jsp">Головна</a> &rarr;
-                <span>Особистий Кабінет</span>
+                <a href="index.jsp"><fmt:message key="header.mainPage"/></a> &rarr;
+                <span><fmt:message key="header.userCabinet.breadcrumbs"/></span>
             </nav>
         </div>
     </header> <!-- .site-header -->
@@ -68,33 +79,31 @@
     <main class="content">
         <div class="fullwidth-block">
             <div class="container">
-                <h1>Інформація про користувача:</h1>
+                <h1><fmt:message key="userCabinet.userInformation"/>:</h1>
                 <hr>
-                <h3>Пошта: ${sessionScope.user.email}</h3><br>
-                <h3>Роль: ${sessionScope.user.role}</h3><br>
-                <h3>Ім'я: ${sessionScope.user.firstName}</h3><br>
-                <h3>Фамілія: ${sessionScope.user.lastName}</h3><br>
-                <h3>Номер телефону: ${sessionScope.user.phone}</h3><br>
+                <h3><fmt:message key="userCabinet.email"/>: ${sessionScope.user.email}</h3><br>
+                <h3><fmt:message key="userCabinet.role"/>: ${sessionScope.user.role}</h3><br>
+                <h3><fmt:message key="userCabinet.firstName"/>: ${sessionScope.user.firstName}</h3><br>
+                <h3><fmt:message key="userCabinet.lastName"/>: ${sessionScope.user.lastName}</h3><br>
+                <h3><fmt:message key="userCabinet.phone"/>: ${sessionScope.user.phone}</h3><br>
 
-                <form accept-charset="UTF-8" role="form" action="logout" method="get">
-                    <button type="submit" class="btn btn-black">Вийти</button>
-                </form>
+                <a href="controller?action=logout" class="btn btn-black"><fmt:message key="userCabinet.exit"/></a>
 
                 <br>
                 <hr>
                 <br>
 
                 <c:if test="${sessionScope.user.role == 'user'}">
-                    <h2>Ваші замовлення:</h2>
+                    <h2><fmt:message key="userCabinet.userOrders"/>:</h2>
                     <table data-toggle="table" class="wow fadeInUp">
                         <caption>AllOrders</caption>
                         <thead>
                         <tr>
-                            <th>Код замовлення</th>
-                            <th>Пропозиція</th>
-                            <th>Статус</th>
-                            <th>Ціна</th>
-                            <th>Дії</th>
+                            <th><fmt:message key="userCabinet.code"/></th>
+                            <th><fmt:message key="userCabinet.offer"/></th>
+                            <th><fmt:message key="userCabinet.status"/></th>
+                            <th><fmt:message key="userCabinet.price"/></th>
+                            <th><fmt:message key="userCabinet.action"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -111,8 +120,8 @@
                             <td>${order.orderStatus}</td>
                             <td>${String.format("%.2f", order.price)}$</td>
                             <td>
-                                <a href="deleteOrder?code=${order.code}">
-                                    Видалити
+                                <a href="controller?action=deleteOrder&code=${order.code}">
+                                    <fmt:message key="userCabinet.delete"/>
                                 </a>
                             </td>
                             </tr>
@@ -121,23 +130,26 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><b>Всього:</b><br>${String.format("%.2f", requestScope.totalPrice)}</td>
+                            <td><b><fmt:message key="userCabinet.total"/>:</b><br>${String.format("%.2f", requestScope.totalPrice)}$</td>
                         </tr>
                         </tbody>
                     </table>
+                    <my:pagination numberOfPages="${requestScope.numberOfPagesInUserOrders}"
+                                   currentPage="${requestScope.currentUserOrderPage}"
+                                   redirectTo="userOrdersPagination?orderListPage="/>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'manager' || sessionScope.user.role == 'admin'}">
 
-                    <h2>Замовлення користувачів:</h2>
+                    <h2><fmt:message key="userCabinet.usersOrder"/>:</h2>
                     <table data-toggle="table" class="wow fadeInUp">
                         <caption>AllOrders</caption>
                         <thead>
                         <tr>
-                            <th>Код замовлення</th>
-                            <th>Пропозиція</th>
-                            <th>Користувач</th>
-                            <th>Статус</th>
-                            <th>Ціна</th>
+                            <th><fmt:message key="userCabinet.code"/></th>
+                            <th><fmt:message key="userCabinet.offer"/></th>
+                            <th><fmt:message key="userCabinet.user"/></th>
+                            <th><fmt:message key="userCabinet.status"/></th>
+                            <th><fmt:message key="userCabinet.price"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -153,7 +165,7 @@
                             </td>
                             <td>${order.userEmail}</td>
                             <td>
-                                <form accept-charset="UTF-8" role="form" action="updateOrderStatus" method="get">
+                                <form accept-charset="UTF-8" role="form" action="controller?action=updateOrderStatus" method="post">
                                     <select name="orderStatus" id="orderStatus">
                                         <c:forEach items="${requestScope.orderStatuses}" var="status">
                                             <c:choose>
@@ -177,35 +189,27 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div class="pagination wow fadeInUp">
-                        <c:forEach begin="1" end="${requestScope.numberOfPagesInOrders}" var="i">
-                            <c:choose>
-                                <c:when test="${requestScope.currentOrderPage eq i}">
-                                    <span class="page-numbers current">${i}</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="orderPagination?orderListPage=${i}" class="page-numbers">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </div>
+
+                    <my:pagination numberOfPages="${requestScope.numberOfPagesInOrders}"
+                                   currentPage="${requestScope.currentOrderPage}"
+                                   redirectTo="orderPagination?orderListPage="/>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'admin'}">
                     <br>
                     <hr>
                     <br>
-                    <h2>Список користувачів:</h2>
+                    <h2><fmt:message key="userCabinet.userList"/>:</h2>
                     <table data-toggle="table" class="wow fadeInUp">
                         <caption>UserList</caption>
                         <thead>
                         <tr>
-                            <th>Пошта</th>
-                            <th>Роль</th>
-                            <th>Ім'я</th>
-                            <th>Фамілія</th>
-                            <th>Номер телефону</th>
-                            <th>Заблокований</th>
-                            <th>Дії</th>
+                            <th><fmt:message key="userCabinet.email"/></th>
+                            <th><fmt:message key="userCabinet.role"/></th>
+                            <th><fmt:message key="userCabinet.firstName"/></th>
+                            <th><fmt:message key="userCabinet.lastName"/></th>
+                            <th><fmt:message key="userCabinet.phone"/></th>
+                            <th><fmt:message key="userCabinet.blocked"/></th>
+                            <th><fmt:message key="userCabinet.action"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -213,7 +217,7 @@
                             <tr>
                                 <td>${user.email}</td>
                                 <td>
-                                    <form accept-charset="UTF-8" role="form" action="updateUserRole" method="get">
+                                    <form accept-charset="UTF-8" role="form" action="controller?action=updateUserRole" method="post">
                                         <select name="userRole" id="userRole">
                                             <c:forEach items="${requestScope.userRoles}" var="role">
                                                 <c:choose>
@@ -237,27 +241,18 @@
                                 <td>${user.phone}</td>
                                 <td>${user.blocked}</td>
                                 <td>
-                                    <a href="blockUser?email=${user.email}">
-                                        <c:if test="${user.isBlocked() == false}">Заблокувати</c:if>
-                                        <c:if test="${user.isBlocked() == true}">Розблокувати</c:if>
+                                    <a href="controller?action=blockUser&email=${user.email}">
+                                        <c:if test="${user.isBlocked() == false}"><fmt:message key="userCabinet.block"/></c:if>
+                                        <c:if test="${user.isBlocked() == true}"><fmt:message key="userCabinet.unblock"/></c:if>
                                     </a>
                                 </td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div class="pagination wow fadeInUp">
-                        <c:forEach begin="1" end="${requestScope.numberOfPagesInUserList}" var="i">
-                            <c:choose>
-                                <c:when test="${requestScope.currentPage eq i}">
-                                    <span class="page-numbers current">${i}</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="userPagination?userListPage=${i}" class="page-numbers">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </div>
+                    <my:pagination numberOfPages="${requestScope.numberOfPagesInUserList}"
+                                   currentPage="${requestScope.currentPage}"
+                                   redirectTo="userPagination?userListPage="/>
                 </c:if>
 
 
@@ -274,12 +269,12 @@
             <div class="container">
                 <div class="branding pull-left">
                     <img src="images/logo-footer.png" alt="Company Name" class="logo">
-                    <h1 class="site-title"><a href="index.jsp">Travel agency</a></h1>
-                    <small class="site-description">Ми покажемо вам іншу сторону цього світу</small>
+                    <h1 class="site-title"><a href="index.jsp"><fmt:message key="header.companyName"/></a></h1>
+                    <small class="site-description"><fmt:message key="footer.tagline"/></small>
                 </div>
 
                 <div class="contact-links pull-right">
-                    <i class="fa fa-map-marker"></i> Провулок Бандери 15, Київ<br>
+                    <i class="fa fa-map-marker"></i> <fmt:message key="footer.address"/><br>
                     <i class="fa fa-phone"></i> +380 68 111 22 33<br>
                     <i class="fa fa-envelope"></i> doe@companyname.com
                 </div>

@@ -37,5 +37,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/.idea/sonarlint/issuestore/
+
+
 /.idea/sonarlint/
+/src/main/webapp/META-INF/
+/logs/
+/.idea/sonarlint/issuestore/

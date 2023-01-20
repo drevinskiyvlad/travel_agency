@@ -4,9 +4,18 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+
+    <listener>
+        <listener-class>com.travel_agency.controller.listeners.ContextListener</listener-class>
+    </listener>
+
     <filter>
         <filter-name>encoding-filter</filter-name>
-        <filter-class>com.travel_agency.filters.EncodingFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.EncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -19,8 +28,22 @@
     </filter-mapping>
 
     <filter>
+        <filter-name>session-locale-filter</filter-name>
+        <filter-class>com.travel_agency.controller.filters.SessionLocaleFilter</filter-class>
+        <init-param>
+            <param-name>baseLanguage</param-name>
+            <param-value>ua</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>session-locale-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>auth-filter</filter-name>
-        <filter-class>com.travel_agency.filters.AuthCheckFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.AuthCheckFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -31,29 +54,29 @@
 
     <filter>
         <filter-name>offer-list-filter</filter-name>
-        <filter-class>com.travel_agency.filters.OfferListFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.OfferListFilter</filter-class>
     </filter>
 
     <filter-mapping>
         <filter-name>offer-list-filter</filter-name>
         <url-pattern>/our-offer.jsp</url-pattern>
+        <url-pattern>/index.jsp</url-pattern>
     </filter-mapping>
 
     <filter>
         <filter-name>offer-item-filter</filter-name>
-        <filter-class>com.travel_agency.filters.OfferItemFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.OfferItemFilter</filter-class>
     </filter>
 
     <filter-mapping>
         <filter-name>offer-item-filter</filter-name>
         <url-pattern>/offer.jsp</url-pattern>
         <url-pattern>/update-offer.jsp</url-pattern>
-        <url-pattern>/makeOrder</url-pattern>
     </filter-mapping>
 
     <filter>
         <filter-name>types-offer-filter</filter-name>
-        <filter-class>com.travel_agency.filters.TypesOfferFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.TypesOfferFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -64,7 +87,7 @@
 
     <filter>
         <filter-name>user-cabinet-filling-filter</filter-name>
-        <filter-class>com.travel_agency.filters.UserCabinetFillingFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.UserCabinetFillingFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -73,4 +96,6 @@
         <url-pattern>/orderPagination</url-pattern>
         <url-pattern>/userPagination</url-pattern>
     </filter-mapping>
+
+
 </web-app>

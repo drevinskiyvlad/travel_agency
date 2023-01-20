@@ -1,7 +1,7 @@
 package org.travel_agency.DB.DAO;
 
-import com.travel_agency.DB.DAO.OrderDAO;
-import com.travel_agency.models.DAO.*;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
+import com.travel_agency.model.entity.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class TestOrderDAO {
     private PreparedStatement ps;
     @Mock
     private ResultSet rs;
-    private OrderDAO dao;
+    private MySQLOrderDAO dao;
     private Order order;
 
     @BeforeAll
@@ -36,7 +36,7 @@ class TestOrderDAO {
         Offer offer = new Offer(0,"123","City","rest", "Inn", "Name",100,0.15,false,150);
         order = new Order(0,"123", user, offer,"registered");
         con = Mockito.mock(Connection.class);
-        dao = new OrderDAO(con);
+        dao = new MySQLOrderDAO(con);
     }
 
     @AfterAll
@@ -46,15 +46,12 @@ class TestOrderDAO {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateOrder(order,dao,con,ps,rs);
+        MockitoDAOSetUp.CreateOrder(order, con,ps,rs);
 
         boolean result = dao.create(order);
 
         assertTrue(result);
     }
-
-
-
 
     @Test
     void testRead() throws Exception {
@@ -64,7 +61,6 @@ class TestOrderDAO {
 
         assertEquals(order, result);
     }
-
 
     @Test
     void testUpdateStatus() throws SQLException {
@@ -80,7 +76,7 @@ class TestOrderDAO {
     void testDelete() throws SQLException {
         MockitoDAOSetUp.DeleteOrder(order,con,ps);
 
-        boolean result = dao.delete(order);
+        boolean result = dao.delete(order.getCode());
 
         assertTrue(result);
     }
@@ -92,9 +88,24 @@ class TestOrderDAO {
         List<Order> expected = new ArrayList<>();
         expected.add(order);
 
-        List<Order> offers = dao.readAll(0,0);
+        List<Order> offers = dao.readAll(0,6);
 
         assertEquals(expected, offers);
+        assertEquals(0, dao.getNumberOfPages());
+        assertEquals(0, dao.getNumberOfUserPages());
+    }
+    @Test
+    void testReadAllOrderStatuses() throws SQLException {
+        MockitoDAOSetUp.ReadAllOrderStatuses(con,ps,rs);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("registered");
+        expected.add("paid");
+        expected.add("canceled");
+
+        List<String> userRoles = dao.readAllOrderStatuses();
+
+        assertEquals(expected, userRoles);
     }
 
 }
