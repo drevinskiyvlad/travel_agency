@@ -1,4 +1,4 @@
-package org.travel_agency.DB.DAO;
+package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
 
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.model.entity.*;
