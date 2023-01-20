@@ -21,14 +21,10 @@ S
 -src/main/webapp/fonts/fontawesome-webfont.svg,7\c\7c21d407a7a3095a300988d545fa23ecab8ef10b
 Q
 !src/main/webapp/fonts/icomoon.svg,d\2\d26bf5f34795ce996bab4f80005c6ea60415a383
-^
-..idea/artifacts/travel_agency_war_exploded.xml,2\0\2076176d69668aa0370a81c3a20cad048c346d30
 Z
 *src/main/webapp/fonts/font-awesome.min.css,d\e\deb3c7674b519496bcf64545ebb1d30a69152cbc
 p
 @src/main/java/com/travel_agency/utils/RandomStringGenerator.java,f\b\fbc2a3fa2556ebc4b5f8c6700e7852e20fcac3ac
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 s
 Csrc/main/java/com/travel_agency/exceptions/ValidationException.java,5\3\53e0a852950b76ada5fb6cecafa0bf5b49dabf7c
 l
