@@ -1,10 +1,10 @@
 package com.travel_agency.model.services;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
-import com.travel_agency.model.entity.User;
+import com.travel_agency.model.DB.DAO.UserDAO;
 import com.travel_agency.model.DTO.UserDTO;
+import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import com.travel_agency.utils.Validator;
 import org.apache.logging.log4j.LogManager;
@@ -15,9 +15,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
-    private final MySQLUserDAO dao;
+    private final UserDAO<User, String> dao;
 
-    public UserService(MySQLUserDAO dao) {
+    public UserService(UserDAO<User, String> dao) {
         this.dao = dao;
     }
 
@@ -54,9 +54,9 @@ public class UserService {
         return makeListOfDTOs(result);
     }
 
-    public boolean changeUserBlocked(String email) throws DAOException {
+    public void changeUserBlocked(String email) throws DAOException {
         User user = dao.read(email);
-        return dao.update(email, !user.isBlocked());
+        dao.update(email, !user.isBlocked());
     }
 
     private List<UserDTO> makeListOfDTOs(List<User> users) {
