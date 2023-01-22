@@ -1,13 +1,12 @@
-package com.travel_agency.controller.pagination;
+package com.travel_agency.controller.comands.pagination;
 
+import com.travel_agency.controller.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.services.OfferService;
 import com.travel_agency.utils.Constants.PaginationConstants;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -15,10 +14,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
-@WebServlet("/offerPagination")
-public class OffersPaginationServlet extends HttpServlet {
+public class OffersPaginationCommand implements Command {
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int page = 1;
         int recordsPerPage = PaginationConstants.OFFERS_RECORDS_PER_PAGE;
         if (req.getParameter("offerListPage") != null)
@@ -26,16 +25,20 @@ public class OffersPaginationServlet extends HttpServlet {
         Connection con = DBManager.getInstance().getConnection();
         MySQLOfferDAO dao = new MySQLOfferDAO(con);
         OfferService service = new OfferService(dao);
+
+        dao.setPage(page);
         List<OfferDTO> offers = service.getAllOffers(
                 (page - 1) * recordsPerPage,
                 recordsPerPage,
                 false);
 
+
         req.setAttribute("offers", offers);
         req.setAttribute("numberOfPagesInOffers", dao.getNumberOfPages());
         req.setAttribute("currentPage", page);
-        req.getRequestDispatcher("our-offer.jsp").forward(req, resp);
 
         DBManager.closeConnection(con);
+
+        return PathConstants.OUR_OFFER;
     }
 }

@@ -1,4 +1,4 @@
-package com.travel_agency.controller.comands;
+package com.travel_agency.controller.comands.our_offer;
 
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DBManager;
@@ -8,6 +8,7 @@ import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.services.OfferService;
+import com.travel_agency.utils.RandomStringGenerator;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,31 +18,30 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.sql.Connection;
 
-public class UpdateOfferCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(UpdateOfferCommand.class);
+public class AddOfferCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(AddOfferCommand.class);
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("error");
 
-        String code = req.getParameter("code");
+        String code = RandomStringGenerator.getString(8);
         String redirectPage = PathConstants.OUR_OFFER;
         Connection con = null;
-
         try {
             con = DBManager.getInstance().getConnection();
             MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
             OfferService service = new OfferService(offerDAO);
 
-            if(!updateOffer(req, service, code))
-                logger.error("Something went wrong, return value of update offer is false");
+            if(!createOffer(req, service, code))
+                logger.error("Something went wrong, return value of create offer is false");
 
-            logger.info("Offer with code {} successfully updated", code);
+            logger.info("Offer with code {} successfully added", code);
         } catch (ValidationException e) {
             req.getSession().setAttribute("error", e.getMessage());
-            logger.error("Invalid parameters while updating offer: " + e.getMessage());
-            redirectPage = PathConstants.UPDATE_OFFER + "?code=" + code;
+            logger.error("Invalid parameters while creating offer: " + e.getMessage());
+            redirectPage = PathConstants.ADD_OFFER + "?code=" + code;
         } catch (Exception e) {
-            logger.error("Unable to update offer:" + e.getMessage(), e);
+            logger.error("Unable to add offer:" + e.getMessage(), e);
             redirectPage = PathConstants.ERROR;
         } finally {
             DBManager.closeConnection(con);
@@ -51,12 +51,12 @@ public class UpdateOfferCommand implements Command {
         return PathConstants.COMMAND_REDIRECT;
     }
 
-    private boolean updateOffer(HttpServletRequest req, OfferService service,String code) throws DAOException, ValidationException {
+    private boolean createOffer(HttpServletRequest req, OfferService service, String code) throws DAOException, ValidationException {
         checkIfFieldsAreNull(req);
 
-        OfferDTO offerDTO = initOfferDTO(req,service,code);
+        OfferDTO offerDTO = initOfferDTO(req,code);
 
-        return service.updateOffer(offerDTO);
+        return service.createOffer(offerDTO);
     }
 
     private void checkIfFieldsAreNull(HttpServletRequest req) throws ValidationException {
@@ -64,25 +64,25 @@ public class UpdateOfferCommand implements Command {
         String placesString = req.getParameter("places");
         String priceString = req.getParameter("price");
         String discountString = req.getParameter("discount");
+        String city = req.getParameter("city");
 
-        if(placesString.equals("") || discountString.equals("") || hotel.equals("") || priceString.equals(""))
+        if(placesString.equals("") || discountString.equals("") || hotel.equals("") || priceString.equals("") || city.equals(""))
             throw new ValidationException(ValidationMessageConstants.FILL_ALL_FIELDS);
     }
 
-    private OfferDTO initOfferDTO(HttpServletRequest req, OfferService service, String code){
-        String hotel = req.getParameter("hotelName");
+    private OfferDTO initOfferDTO(HttpServletRequest req, String code){
         String placesString = req.getParameter("places");
         String priceString = req.getParameter("price");
         String discountString = req.getParameter("discount");
 
-        OfferDTO initialOfferDTO = service.getOffer(code);
         String offerType = req.getParameter("offerType");
         String hotelType = req.getParameter("hotelType");
+        String hotel = req.getParameter("hotelName");
         int places = Integer.parseInt(placesString);
         double discount = Double.parseDouble(discountString)/100;
         double price = Double.parseDouble(priceString);
-        String city = initialOfferDTO.getCity();
-        boolean isHot = initialOfferDTO.isHot();
+        String city = req.getParameter("city");
+        boolean isHot = false;
         return new OfferDTO(code,offerType,hotel,hotelType,city,places,discount,isHot,price);
     }
 }

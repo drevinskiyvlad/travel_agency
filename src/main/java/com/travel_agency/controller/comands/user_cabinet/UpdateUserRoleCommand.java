@@ -1,4 +1,4 @@
-package com.travel_agency.controller.comands;
+package com.travel_agency.controller.comands.user_cabinet;
 
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.model.DB.DBManager;
