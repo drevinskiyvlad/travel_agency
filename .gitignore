@@ -41,3 +41,4 @@ build/
 
 /.idea/sonarlint/
 /logs/
+/.idea/sonarlint/issuestore/

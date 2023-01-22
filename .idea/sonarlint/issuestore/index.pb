@@ -21,8 +21,6 @@ S
 -src/main/webapp/fonts/fontawesome-webfont.svg,7\c\7c21d407a7a3095a300988d545fa23ecab8ef10b
 Q
 !src/main/webapp/fonts/icomoon.svg,d\2\d26bf5f34795ce996bab4f80005c6ea60415a383
-^
-..idea/artifacts/travel_agency_war_exploded.xml,2\0\2076176d69668aa0370a81c3a20cad048c346d30
 Z
 *src/main/webapp/fonts/font-awesome.min.css,d\e\deb3c7674b519496bcf64545ebb1d30a69152cbc
 g
