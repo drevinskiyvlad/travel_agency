@@ -23,7 +23,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer, String> {
     private double numberOfNotHotPages; // for pagination
     private double numberOfHotPages; // for pagination
     private int numberOfHotRecords; // for pagination
-    @Setter private int page;
+    @Setter private int page; // for pagination
 
     public MySQLOfferDAO(Connection con) {
         this.con = con;
@@ -162,10 +162,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer, String> {
     private List<Offer> readAllNotHot(int offset, int numOfRecords) throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>();
         int numOfNotHotRecords = numOfRecords;
-        System.out.println(page + " " + (int)Math.ceil(numberOfHotPages));
         if(page <= (int)Math.ceil(numberOfHotPages)) {
             numOfNotHotRecords = numOfRecords - numberOfHotRecords;
-            System.out.println(page + " " + (int)Math.ceil(numberOfHotPages));
         }
         int notHotOffset = offset - numberOfHotRecords;
         if (notHotOffset < 0) notHotOffset = 0;
@@ -181,8 +179,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer, String> {
             rs = ps.executeQuery(MySQLDAOConstants.OFFER_GET_NUMBER_OF_RECORDS);
             if (rs.next())
                 numberOfNotHotPages = rs.getInt(1) * 1.0 / numOfRecords;
-
-            System.out.println("not hot records " + numOfNotHotRecords);
         } catch (SQLException e) {
             logger.error("Unable to read list of not hot offers: " + e.getMessage(), e);
             throw new DAOException("Unable to read list of not hot offers: " + e.getMessage());
@@ -207,8 +203,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer, String> {
                 numberOfHotRecords = rs.getInt(1);
                 numberOfHotPages = numberOfHotRecords * 1.0 / numOfRecords;
             }
-
-            System.out.println("hot records " + numberOfHotRecords);
 
         } catch (SQLException e) {
             logger.error("Unable to read list of hot offers: " + e.getMessage(), e);

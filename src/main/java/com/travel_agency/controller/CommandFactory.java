@@ -5,6 +5,9 @@ import com.travel_agency.controller.comands.authorization.SignInCommand;
 import com.travel_agency.controller.comands.authorization.SignUpCommand;
 import com.travel_agency.controller.comands.our_offer.*;
 import com.travel_agency.controller.comands.pagination.OffersPaginationCommand;
+import com.travel_agency.controller.comands.pagination.OrdersPaginationCommand;
+import com.travel_agency.controller.comands.pagination.UserListPaginationCommand;
+import com.travel_agency.controller.comands.pagination.UserOrdersPaginationCommand;
 import com.travel_agency.controller.comands.user_cabinet.BlockUserCommand;
 import com.travel_agency.controller.comands.user_cabinet.DeleteOrderCommand;
 import com.travel_agency.controller.comands.user_cabinet.UpdateOrderStatusCommand;
@@ -50,8 +53,11 @@ public class CommandFactory {
         commands.put("deleteOffer", new DeleteOfferCommand());
         commands.put("makeOrder", new MakeOrderCommand());
 
-        //pagintaion
+        //pagination
         commands.put("offerPagination", new OffersPaginationCommand());
+        commands.put("orderPagination", new OrdersPaginationCommand());
+        commands.put("userPagination", new UserListPaginationCommand());
+        commands.put("userOrdersPagination", new UserOrdersPaginationCommand());
 
     }
 

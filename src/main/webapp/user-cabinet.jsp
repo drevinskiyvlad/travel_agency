@@ -136,7 +136,7 @@
                     </table>
                     <my:pagination numberOfPages="${requestScope.numberOfPagesInUserOrders}"
                                    currentPage="${requestScope.currentUserOrderPage}"
-                                   redirectTo="userOrdersPagination?orderListPage="/>
+                                   redirectTo="controller?action=userOrdersPagination&orderListPage="/>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'manager' || sessionScope.user.role == 'admin'}">
 
@@ -189,7 +189,7 @@
 
                     <my:pagination numberOfPages="${requestScope.numberOfPagesInOrders}"
                                    currentPage="${requestScope.currentOrderPage}"
-                                   redirectTo="orderPagination?orderListPage="/>
+                                   redirectTo="controller?action=orderPagination&orderListPage="/>
                 </c:if>
                 <c:if test="${sessionScope.user.role == 'admin'}">
                     <br>
@@ -246,7 +246,7 @@
                     </table>
                     <my:pagination numberOfPages="${requestScope.numberOfPagesInUserList}"
                                    currentPage="${requestScope.currentPage}"
-                                   redirectTo="userPagination?userListPage="/>
+                                   redirectTo="controller?action=userPagination&userListPage="/>
                 </c:if>
 
 

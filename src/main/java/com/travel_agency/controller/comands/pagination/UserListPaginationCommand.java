@@ -1,13 +1,15 @@
-package com.travel_agency.controller.pagination;
+package com.travel_agency.controller.comands.pagination;
 
+import com.travel_agency.controller.Command;
+import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.model.DB.DBManager;
+import com.travel_agency.model.DTO.OrderDTO;
 import com.travel_agency.model.DTO.UserDTO;
+import com.travel_agency.model.services.OrderService;
 import com.travel_agency.model.services.UserService;
 import com.travel_agency.utils.Constants.PaginationConstants;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -15,10 +17,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
-@WebServlet("/userPagination")
-public class UserListPaginationServlet extends HttpServlet {
+public class UserListPaginationCommand implements Command {
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int page = 1;
         int recordsPerPage = PaginationConstants.USER_LIST_RECORDS_PER_PAGE;
         if (req.getParameter("userListPage") != null)
@@ -34,6 +36,9 @@ public class UserListPaginationServlet extends HttpServlet {
         req.setAttribute("allUsers", users);
         req.setAttribute("numberOfPagesInUserList", dao.getNumberOfPages());
         req.setAttribute("currentPage", page);
-        req.getRequestDispatcher("user-cabinet.jsp").forward(req, resp);
+
+        DBManager.closeConnection(con);
+
+        return PathConstants.USER_CABINET;
     }
 }
