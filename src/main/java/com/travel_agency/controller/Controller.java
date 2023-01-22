@@ -29,6 +29,8 @@ public class Controller extends HttpServlet {
         CommandFactory commandFactory = CommandFactory.getInstance();
         Command command = commandFactory.getCommand(req);
         String page = command.execute(req, resp);
+        if(page == null)
+            page = req.getContextPath();
         RequestDispatcher dispatcher = req.getRequestDispatcher(page);
         if (!page.equals("redirect")) {
             dispatcher.forward(req, resp);

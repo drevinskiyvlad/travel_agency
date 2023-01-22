@@ -31,8 +31,6 @@ Q
 !src/main/webapp/authorization.jsp,9\e\9e581c0d9b27569cb6169008176972c0e96fc21d
 p
 @src/main/java/com/travel_agency/utils/RandomStringGenerator.java,f\b\fbc2a3fa2556ebc4b5f8c6700e7852e20fcac3ac
-M
-src/main/webapp/css/style.css,2\c\2c1f525046eaa5ad3e39cc3d3b2f4c4fab4ff318
 I
 src/main/webapp/error.jsp,c\b\cba3df22242d379bdb72d00919d2e8d49101d1bf
 s
@@ -40,26 +38,20 @@ Csrc/main/java/com/travel_agency/exceptions/ValidationException.java,5\3\53e0a8
 l
 <src/main/java/com/travel_agency/exceptions/DAOException.java,4\3\4300ed7edb803f97687cf78681eb96355f54dc39
 P
- src/main/webapp/user-cabinet.jsp,4\f\4f85c5f2f726f8202fbff55c3a93dad000ab54c1
-P
  src/main/webapp/registration.jsp,d\d\dd51f7041d5a8d7bb17c79a85099a350e198ae09
 d
 4src/main/java/com/travel_agency/utils/Validator.java,2\0\20b05f0b11953349d618b87646dad0cda1a5ec6b
 <
 logs/log.log,5\5\556ba4b2b1dccf4c3c379694e46cd98762049bab
-I
-src/main/webapp/offer.jsp,6\4\648f4360855fc93f30ec4d2f5084e0714a9268e0
 P
  src/main/webapp/update-offer.jsp,d\f\dfd7f161cc76df2a59f68f5613ca3449dbe6a839
 M
-src/main/webapp/our-offer.jsp,c\1\c1605707ead16d2cdda005a0fc049eceb9e69c5d
-M
 src/main/webapp/add-offer.jsp,c\a\caa222ca1e0b5faaafdf9e16eabab23090b4860d
-O
-src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 T
 $src/main/webapp/META-INF/context.xml,c\b\cbfb0d2e9b2b9fbf9d54374577c894a38643c6d0
-I
-src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
+o
+?src/main/java/com/travel_agency/model/services/UserService.java,f\e\fea0ec19a3e20415da7256c85ba4867db4080537
+\
+,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c

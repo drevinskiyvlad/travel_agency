@@ -166,11 +166,11 @@
                             <td>${order.userEmail}</td>
                             <td>
                                 <form accept-charset="UTF-8" role="form" action="controller?action=updateOrderStatus" method="post">
-                                    <select name="orderStatus" id="orderStatus">
+                                    <select name="orderStatus" id="orderStatus" onchange='submit();'>
                                         <c:forEach items="${requestScope.orderStatuses}" var="status">
                                             <c:choose>
                                                 <c:when test="${order.orderStatus eq status}">
-                                                    <option value="${status}" selected>${status}</option>
+                                                    <option value="${status}" selected >${status}</option>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <option value="${status}">${status}</option>
@@ -179,9 +179,6 @@
                                         </c:forEach>
                                     </select>
                                     <input value="${order.code}" name="code" style="display:none">
-                                    <button type="submit" class="check-mark">
-                                        <i class="fa fa-check"></i>
-                                    </button>
                                 </form>
                             </td>
                             <td>${String.format("%.2f", order.price)}$</td>
@@ -218,7 +215,7 @@
                                 <td>${user.email}</td>
                                 <td>
                                     <form accept-charset="UTF-8" role="form" action="controller?action=updateUserRole" method="post">
-                                        <select name="userRole" id="userRole">
+                                        <select name="userRole" id="userRole" onchange='submit();'>
                                             <c:forEach items="${requestScope.userRoles}" var="role">
                                                 <c:choose>
                                                     <c:when test="${user.role eq role}">
@@ -231,9 +228,6 @@
                                             </c:forEach>
                                         </select>
                                         <input value="${user.email}" name="email" style="display:none">
-                                        <button type="submit" class="check-mark">
-                                            <i class="fa fa-check"></i>
-                                        </button>
                                     </form>
                                 </td>
                                 <td>${user.firstName}</td>

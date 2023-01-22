@@ -106,7 +106,7 @@
                 </div>
                 <my:pagination numberOfPages="${requestScope.numberOfPagesInOffers}"
                                currentPage="${requestScope.currentPage}"
-                               redirectTo="offerPagination?offerListPage="/>
+                               redirectTo="controller?action=offerPagination&offerListPage="/>
 
             </div>
         </div>
