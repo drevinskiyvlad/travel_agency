@@ -54,7 +54,7 @@
 
     <filter>
         <filter-name>offer-list-filter</filter-name>
-        <filter-class>com.travel_agency.controller.filters.OfferListFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.filling.OfferListFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -65,7 +65,7 @@
 
     <filter>
         <filter-name>offer-item-filter</filter-name>
-        <filter-class>com.travel_agency.controller.filters.OfferItemFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.filling.OfferItemFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -76,25 +76,25 @@
 
     <filter>
         <filter-name>types-offer-filter</filter-name>
-        <filter-class>com.travel_agency.controller.filters.TypesOfferFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.filling.TypesOfferFilter</filter-class>
     </filter>
 
     <filter-mapping>
         <filter-name>types-offer-filter</filter-name>
         <url-pattern>/update-offer.jsp</url-pattern>
         <url-pattern>/add-offer.jsp</url-pattern>
+        <url-pattern>/controller</url-pattern>
     </filter-mapping>
 
     <filter>
         <filter-name>user-cabinet-filling-filter</filter-name>
-        <filter-class>com.travel_agency.controller.filters.UserCabinetFillingFilter</filter-class>
+        <filter-class>com.travel_agency.controller.filters.filling.UserCabinetFillingFilter</filter-class>
     </filter>
 
     <filter-mapping>
         <filter-name>user-cabinet-filling-filter</filter-name>
         <url-pattern>/user-cabinet.jsp</url-pattern>
-        <url-pattern>/orderPagination</url-pattern>
-        <url-pattern>/userPagination</url-pattern>
+        <url-pattern>/controller</url-pattern>
     </filter-mapping>
 
 
