@@ -2723,3 +2723,8 @@ figure img {
 .add-offer-button{
     margin: 0 3% 3%;
 }
+
+.current-date{
+    display: inline-block;
+    margin-left: 55%;
+}

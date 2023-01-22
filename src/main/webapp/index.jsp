@@ -150,7 +150,7 @@
                 <h2 class="section-title"><fmt:message key="index.hotOffers"/></h2>
                 <div class="row">
                     <div class="filterable-items">
-                        <c:forEach items="${requestScope.hotOffers}" var="offer">
+                        <c:forEach items="${requestScope.hotOffers}" end="2" var="offer">
                             <div class="filterable-item offer-block"
                                  <c:if test="${offer.isHot()}">style="background-color:rgba(255,0,0,0.29)"</c:if>>
                                 <article class="offer offer-item">
