@@ -2,6 +2,7 @@ package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
 
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.entity.Offer;
+import com.travel_agency.utils.Constants.SORTING_BY;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -109,6 +110,21 @@ class TestOfferDAO {
         expected.add(offer);
 
         List<Offer> offers = dao.readAll(0,0,false);
+
+        assertEquals(expected, offers);
+        assertEquals(0, dao.getNumberOfPages());
+    }
+
+    @Test
+    void testReadAllSorted() throws SQLException {
+        SORTING_BY sortingBy = SORTING_BY.OFFER_TYPE;
+
+        MockitoDAOSetUp.ReadAllOffersSorted(offer,sortingBy.getCommand(),con,ps,rs);
+
+        List<Offer> expected = new ArrayList<>();
+        expected.add(offer);
+
+        List<Offer> offers = dao.readAllSorted(0,0,sortingBy);
 
         assertEquals(expected, offers);
         assertEquals(0, dao.getNumberOfPages());

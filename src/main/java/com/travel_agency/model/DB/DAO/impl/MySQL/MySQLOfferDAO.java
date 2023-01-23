@@ -215,10 +215,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer, String> {
     }
 
     public List<Offer> readAllSorted(int offset, int numOfRecords, SORTING_BY sortBy) throws DAOException {
-        return new CopyOnWriteArrayList<>(readAllNotHotSorted(offset, numOfRecords,sortBy));
-    }
-
-    private List<Offer> readAllNotHotSorted(int offset, int numOfRecords, SORTING_BY sortBy) throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>();
 
         ResultSet rs = null;
