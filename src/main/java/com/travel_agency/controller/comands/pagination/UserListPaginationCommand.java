@@ -1,6 +1,5 @@
 package com.travel_agency.controller.comands.pagination;
 
-import com.travel_agency.controller.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.DTO.UserDTO;

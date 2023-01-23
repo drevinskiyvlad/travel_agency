@@ -1,4 +1,4 @@
-package com.travel_agency.controller;
+package com.travel_agency.controller.comands;
 
 import com.travel_agency.controller.comands.authorization.LogoutCommand;
 import com.travel_agency.controller.comands.authorization.SignInCommand;

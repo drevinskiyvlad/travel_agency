@@ -3,7 +3,6 @@ package com.travel_agency.controller.comands.our_offer;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.DTO.UserDTO;

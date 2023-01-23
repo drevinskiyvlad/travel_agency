@@ -1,4 +1,4 @@
-package com.travel_agency.controller;
+package com.travel_agency.controller.comands;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

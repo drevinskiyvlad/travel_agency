@@ -1,6 +1,5 @@
 package com.travel_agency.controller.comands.authorization;
 
-import com.travel_agency.controller.Command;
 import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
