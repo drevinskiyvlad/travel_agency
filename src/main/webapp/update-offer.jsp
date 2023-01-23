@@ -105,7 +105,7 @@
                                placeholder="500" value="${requestScope.offerItem.price}">$
                     </p>
                     <p><b><fmt:message key="offer.discount"/></b>: <input type="number" name="discount" class="form-control"
-                                             placeholder="from 5 to 25">%</p>
+                                             placeholder="from 5 to 25" value="${requestScope.offerItem.discount * 100}">%</p>
 
                     <input value="${requestScope.offerItem.code}" name="code" style="display:none">
                     <button type="submit" class="button"><fmt:message key="offer.save"/></button>
