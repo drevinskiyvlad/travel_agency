@@ -30,11 +30,12 @@ public class TypesOfferFilter implements Filter {
     }
 
     private void setOfferTypesToSession(HttpServletRequest req) throws DAOException {
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
+        Connection con = DBManager.getInstance().getConnection();
         MySQLOfferDAO dao = new MySQLOfferDAO(con);
+
         req.setAttribute("offerTypes", dao.readAllOfferTypes());
         req.setAttribute("hotelTypes", dao.readAllHotelTypes());
+
         DBManager.closeConnection(con);
     }
 }

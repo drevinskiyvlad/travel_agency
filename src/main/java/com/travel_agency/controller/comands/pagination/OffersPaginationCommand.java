@@ -19,10 +19,12 @@ public class OffersPaginationCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //init values
         SORTING_BY sortBy = (SORTING_BY) req.getSession().getAttribute("sortBy");
         int recordsPerPage = PaginationConstants.OFFERS_RECORDS_PER_PAGE;
         int page = getPage(req);
 
+        //init service
         Connection con = DBManager.getInstance().getConnection();
         MySQLOfferDAO dao = new MySQLOfferDAO(con);
         OfferService service = new OfferService(dao);

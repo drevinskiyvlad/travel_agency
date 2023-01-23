@@ -34,9 +34,21 @@ public class OfferListFilter implements Filter {
 
     private static void setAttributesToRequest(HttpServletRequest req, MySQLOfferDAO dao, OfferService service, SORTING_BY sortBy) {
         req.getSession().setAttribute("sortBy", sortBy);
-        req.setAttribute("offers", service.getAllOffers(0, PaginationConstants.OFFERS_RECORDS_PER_PAGE, false, sortBy));
+
+        req.setAttribute("offers",
+                service.getAllOffers(0,
+                        PaginationConstants.OFFERS_RECORDS_PER_PAGE,
+                        false,
+                        sortBy));
+
         req.setAttribute("numberOfPagesInOffers", dao.getNumberOfPages());
-        req.setAttribute("hotOffers", service.getAllOffers(0, PaginationConstants.OFFERS_RECORDS_PER_PAGE, true, sortBy));
+
+        req.setAttribute("hotOffers",
+                service.getAllOffers(0,
+                        PaginationConstants.OFFERS_RECORDS_PER_PAGE,
+                        true,
+                        sortBy));
+
         req.setAttribute("numberOfPagesInHotOffers", dao.getNumberOfPages());
         req.setAttribute("currentPage", 1);
     }

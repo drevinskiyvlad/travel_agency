@@ -23,8 +23,7 @@ public class OfferItemFilter implements Filter {
 
     private static OfferDTO getOfferDTO(HttpServletRequest req) {
 
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
+        Connection con = DBManager.getInstance().getConnection();
         OfferService service = getOfferService(con);
 
         String code = req.getParameter("code");
