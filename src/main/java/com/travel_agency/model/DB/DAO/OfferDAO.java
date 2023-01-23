@@ -1,6 +1,8 @@
 package com.travel_agency.model.DB.DAO;
 
 import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.model.entity.Offer;
+import com.travel_agency.utils.Constants.SORTING_BY;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ public interface OfferDAO<E, K> {
     boolean update(E entity, int newValue) throws DAOException;
     boolean delete(K key) throws DAOException;
     List<E> readAll(int offset, int numOfRecords, boolean onlyHot) throws DAOException;
+    List<Offer> readAllSorted(int offset, int numOfRecords, SORTING_BY sortBy) throws DAOException;
     List<String> readAllHotelTypes() throws DAOException;
     List<String> readAllOfferTypes() throws DAOException;
 

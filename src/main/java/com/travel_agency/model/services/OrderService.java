@@ -1,6 +1,7 @@
 package com.travel_agency.model.services;
 
 import com.google.protobuf.ServiceException;
+import com.travel_agency.model.DB.DAO.OrderDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OrderService {
-    private final MySQLOrderDAO dao;
+    private final OrderDAO<Order,String> dao;
     private static final Logger logger = LogManager.getLogger(OrderService.class);
 
     public OrderService(MySQLOrderDAO dao) {

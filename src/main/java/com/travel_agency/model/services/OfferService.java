@@ -1,5 +1,6 @@
 package com.travel_agency.model.services;
 
+import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OfferService {
-    private final MySQLOfferDAO dao;
+    private final OfferDAO<Offer,String> dao;
     private static final Logger logger = LogManager.getLogger(OfferService.class);
 
     public OfferService(MySQLOfferDAO dao) {
