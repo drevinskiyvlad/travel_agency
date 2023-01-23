@@ -45,8 +45,6 @@ M
 src/main/webapp/add-offer.jsp,c\a\caa222ca1e0b5faaafdf9e16eabab23090b4860d
 T
 $src/main/webapp/META-INF/context.xml,c\b\cbfb0d2e9b2b9fbf9d54374577c894a38643c6d0
-o
-?src/main/java/com/travel_agency/model/services/UserService.java,f\e\fea0ec19a3e20415da7256c85ba4867db4080537
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 y
@@ -77,17 +75,5 @@ Wsrc/main/java/com/travel_agency/controller/comands/user_cabinet/DeleteOrderComm
 Usrc/main/java/com/travel_agency/controller/comands/user_cabinet/BlockUserCommand.java,b\9\b930ddec8c30b522b8e3c3d0891849e48698de75
 ‚
 Rsrc/main/java/com/travel_agency/controller/comands/our_offer/MakeOrderCommand.java,3\4\34a5e7780f54d60fa14dad4315a5cbc141c27c86
-Ž
-^src/main/java/com/travel_agency/controller/comands/pagination/UserOrdersPaginationCommand.java,4\e\4e0022be80cc067a5590bd24d981b354f1df1630
-Š
-Zsrc/main/java/com/travel_agency/controller/comands/pagination/OrdersPaginationCommand.java,5\a\5a9302c4e0a5d67757a59429c89e588034e43a5a
-ˆ
-Xsrc/main/java/com/travel_agency/controller/filters/filling/UserCabinetFillingFilter.java,c\3\c34c1458560daa834f6cb5dd6162af14746aa94a
-€
-Psrc/main/java/com/travel_agency/controller/filters/filling/TypesOfferFilter.java,a\d\addd8725e6709d8a38c8ed2c0b73b1d7e9249104
-
-Osrc/main/java/com/travel_agency/controller/filters/filling/OfferItemFilter.java,b\e\be1f79f0cb37c9f19056546acdd56fde053c4a05
-Œ
-\src/main/java/com/travel_agency/controller/comands/pagination/UserListPaginationCommand.java,a\5\a5150709f5f807b3f41c5b0357d12285efcc9eca
 ^
 ..idea/artifacts/travel_agency_war_exploded.xml,2\0\2076176d69668aa0370a81c3a20cad048c346d30

@@ -81,11 +81,11 @@
                 </c:if>
 
                 <div class="filter-link">
-                    <a href="our-offer.jsp?sortBy=offerType">Тип пропозиції</a>
-                    <a href="our-offer.jsp?sortBy=hotelType">Тип готелю</a>
-                    <a href="our-offer.jsp?sortBy=price">Ціна</a>
-                    <a href="our-offer.jsp?sortBy=places">Кількість місць</a>
-                    <a href="our-offer.jsp">Скинути</a>
+                    <a href="our-offer.jsp?sortBy=offerType"><fmt:message key="ourOffer.sort.offerType"/></a>
+                    <a href="our-offer.jsp?sortBy=hotelType"><fmt:message key="ourOffer.sort.hotelType"/></a>
+                    <a href="our-offer.jsp?sortBy=price"><fmt:message key="ourOffer.sort.price"/></a>
+                    <a href="our-offer.jsp?sortBy=places"><fmt:message key="ourOffer.sort.places"/></a>
+                    <a href="our-offer.jsp"><fmt:message key="ourOffer.sort.cancel"/></a>
                 </div>
 
                 <div class="filterable-items">
