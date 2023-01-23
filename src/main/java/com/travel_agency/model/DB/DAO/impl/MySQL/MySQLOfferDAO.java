@@ -5,6 +5,7 @@ import com.travel_agency.utils.Constants.MySQLDAOConstants;
 import com.travel_agency.model.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.model.entity.Offer;
+import com.travel_agency.utils.Constants.SORTING_BY;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -176,7 +177,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer, String> {
             addOffersToList(result, rs);
             rs.close();
 
-            rs = ps.executeQuery(MySQLDAOConstants.OFFER_GET_NUMBER_OF_RECORDS);
+            rs = ps.executeQuery(MySQLDAOConstants.NOT_HOT_OFFER_GET_NUMBER_OF_RECORDS);
             if (rs.next())
                 numberOfNotHotPages = rs.getInt(1) * 1.0 / numOfRecords;
         } catch (SQLException e) {
@@ -212,6 +213,36 @@ public class MySQLOfferDAO implements OfferDAO<Offer, String> {
         }
         return result;
     }
+
+    public List<Offer> readAllSorted(int offset, int numOfRecords, SORTING_BY sortBy) throws DAOException {
+        return new CopyOnWriteArrayList<>(readAllNotHotSorted(offset, numOfRecords,sortBy));
+    }
+
+    private List<Offer> readAllNotHotSorted(int offset, int numOfRecords, SORTING_BY sortBy) throws DAOException {
+        List<Offer> result = new CopyOnWriteArrayList<>();
+
+        ResultSet rs = null;
+        try (PreparedStatement ps = con.prepareStatement(sortBy.getCommand())) {
+            ps.setInt(1, offset);
+            ps.setInt(2, numOfRecords);
+            rs = ps.executeQuery();
+            addOffersToList(result, rs);
+            rs.close();
+
+            rs = ps.executeQuery(MySQLDAOConstants.OFFER_GET_NUMBER_OF_RECORDS);
+            if (rs.next()) {
+                numberOfHotPages = 0;
+                numberOfNotHotPages = rs.getInt(1) * 1.0 / numOfRecords;
+            }
+        } catch (SQLException e) {
+            logger.error("Unable to read list of not hot offers: " + e.getMessage(), e);
+            throw new DAOException("Unable to read list of not hot offers: " + e.getMessage());
+        } finally {
+            close(rs);
+        }
+        return result;
+    }
+
 
     public List<String> readAllHotelTypes() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();

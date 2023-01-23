@@ -161,7 +161,7 @@ public class MockitoDAOSetUp {
     protected static void ReadAllOffers(Offer offer, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFERS)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOT_OFFERS)).thenReturn(ps);
-        when(ps.executeQuery(MySQLDAOConstants.OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
+        when(ps.executeQuery(MySQLDAOConstants.NOT_HOT_OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
         when(ps.executeQuery(MySQLDAOConstants.HOT_OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true)//for addOffersToList

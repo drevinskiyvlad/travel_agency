@@ -781,11 +781,11 @@ table {
     font-size: 0.8125em;
 }
 
-.filter-links {
+.filter-link {
     margin: 0 0 50px;
 }
 
-.filter-links a {
+.filter-link a {
     border-radius: 3px;
     border: 1px solid #f1f1f1;
     display: inline-block;
@@ -797,7 +797,7 @@ table {
     transition: .3s ease;
 }
 
-.filter-links a:hover {
+.filter-link a:hover {
     border-color: #19bdce;
     color: #19bdce;
 }

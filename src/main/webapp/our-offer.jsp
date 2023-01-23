@@ -80,8 +80,12 @@
                     </div>
                 </c:if>
 
-                <div class="filter-links filterable-nav">
-
+                <div class="filter-link">
+                    <a href="our-offer.jsp?sortBy=offerType">Тип пропозиції</a>
+                    <a href="our-offer.jsp?sortBy=hotelType">Тип готелю</a>
+                    <a href="our-offer.jsp?sortBy=price">Ціна</a>
+                    <a href="our-offer.jsp?sortBy=places">Кількість місць</a>
+                    <a href="our-offer.jsp">Скинути</a>
                 </div>
 
                 <div class="filterable-items">

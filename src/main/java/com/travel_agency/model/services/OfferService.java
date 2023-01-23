@@ -5,6 +5,7 @@ import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.model.DTO.OfferDTO;
+import com.travel_agency.utils.Constants.SORTING_BY;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import com.travel_agency.utils.Validator;
 import org.apache.logging.log4j.LogManager;
@@ -22,10 +23,14 @@ public class OfferService {
         this.dao = dao;
     }
 
-    public List<OfferDTO> getAllOffers(int offset, int numOfRecords, boolean onlyHot) {
+    public List<OfferDTO> getAllOffers(int offset, int numOfRecords, boolean onlyHot, SORTING_BY sortingBy) {
         List<Offer> offers;
         try {
-            offers = dao.readAll(offset, numOfRecords, onlyHot);
+            if(sortingBy == SORTING_BY.NONE) {
+                offers = dao.readAll(offset, numOfRecords, onlyHot);
+            } else{
+                offers = dao.readAllSorted(offset, numOfRecords, sortingBy);
+            }
         } catch (DAOException e) {
             logger.error("Unable to read offers: " + e.getMessage(), e);
             return new ArrayList<>();
