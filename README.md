@@ -8,6 +8,7 @@ selecting tours:
 - by number of persons;
 - by hotel type.
 
+
   The user registers in the system, selects the Tour and makes the Order. After ordering the
   tour has the status of registered.
 
