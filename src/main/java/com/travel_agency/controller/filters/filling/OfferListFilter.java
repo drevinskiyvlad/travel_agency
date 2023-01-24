@@ -15,9 +15,10 @@ public class OfferListFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
+
         addOffersToRequest(req);
 
-        chain.doFilter(servletRequest,servletResponse);
+        chain.doFilter(servletRequest, servletResponse);
     }
 
     private static void addOffersToRequest(HttpServletRequest req) {
@@ -55,8 +56,8 @@ public class OfferListFilter implements Filter {
 
     private static SORTING_BY getSortBy(HttpServletRequest req) {
         String sortingName = req.getParameter("sortBy");
-        for(SORTING_BY s : SORTING_BY.values()){
-            if(s.getName().equals(sortingName))
+        for (SORTING_BY s : SORTING_BY.values()) {
+            if (s.getName().equals(sortingName))
                 return s;
         }
         return SORTING_BY.NONE;

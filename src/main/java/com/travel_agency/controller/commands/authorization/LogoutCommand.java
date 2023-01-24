@@ -1,5 +1,6 @@
-package com.travel_agency.controller.comands.authorization;
+package com.travel_agency.controller.commands.authorization;
 
+import com.travel_agency.controller.commands.Command;
 import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,10 +14,12 @@ public class LogoutCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);
-        if (session != null) {
+
+        if (session != null)
             session.invalidate();
-        }
+
         logger.info("User logged out finished");
+
         return PathConstants.AUTHORIZATION;
     }
 }

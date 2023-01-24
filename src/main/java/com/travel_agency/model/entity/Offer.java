@@ -29,7 +29,7 @@ public class Offer {
                 ", hotelType='" + hotelType + '\'' +
                 ", hotelName='" + hotelName + '\'' +
                 ", places=" + places +
-                ", discount=" + (int)(discount*100) +
+                ", discount=" + (int) (discount * 100) +
                 "%, isHot=" + isHot +
                 ", price=" + price +
                 '}';

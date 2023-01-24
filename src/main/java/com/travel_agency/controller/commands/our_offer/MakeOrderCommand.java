@@ -1,5 +1,6 @@
-package com.travel_agency.controller.comands.our_offer;
+package com.travel_agency.controller.commands.our_offer;
 
+import com.travel_agency.controller.commands.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.model.DB.DBManager;

@@ -3,7 +3,8 @@ package com.travel_agency.utils;
 import java.util.Random;
 
 public class RandomStringGenerator {
-    private RandomStringGenerator() {}
+    private RandomStringGenerator() {
+    }
 
     private static final Random random = new Random();
 

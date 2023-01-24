@@ -1,5 +1,6 @@
-package com.travel_agency.controller.comands.our_offer;
+package com.travel_agency.controller.commands.our_offer;
 
+import com.travel_agency.controller.commands.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 
 public class DeleteOfferCommand implements Command {
     private static final Logger logger = LogManager.getLogger(DeleteOfferCommand.class);
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String redirectPage = PathConstants.OUR_OFFER;

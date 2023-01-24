@@ -1,17 +1,17 @@
-package com.travel_agency.controller.comands;
+package com.travel_agency.controller.commands;
 
-import com.travel_agency.controller.comands.authorization.LogoutCommand;
-import com.travel_agency.controller.comands.authorization.SignInCommand;
-import com.travel_agency.controller.comands.authorization.SignUpCommand;
-import com.travel_agency.controller.comands.our_offer.*;
-import com.travel_agency.controller.comands.pagination.OffersPaginationCommand;
-import com.travel_agency.controller.comands.pagination.OrdersPaginationCommand;
-import com.travel_agency.controller.comands.pagination.UserListPaginationCommand;
-import com.travel_agency.controller.comands.pagination.UserOrdersPaginationCommand;
-import com.travel_agency.controller.comands.user_cabinet.BlockUserCommand;
-import com.travel_agency.controller.comands.user_cabinet.DeleteOrderCommand;
-import com.travel_agency.controller.comands.user_cabinet.UpdateOrderStatusCommand;
-import com.travel_agency.controller.comands.user_cabinet.UpdateUserRoleCommand;
+import com.travel_agency.controller.commands.authorization.LogoutCommand;
+import com.travel_agency.controller.commands.authorization.SignInCommand;
+import com.travel_agency.controller.commands.authorization.SignUpCommand;
+import com.travel_agency.controller.commands.our_offer.*;
+import com.travel_agency.controller.commands.pagination.OffersPaginationCommand;
+import com.travel_agency.controller.commands.pagination.OrdersPaginationCommand;
+import com.travel_agency.controller.commands.pagination.UserListPaginationCommand;
+import com.travel_agency.controller.commands.pagination.UserOrdersPaginationCommand;
+import com.travel_agency.controller.commands.user_cabinet.BlockUserCommand;
+import com.travel_agency.controller.commands.user_cabinet.DeleteOrderCommand;
+import com.travel_agency.controller.commands.user_cabinet.UpdateOrderStatusCommand;
+import com.travel_agency.controller.commands.user_cabinet.UpdateUserRoleCommand;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.HashMap;

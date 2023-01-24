@@ -1,5 +1,7 @@
 package com.travel_agency.controller;
 
+import com.travel_agency.controller.commands.Command;
+import com.travel_agency.controller.commands.CommandFactory;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,14 +28,23 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
         CommandFactory commandFactory = CommandFactory.getInstance();
         Command command = commandFactory.getCommand(req);
-        String page = command.execute(req, resp);
-        if(page == null)
-            page = req.getContextPath();
+
+        String page = getPage(req, resp, command);
+
         RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-        if (!page.equals("redirect")) {
+
+        if (!page.equals("redirect"))
             dispatcher.forward(req, resp);
-        }
+    }
+
+    private static String getPage(HttpServletRequest req, HttpServletResponse resp, Command command) throws IOException {
+        String page = command.execute(req, resp);
+
+        if (page == null)
+            page = req.getContextPath();
+        return page;
     }
 }

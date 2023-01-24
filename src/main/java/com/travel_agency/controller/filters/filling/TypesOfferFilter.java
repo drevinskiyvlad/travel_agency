@@ -14,6 +14,7 @@ import java.sql.Connection;
 
 public class TypesOfferFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(TypesOfferFilter.class);
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
@@ -23,10 +24,10 @@ public class TypesOfferFilter implements Filter {
             setOfferTypesToSession(req);
         } catch (Exception e) {
             logger.error("Unable to set offer and hotel types to session: " + e.getMessage(), e);
-            req.getRequestDispatcher("error.jsp").forward(req,resp);
+            req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
 
-        filterChain.doFilter(servletRequest,servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     private void setOfferTypesToSession(HttpServletRequest req) throws DAOException {

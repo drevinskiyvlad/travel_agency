@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class DBManager {
     private static final Logger logger = LogManager.getLogger(DBManager.class);
-    private static DBManager instance = null;
+    private static DBManager instance;
     private DataSource ds;
 
     private DBManager(){
@@ -41,7 +41,7 @@ public class DBManager {
         return null;
     }
 
-    public static void closeConnection(Connection con){
+    public static synchronized void closeConnection(Connection con){
         if(con != null) {
             try {
                 con.close();

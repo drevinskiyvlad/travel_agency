@@ -1,5 +1,6 @@
-package com.travel_agency.controller.comands.authorization;
+package com.travel_agency.controller.commands.authorization;
 
+import com.travel_agency.controller.commands.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -16,6 +17,7 @@ import java.sql.Connection;
 
 public class SignInCommand implements Command {
     private static final Logger logger = LogManager.getLogger(SignInCommand.class);
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("invalid_authorization_message");
@@ -36,15 +38,15 @@ public class SignInCommand implements Command {
             logger.info("User {} signed in successfully", userDTO.getEmail());
         } catch (ValidationException e) {
             req.getSession().setAttribute("invalid_authorization_message", e.getMessage());
-        } catch(Exception e){
+        } catch (Exception e) {
             logger.error("User dont signed in: " + e.getMessage(), e);
             redirectPage = PathConstants.ERROR;
-        } finally{
+        } finally {
             DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
 
-        return(PathConstants.COMMAND_REDIRECT);
+        return (PathConstants.COMMAND_REDIRECT);
     }
 }

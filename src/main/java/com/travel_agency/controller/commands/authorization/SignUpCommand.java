@@ -1,5 +1,6 @@
-package com.travel_agency.controller.comands.authorization;
+package com.travel_agency.controller.commands.authorization;
 
+import com.travel_agency.controller.commands.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -20,8 +21,8 @@ public class SignUpCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String redirectPage = PathConstants.USER_CABINET;
         req.getSession().removeAttribute("invalid_registration_message");
+        String redirectPage = PathConstants.USER_CABINET;
 
         Connection con = null;
 
@@ -32,17 +33,19 @@ public class SignUpCommand implements Command {
 
             MySQLUserDAO userDAO = new MySQLUserDAO(con);
             UserService userService = new UserService(userDAO);
+
             userService.addUser(userDTO, password);
 
-            logger.info("User {} registered successfully: ", userDTO.getEmail());
             req.getSession().setAttribute("user", userDTO);
-        }catch(ValidationException e){
+            logger.info("User {} registered successfully: ", userDTO.getEmail());
+
+        } catch (ValidationException e) {
             req.getSession().setAttribute("invalid_registration_message", e.getMessage());
             redirectPage = PathConstants.REGISTRATION;
-        }catch(Exception e){
+        } catch (Exception e) {
             logger.error("Unable to register user: " + e.getMessage(), e);
             redirectPage = PathConstants.ERROR;
-        }finally{
+        } finally {
             DBManager.closeConnection(con);
         }
 
@@ -56,10 +59,14 @@ public class SignUpCommand implements Command {
         String lastName = req.getParameter("lastName");
         String phone = req.getParameter("phone");
 
-        if(email.equals("") || firstName.equals("") || lastName.equals("") || phone.equals("")){
+        checkIfFieldsNotEmpty(email, firstName, lastName, phone);
+
+        return new UserDTO(email, "user", firstName, lastName, phone, false);
+    }
+
+    private static void checkIfFieldsNotEmpty(String email, String firstName, String lastName, String phone) {
+        if (email.equals("") || firstName.equals("") || lastName.equals("") || phone.equals("")) {
             throw new ValidationException(ValidationMessageConstants.FILL_ALL_FIELDS);
         }
-
-        return new UserDTO(email,"user",firstName,lastName,phone,false);
     }
 }

@@ -3,12 +3,14 @@ package com.travel_agency.model.DTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 public class OfferDTO implements Serializable {
-    private static final long serialVersionUID = 1;
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String code;
     private String offerType;
     private String hotel;
@@ -30,6 +32,6 @@ public class OfferDTO implements Serializable {
         this.discount = discount;
         this.isHot = isHot;
         this.price = price;
-        fullPrice = (price * 100) / ((1-discount) * 100);
+        fullPrice = (price * 100) / ((1 - discount) * 100);
     }
 }

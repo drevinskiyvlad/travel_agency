@@ -1,5 +1,6 @@
-package com.travel_agency.controller.comands.our_offer;
+package com.travel_agency.controller.commands.our_offer;
 
+import com.travel_agency.controller.commands.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -19,19 +20,21 @@ import java.sql.Connection;
 
 public class AddOfferCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AddOfferCommand.class);
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("error");
+        String redirectPage = PathConstants.OUR_OFFER;
 
         String code = RandomStringGenerator.getString(8);
-        String redirectPage = PathConstants.OUR_OFFER;
+
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
             MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
             OfferService service = new OfferService(offerDAO);
 
-            if(!createOffer(req, service, code))
+            if (!createOffer(req, service, code))
                 logger.error("Something went wrong, return value of create offer is false");
 
             logger.info("Offer with code {} successfully added", code);
@@ -53,7 +56,7 @@ public class AddOfferCommand implements Command {
     private boolean createOffer(HttpServletRequest req, OfferService service, String code) throws DAOException, ValidationException {
         checkIfFieldsAreNull(req);
 
-        OfferDTO offerDTO = initOfferDTO(req,code);
+        OfferDTO offerDTO = initOfferDTO(req, code);
 
         return service.createOffer(offerDTO);
     }
@@ -65,11 +68,11 @@ public class AddOfferCommand implements Command {
         String discountString = req.getParameter("discount");
         String city = req.getParameter("city");
 
-        if(placesString.equals("") || discountString.equals("") || hotel.equals("") || priceString.equals("") || city.equals(""))
+        if (placesString.equals("") || discountString.equals("") || hotel.equals("") || priceString.equals("") || city.equals(""))
             throw new ValidationException(ValidationMessageConstants.FILL_ALL_FIELDS);
     }
 
-    private OfferDTO initOfferDTO(HttpServletRequest req, String code){
+    private OfferDTO initOfferDTO(HttpServletRequest req, String code) {
         String placesString = req.getParameter("places");
         String priceString = req.getParameter("price");
         String discountString = req.getParameter("discount");
@@ -78,10 +81,10 @@ public class AddOfferCommand implements Command {
         String hotelType = req.getParameter("hotelType");
         String hotel = req.getParameter("hotelName");
         int places = Integer.parseInt(placesString);
-        double discount = Double.parseDouble(discountString)/100;
+        double discount = Double.parseDouble(discountString) / 100;
         double price = Double.parseDouble(priceString);
         String city = req.getParameter("city");
         boolean isHot = false;
-        return new OfferDTO(code,offerType,hotel,hotelType,city,places,discount,isHot,price);
+        return new OfferDTO(code, offerType, hotel, hotelType, city, places, discount, isHot, price);
     }
 }

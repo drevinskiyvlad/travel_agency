@@ -18,7 +18,7 @@ public class OfferItemFilter implements Filter {
         OfferDTO offerDTO = getOfferDTO(req);
         req.setAttribute("offerItem", offerDTO);
 
-        filterChain.doFilter(servletRequest,servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     private static OfferDTO getOfferDTO(HttpServletRequest req) {

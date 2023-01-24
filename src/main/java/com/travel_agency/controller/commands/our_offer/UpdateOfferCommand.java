@@ -1,5 +1,6 @@
-package com.travel_agency.controller.comands.our_offer;
+package com.travel_agency.controller.commands.our_offer;
 
+import com.travel_agency.controller.commands.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
@@ -21,9 +22,9 @@ public class UpdateOfferCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("error");
+        String redirectPage = PathConstants.OUR_OFFER;
 
         String code = req.getParameter("code");
-        String redirectPage = PathConstants.OUR_OFFER;
         Connection con = null;
 
         try {

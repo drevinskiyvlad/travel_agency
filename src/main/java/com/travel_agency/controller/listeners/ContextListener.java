@@ -16,9 +16,9 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        logger.info("Context initialized");
         initDBManager();
         initCommandFactory();
+        logger.info("Context initialized");
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ContextListener implements ServletContextListener {
 
     private void initCommandFactory() {
         try {
-            Class.forName("com.travel_agency.controller.CommandFactory");
+            Class.forName("com.travel_agency.controller.commands.CommandFactory");
         } catch (ClassNotFoundException e) {
             logger.error("Command factory isn`t initialized", e);
         }
