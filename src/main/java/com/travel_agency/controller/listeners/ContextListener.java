@@ -6,10 +6,8 @@ import jakarta.servlet.ServletContextListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Enumeration;
 
 public class ContextListener implements ServletContextListener {
     private static final Logger logger = LogManager.getLogger(ContextListener.class);
@@ -40,17 +38,15 @@ public class ContextListener implements ServletContextListener {
     }
 
     private static void deregisterDrivers() {
-        // This manually deregisters JDBC driver, which prevents complaining about memory leaks
-        Enumeration<Driver> drivers = DriverManager.getDrivers();
-        while (drivers.hasMoreElements()) {
-            Driver driver = drivers.nextElement();
+        // This manually deregister JDBC driver, which prevents complaining about memory leaks
+        DriverManager.drivers().forEach(driver -> {
             try {
                 DriverManager.deregisterDriver(driver);
-                logger.info(String.format("deregistering jdbc driver: %s", driver));
+                logger.info(String.format("deregister jdbc driver: %s", driver));
             } catch (SQLException e) {
-                logger.warn(String.format("Error deregistering driver %s", driver), e);
+                logger.warn(String.format("Error while deregister driver %s", driver), e);
             }
-        }
+        });
     }
 
     private void initCommandFactory() {
