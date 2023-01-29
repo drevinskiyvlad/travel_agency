@@ -3,13 +3,9 @@ package com.travel_agency.model.services;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
 import com.travel_agency.model.DB.DAO.OfferDAO;
-import com.travel_agency.model.DB.DAO.UserDAO;
 import com.travel_agency.model.DTO.OfferDTO;
-import com.travel_agency.model.DTO.UserDTO;
 import com.travel_agency.model.entity.Offer;
-import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.Constants.SORTING_BY;
-import com.travel_agency.utils.HashPassword;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class TestOfferService {
+class OfferServiceTest {
     @Mock
     private OfferDAO<Offer> dao;
 

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
-class TestOrderDAO {
+class OrderDAOTest {
 
     private Connection con;
     @Mock
