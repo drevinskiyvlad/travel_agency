@@ -15,9 +15,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
-    private final UserDAO<User, String> dao;
+    private final UserDAO<User> dao;
 
-    public UserService(UserDAO<User, String> dao) {
+    public UserService(UserDAO<User> dao) {
         this.dao = dao;
     }
 
@@ -49,7 +49,7 @@ public class UserService {
         try {
             result = dao.readAll(offset,numOfRecords);
         } catch (DAOException e) {
-            logger.error("Unable to get all users" + e.getMessage(), e);
+            logger.error("Unable to get all users: " + e.getMessage(), e);
         }
         return makeListOfDTOs(result);
     }

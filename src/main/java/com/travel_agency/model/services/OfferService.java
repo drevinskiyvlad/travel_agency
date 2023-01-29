@@ -1,11 +1,10 @@
 package com.travel_agency.model.services;
 
-import com.travel_agency.model.DB.DAO.OfferDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
-import com.travel_agency.model.entity.Offer;
+import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.DTO.OfferDTO;
+import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.SORTING_BY;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import com.travel_agency.utils.Validator;
@@ -17,10 +16,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OfferService {
-    private final OfferDAO<Offer,String> dao;
+    private final OfferDAO<Offer> dao;
     private static final Logger logger = LogManager.getLogger(OfferService.class);
 
-    public OfferService(MySQLOfferDAO dao) {
+    public OfferService(OfferDAO<Offer> dao) {
         this.dao = dao;
     }
 

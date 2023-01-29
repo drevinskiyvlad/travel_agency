@@ -1,16 +1,16 @@
 package com.travel_agency.model.services;
 
-import com.google.protobuf.ServiceException;
+import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.OrderDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.exceptions.DAOException;
-import com.travel_agency.model.entity.*;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.DTO.OrderDTO;
 import com.travel_agency.model.DTO.UserDTO;
+import com.travel_agency.model.entity.Offer;
+import com.travel_agency.model.entity.Order;
+import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.RandomStringGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OrderService {
-    private final OrderDAO<Order,String> dao;
+    private final OrderDAO<Order> dao;
     private static final Logger logger = LogManager.getLogger(OrderService.class);
 
-    public OrderService(MySQLOrderDAO dao) {
+    public OrderService(OrderDAO<Order> dao) {
         this.dao = dao;
     }
 
@@ -39,7 +39,7 @@ public class OrderService {
             }
 
             return result;
-        } catch (ServiceException | DAOException e) {
+        } catch (DAOException e) {
             logger.error(e.getMessage(), e);
             return false;
         }
@@ -105,7 +105,7 @@ public class OrderService {
         return offerResult;
     }
 
-    private Order convertDTOToOrder(OrderDTO orderDTO, UserDTO userDTO, OfferDTO offerDTO) throws ServiceException {
+    private Order convertDTOToOrder(OrderDTO orderDTO, UserDTO userDTO, OfferDTO offerDTO) {
         try {
             String code = orderDTO.getCode();
             User user = getUser(userDTO);
@@ -113,9 +113,9 @@ public class OrderService {
             String status = orderDTO.getOrderStatus();
             return new Order(0, code, user, offer, status);
         } catch (DAOException e) {
-            logger.error("Unable create order: " + e.getMessage(), e);
-            throw new ServiceException("Unable create order: " + e.getMessage());
+            logger.error("Unable to convert orderDTO to order", e);
         }
+        return null;
     }
 
     private Offer getOffer(OfferDTO offerDTO) throws DAOException {
@@ -128,8 +128,7 @@ public class OrderService {
     }
 
     private User getUser(UserDTO userDTO) throws DAOException {
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
+        Connection con = DBManager.getInstance().getConnection();
         MySQLUserDAO userDAO = new MySQLUserDAO(con);
         User user = userDAO.read(userDTO.getEmail());
         DBManager.closeConnection(con);
