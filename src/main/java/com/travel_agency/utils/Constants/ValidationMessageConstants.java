@@ -1,5 +1,8 @@
 package com.travel_agency.utils.Constants;
 
+/**
+ * All constants for validation error messages
+ */
 public class ValidationMessageConstants {
     private ValidationMessageConstants() {
     }

@@ -17,6 +17,8 @@
           <element id="library" level="project" name="Maven: com.mysql:mysql-connector-j:8.0.32" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.21.9" />
           <element id="library" level="project" name="Maven: org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1" />
+          <element id="library" level="project" name="Maven: jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0" />
+          <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:5.0.0" />
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.19.0" />
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.19.0" />
           <element id="library" level="project" name="Maven: de.mkammerer:argon2-jvm:2.11" />

@@ -2,11 +2,19 @@ package com.travel_agency.utils;
 
 import java.util.Random;
 
+/**
+ * Util to generate random string for codes
+ */
 public class RandomStringGenerator {
-    private RandomStringGenerator() {}
+    private RandomStringGenerator() {
+    }
 
     private static final Random random = new Random();
 
+    /**
+     * @param length Length of returned string
+     * @return Random string
+     */
     public static String getString(int length) {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'

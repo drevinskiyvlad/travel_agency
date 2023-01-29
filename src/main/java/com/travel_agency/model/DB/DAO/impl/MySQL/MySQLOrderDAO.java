@@ -1,15 +1,13 @@
 package com.travel_agency.model.DB.DAO.impl.MySQL;
 
-import com.travel_agency.model.DB.DAO.OrderDAO;
-import com.travel_agency.utils.Constants.MySQLDAOConstants;
-import com.travel_agency.model.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.model.DB.DAO.OrderDAO;
+import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.model.entity.Order;
 import com.travel_agency.model.entity.User;
+import com.travel_agency.utils.Constants.MySQLDAOConstants;
 import lombok.Getter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,12 +16,17 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MySQLOrderDAO implements OrderDAO<Order, String> {
-    private static final Logger logger = LogManager.getLogger(MySQLOrderDAO.class);
+/**
+ * Implementation of DAO interface for MySQL
+ */
+public class MySQLOrderDAO implements OrderDAO<Order> {
     private final Connection con;
     @Getter private int numberOfPages; // for pagination
     @Getter private int numberOfUserPages; // for pagination
 
+    /**
+     * Constructor
+     */
     public MySQLOrderDAO(Connection con) {
         this.con = con;
     }
@@ -36,7 +39,6 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
 
             return true;
         } catch (SQLException | IllegalArgumentException e) {
-            logger.error("Unable to create order: " + e.getMessage(), e);
             throw new DAOException("Unable to create order: " + e.getMessage());
         }
     }
@@ -59,7 +61,6 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
                 return initializeOrder(rs);
             }
         } catch (SQLException e) {
-            logger.error("Unable to read offer: " + e.getMessage(), e);
             throw new DAOException("Unable to read order: " + e.getMessage());
         }finally {
             close(rs);
@@ -74,7 +75,6 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update order status: " + e.getMessage(), e);
             throw new DAOException("Unable to create order: " + e.getMessage());
         }
     }
@@ -85,7 +85,6 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to delete order: " + e.getMessage(), e);
             throw new DAOException("Unable to delete order: " + e.getMessage());
         }
     }
@@ -104,7 +103,6 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
             if (rs.next())
                 numberOfPages = (int)Math.ceil(rs.getInt(1)*1.0 / numOfRecords);
         } catch (SQLException e) {
-            logger.error("Unable to read list of offers: " + e.getMessage(), e);
             throw new DAOException("Unable to read list of orders: " + e.getMessage());
         } finally{
             close(rs);
@@ -131,7 +129,6 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
             if (rs.next())
                 numberOfUserPages = (int)Math.ceil(rs.getInt(1)*1.0 / numOfRecords);
         } catch (SQLException e) {
-            logger.error("Unable to read list of offers: " + e.getMessage(), e);
             throw new DAOException("Unable to read list of orders: " + e.getMessage());
         } finally{
             close(rs);
@@ -146,7 +143,6 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
              ResultSet rs = ps.executeQuery()) {
             addOrderStatusToList(result, rs);
         } catch (SQLException e) {
-            logger.error("Unable to read list of order status: " + e.getMessage(), e);
             throw new DAOException("Unable to read list order status: " + e.getMessage());
         }
         return result;
@@ -175,7 +171,7 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read order status: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Unknown offer order status");
         }finally {
             close(rs);
         }
@@ -193,7 +189,7 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read order status: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Unknown order status name");
         }finally {
             close(rs);
         }
@@ -230,7 +226,7 @@ public class MySQLOrderDAO implements OrderDAO<Order, String> {
             try {
                 autoCloseable.close();
             } catch (Exception e) {
-                logger.error("Error while close: " + e.getMessage(), e);
+                e.printStackTrace();
             }
         }
     }

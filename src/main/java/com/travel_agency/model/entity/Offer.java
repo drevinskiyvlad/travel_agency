@@ -2,11 +2,13 @@ package com.travel_agency.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Offer {
     private int id;
     private String code;
@@ -29,7 +31,7 @@ public class Offer {
                 ", hotelType='" + hotelType + '\'' +
                 ", hotelName='" + hotelName + '\'' +
                 ", places=" + places +
-                ", discount=" + (int)(discount*100) +
+                ", discount=" + (int) (discount * 100) +
                 "%, isHot=" + isHot +
                 ", price=" + price +
                 '}';

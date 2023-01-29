@@ -1,5 +1,8 @@
 package com.travel_agency.utils.Constants;
 
+/**
+ * All MySQL commands for DAO
+ */
 public class MySQLDAOConstants {
     private MySQLDAOConstants(){}
 
@@ -51,8 +54,16 @@ public class MySQLDAOConstants {
 
     //All for pagination
     public static final String USER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from user";
-    public static final String OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer WHERE is_hot = false";
+    public static final String NOT_HOT_OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer WHERE is_hot = false";
     public static final String HOT_OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer WHERE is_hot = true";
+    public static final String OFFER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from offer";
     public static final String ORDER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from user_order";
     public static final String USER_ORDER_GET_NUMBER_OF_RECORDS = "SELECT COUNT(1) from user_order where user_id = ?";
+
+    //All offer sorting
+    public static final String OFFER_BY_TYPE = "SELECT * FROM offer ORDER BY offer_type_id LIMIT ?,?";
+    public static final String OFFER_BY_HOTEL_TYPE = "SELECT * FROM offer ORDER BY hotel_type_id LIMIT ?,?";
+    public static final String OFFER_BY_PRICE = "SELECT * FROM offer ORDER BY price LIMIT ?,?";
+    public static final String OFFER_BY_PLACES = "SELECT * FROM offer ORDER BY places LIMIT ?,?";
+
 }

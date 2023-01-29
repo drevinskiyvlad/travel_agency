@@ -7,26 +7,44 @@ import java.util.regex.Pattern;
 
 public class Validator {
 
-    private Validator() {}
+    private Validator() {
+    }
 
-    public static boolean validateEmail(String email){
+    /**
+     * Check if email match to regular expression
+     */
+    public static boolean validateEmail(String email) {
         Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    public static boolean validatePhone(String phone){
+    /**
+     * Check if phone match to regular expression
+     */
+    public static boolean validatePhone(String phone) {
         Pattern pattern = Pattern.compile("^\\+[(]?\\d{3}[)]?[-\\s\\.]?\\d{3}[-\\s\\.]?\\d{4,6}$");
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
     }
-    public static boolean validatePassword(String password){
+
+    /**
+     * Check if password match to some rules
+     */
+    public static boolean validatePassword(String password) {
         return password.length() >= 4;
     }
-    public static boolean checkPasswordCorrect(String password, User user){
+
+    /**
+     * Rehash password and check if this password correspond to user
+     */
+    public static boolean checkPasswordCorrect(String password, User user) {
         return HashPassword.validate(password, user.getPassword());
     }
 
-    public static boolean validateDiscount(double discount){
+    /**
+     * Check if discount not less than 5% and not more than 25%
+     */
+    public static boolean validateDiscount(double discount) {
         return discount < 0.25 && discount > 0.05;
     }
 }

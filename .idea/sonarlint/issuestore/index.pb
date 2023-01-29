@@ -1,4 +1,6 @@
 
+4
+mvnw,5\d\5d837c4ed85ecaaf932c506e80ff5d7b9f3d590d
 U
 %.mvn/wrapper/maven-wrapper.properties,3\2\32e074f71d16c1e88ac02aa83592ca6ad1fd98a8
 U
@@ -13,8 +15,6 @@ w
 G.idea/sonarlint/issuestore/3/2/32e074f71d16c1e88ac02aa83592ca6ad1fd98a8,6\c\6c12c046619028da98e2502918e6e119bd2491c2
 w
 G.idea/sonarlint/issuestore/8/6/863f7d5c081332dc79a1a7d8ec0516af2abb0289,e\e\ee0fa4f45549528c343c36f2533ce435495e52cf
-\
-,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 S
 #src/main/webapp/css/animate.min.css,5\5\55e5066208397d8fd597c82ee39d276ec80afdc5
 ]
@@ -23,27 +23,17 @@ Q
 !src/main/webapp/fonts/icomoon.svg,d\2\d26bf5f34795ce996bab4f80005c6ea60415a383
 Z
 *src/main/webapp/fonts/font-awesome.min.css,d\e\deb3c7674b519496bcf64545ebb1d30a69152cbc
-p
-@src/main/java/com/travel_agency/utils/RandomStringGenerator.java,f\b\fbc2a3fa2556ebc4b5f8c6700e7852e20fcac3ac
+Q
+!src/main/webapp/authorization.jsp,9\e\9e581c0d9b27569cb6169008176972c0e96fc21d
+I
+src/main/webapp/error.jsp,c\b\cba3df22242d379bdb72d00919d2e8d49101d1bf
 s
 Csrc/main/java/com/travel_agency/exceptions/ValidationException.java,5\3\53e0a852950b76ada5fb6cecafa0bf5b49dabf7c
-l
-<src/main/java/com/travel_agency/exceptions/DAOException.java,4\3\4300ed7edb803f97687cf78681eb96355f54dc39
-h
-8src/main/java/com/travel_agency/models/DTO/OrderDTO.java,c\8\c80ecf6f1fc76b1a89b85c8050d31f11426ab299
+P
+ src/main/webapp/registration.jsp,d\d\dd51f7041d5a8d7bb17c79a85099a350e198ae09
+M
+src/main/webapp/add-offer.jsp,c\a\caa222ca1e0b5faaafdf9e16eabab23090b4860d
+\
+,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 ^
-.src/main/java/com/travel_agency/DB/Fields.java,d\0\d03c44df8222bfa82346ce877392b4d96d64bda0
-d
-4src/main/java/com/travel_agency/models/DAO/User.java,d\4\d4f8c1e7b3e78ec99c7179c921819052ed6cf198
-e
-5src/main/java/com/travel_agency/models/DAO/Order.java,6\a\6a03ac03196de1de91b64459c59dd50882271e03
-e
-5src/main/java/com/travel_agency/models/DAO/Offer.java,7\1\71ba7293ef317f49849442d7637a749e7950e735
-l
-<src/main/java/com/travel_agency/filters/AuthCheckFilter.java,e\e\ee46e06c23c85c154db90e1c6832a1b8783f8c2b
-_
-/src/main/java/com/travel_agency/DB/DAO/DAO.java,0\9\0954dd1d6782138947bf4812323752507a32b143
-s
-Csrc/main/java/com/travel_agency/pagination/PaginationConstants.java,f\0\f0f50c1495c40350858ec97191efacda25ebde77
-h
-8src/main/java/com/travel_agency/models/DTO/OfferDTO.java,f\9\f922caba751655e91a79361af3b0409b034085ad
+..idea/artifacts/travel_agency_war_exploded.xml,2\0\2076176d69668aa0370a81c3a20cad048c346d30

@@ -1,7 +1,11 @@
 package com.travel_agency.model.DB;
 
+/**
+ * All database field names
+ */
 public class Fields {
-    private Fields(){}
+    private Fields() {
+    }
 
     //User db fields
     public static final String USER_ID = "id";

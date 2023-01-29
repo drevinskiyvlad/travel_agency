@@ -1,10 +1,10 @@
 package com.travel_agency.model.services;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
-import com.travel_agency.model.entity.User;
+import com.travel_agency.model.DB.DAO.UserDAO;
 import com.travel_agency.model.DTO.UserDTO;
+import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import com.travel_agency.utils.Validator;
 import org.apache.logging.log4j.LogManager;
@@ -15,13 +15,20 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
-    private final MySQLUserDAO dao;
+    private final UserDAO<User> dao;
 
-    public UserService(MySQLUserDAO dao) {
+    /**
+     * Constructor
+     */
+    public UserService(UserDAO<User> dao) {
         this.dao = dao;
     }
 
-    public void addUser(UserDTO userDTO, String password) throws ValidationException {
+    /**
+     * Add user to database
+     * @throws ValidationException If parameters are not valid
+     */
+    public void signUp(UserDTO userDTO, String password) throws ValidationException {
         validateUserDTO(userDTO, password);
         User user = convertDTOToUser(userDTO, password);
         try {
@@ -32,6 +39,12 @@ public class UserService {
         }
     }
 
+
+    /**
+     * Check if user with this email is exist and then check password
+     * @return UserDTO if this user exist and password correct
+     * @throws ValidationException if user not found or user password incorrect
+     */
     public UserDTO signIn(String email, String password) throws ValidationException {
         User user;
         try {
@@ -44,19 +57,28 @@ public class UserService {
         return convertUserToDTO(user);
     }
 
+    /**
+     * Get all users from database with defined parameters
+     * @param offset index of first user from database
+     * @param numOfRecords number of records that given from database
+     * @return List of user
+     */
     public List<UserDTO> getAllUsers(int offset, int numOfRecords) {
         List<User> result = new CopyOnWriteArrayList<>();
         try {
             result = dao.readAll(offset,numOfRecords);
         } catch (DAOException e) {
-            logger.error("Unable to get all users" + e.getMessage(), e);
+            logger.error("Unable to get all users: " + e.getMessage(), e);
         }
         return makeListOfDTOs(result);
     }
 
-    public boolean changeUserBlocked(String email) throws DAOException {
+    /**
+     * Change user blocked status
+     */
+    public void changeUserBlocked(String email) throws DAOException {
         User user = dao.read(email);
-        return dao.update(email, !user.isBlocked());
+        dao.update(email, !user.isBlocked());
     }
 
     private List<UserDTO> makeListOfDTOs(List<User> users) {

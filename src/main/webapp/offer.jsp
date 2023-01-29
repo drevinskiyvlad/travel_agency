@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/date.tld" %>
 <%@ page isELIgnored="false" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="language"/>
@@ -39,7 +40,8 @@
                 <nav class="main-navigation">
                     <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
                     <ul class="menu">
-                        <li class="menu-item current-menu-item"><a href="our-offer.jsp"><fmt:message key="header.ourOffer"/></a></li>
+                        <li class="menu-item current-menu-item"><a href="our-offer.jsp"><fmt:message
+                                key="header.ourOffer"/></a></li>
                         <c:if test="${sessionScope.user == null}">
                             <li class="menu-item"><a href="user-cabinet.jsp"><fmt:message
                                     key="header.userCabinetUnlogined"/></a></li>
@@ -58,14 +60,15 @@
                     <a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
                 </div>
                 <div class="social-links">
-                    <a href="?sessionLocale=ua" class="ua"><img src="images/ukraine.png" alt="ua"></a>
-                    <a href="?sessionLocale=en" class="en"><img src="images/usa.png" alt="en"></a>
+                    <a href="?code=${requestScope.offerItem.code}&sessionLocale=ua" class="ua"><img src="images/ukraine.png" alt="ua"></a>
+                    <a href="?code=${requestScope.offerItem.code}&sessionLocale=en" class="en"><img src="images/usa.png" alt="en"></a>
                 </div>
             </div>
             <nav class="breadcrumbs">
                 <a href="index.jsp"><fmt:message key="header.mainPage"/></a> &rarr;
                 <a href="our-offer.jsp"><fmt:message key="header.ourOffer"/></a> &rarr;
                 <span><fmt:message key="header.offer"/> ${requestScope.offerItem.code}</span>
+                <div class="current-date"><fmt:message key="header.date"/> <ctg:info-time/></div>
             </nav>
         </div>
     </header> <!-- .site-header -->
@@ -76,7 +79,8 @@
                                           alt="${requestScope.offerItem.city}"></div>
             <div class="information">
                 <c:if test="${requestScope.offerItem.isHot()}">
-                    <h2 class="entry-title"><b><fmt:message key="offer.hotTour"/></b> ${requestScope.offerItem.city}</h2>
+                    <h2 class="entry-title"><b><fmt:message key="offer.hotTour"/></b> ${requestScope.offerItem.city}
+                    </h2>
                 </c:if>
                 <c:if test="${requestScope.offerItem.isHot() == false}">
                     <h2 class="entry-title"><b><fmt:message key="offer.tour"/></b> ${requestScope.offerItem.city}</h2>
@@ -88,17 +92,22 @@
                 <p><b><fmt:message key="offer.price"/></b>:
                     <s>${String.format("%.2f", requestScope.offerItem.fullPrice)}$</s> ${String.format("%.2f", requestScope.offerItem.price)}$
                 </p>
-                <p><b><fmt:message key="offer.discount"/></b>: ${String.format("%.0f", requestScope.offerItem.discount * 100)}%</p>
+                <p><b><fmt:message
+                        key="offer.discount"/></b>: ${String.format("%.0f", requestScope.offerItem.discount * 100)}%</p>
                 <c:if test="${sessionScope.user.role == 'user'}">
-                    <a href="controller?action=makeOrder&code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.order"/></a>
+                    <a href="controller?action=makeOrder&code=${requestScope.offerItem.code}"
+                       class="button"><fmt:message key="offer.order"/></a>
                 </c:if>
                 <c:if test="${sessionScope.user != null && sessionScope.user.role != 'user' && requestScope.offerItem.isHot() == false}">
-                    <a href="controller?action=makeOfferHot&code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.makeHot"/></a>
+                    <a href="controller?action=makeOfferHot&code=${requestScope.offerItem.code}"
+                       class="button"><fmt:message key="offer.makeHot"/></a>
                 </c:if>
 
                 <c:if test="${sessionScope.user.role == 'admin'}">
-                    <a href="controller?action=deleteOffer&code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.delete"/></a>
-                    <a href="update-offer.jsp?code=${requestScope.offerItem.code}" class="button"><fmt:message key="offer.edit"/></a>
+                    <a href="controller?action=deleteOffer&code=${requestScope.offerItem.code}"
+                       class="button"><fmt:message key="offer.delete"/></a>
+                    <a href="update-offer.jsp?code=${requestScope.offerItem.code}" class="button"><fmt:message
+                            key="offer.edit"/></a>
                 </c:if>
 
                 <c:if test="${requestScope.error != null}">

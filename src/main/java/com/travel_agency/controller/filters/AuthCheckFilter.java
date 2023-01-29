@@ -9,9 +9,9 @@ public class AuthCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) req;
-        if(httpServletRequest.getSession(false).getAttribute("user") == null){
-            req.getRequestDispatcher("authorization.jsp").forward(req,resp);
+        if (httpServletRequest.getSession(false).getAttribute("user") == null) {
+            req.getRequestDispatcher("authorization.jsp").forward(req, resp);
         }
-        filterChain.doFilter(req,resp);
+        filterChain.doFilter(req, resp);
     }
 }

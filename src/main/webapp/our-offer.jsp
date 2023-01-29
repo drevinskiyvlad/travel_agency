@@ -80,8 +80,12 @@
                     </div>
                 </c:if>
 
-                <div class="filter-links filterable-nav">
-
+                <div class="filter-link">
+                    <a href="our-offer.jsp?sortBy=offerType"><fmt:message key="ourOffer.sort.offerType"/></a>
+                    <a href="our-offer.jsp?sortBy=hotelType"><fmt:message key="ourOffer.sort.hotelType"/></a>
+                    <a href="our-offer.jsp?sortBy=price"><fmt:message key="ourOffer.sort.price"/></a>
+                    <a href="our-offer.jsp?sortBy=places"><fmt:message key="ourOffer.sort.places"/></a>
+                    <a href="our-offer.jsp"><fmt:message key="ourOffer.sort.cancel"/></a>
                 </div>
 
                 <div class="filterable-items">
@@ -106,7 +110,7 @@
                 </div>
                 <my:pagination numberOfPages="${requestScope.numberOfPagesInOffers}"
                                currentPage="${requestScope.currentPage}"
-                               redirectTo="offerPagination?offerListPage="/>
+                               redirectTo="controller?action=offerPagination&offerListPage="/>
 
             </div>
         </div>

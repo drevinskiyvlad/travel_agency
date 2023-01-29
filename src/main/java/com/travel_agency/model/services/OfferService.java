@@ -1,10 +1,11 @@
 package com.travel_agency.model.services;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.exceptions.DAOException;
 import com.travel_agency.exceptions.ValidationException;
-import com.travel_agency.model.entity.Offer;
+import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.DTO.OfferDTO;
+import com.travel_agency.model.entity.Offer;
+import com.travel_agency.utils.Constants.SORTING_BY;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import com.travel_agency.utils.Validator;
 import org.apache.logging.log4j.LogManager;
@@ -15,17 +16,32 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OfferService {
-    private final MySQLOfferDAO dao;
+    private final OfferDAO<Offer> dao;
     private static final Logger logger = LogManager.getLogger(OfferService.class);
 
-    public OfferService(MySQLOfferDAO dao) {
+    /**
+     * Constructor
+     */
+    public OfferService(OfferDAO<Offer> dao) {
         this.dao = dao;
     }
 
-    public List<OfferDTO> getAllOffers(int offset, int numOfRecords, boolean onlyHot) {
+    /**
+     * Get all offer from database with defined parameters and in sorted queue
+     * @param offset index of first offer from database
+     * @param numOfRecords number of records that given from database
+     * @param onlyHot if true, then return only hot offers, if false, then all offers
+     * @param sortingBy parameter of sorting
+     * @return List of offers in sorted queue
+     */
+    public List<OfferDTO> getAllOffers(int offset, int numOfRecords, boolean onlyHot, SORTING_BY sortingBy) {
         List<Offer> offers;
         try {
-            offers = dao.readAll(offset, numOfRecords, onlyHot);
+            if(sortingBy == SORTING_BY.NONE) {
+                offers = dao.readAll(offset, numOfRecords, onlyHot);
+            } else{
+                offers = dao.readAllSorted(offset, numOfRecords, sortingBy);
+            }
         } catch (DAOException e) {
             logger.error("Unable to read offers: " + e.getMessage(), e);
             return new ArrayList<>();
@@ -33,6 +49,9 @@ public class OfferService {
         return makeListOfDTOs(offers);
     }
 
+    /**
+     * @return OfferDTO with this code
+     */
     public OfferDTO getOffer(String code) {
         Offer offer;
         try {
@@ -44,22 +63,34 @@ public class OfferService {
         return convertOfferToDTO(offer);
     }
 
+    /**
+     * Change offer is hot status
+     * @return result of adding
+     */
     public boolean updateOfferIsHot(OfferDTO offerDTO) throws DAOException {
         Offer offer = convertDTOToOffer(offerDTO);
         return dao.update(offer, true);
     }
 
+    /**
+     * Replace previous offer with this code to offer with new params
+     * @throws ValidationException If discount is not valid
+     */
     public boolean updateOffer(OfferDTO offerDTO) throws DAOException, ValidationException {
         validateDiscount(offerDTO.getDiscount());
 
         Offer offer = convertDTOToOffer(offerDTO);
-        boolean resultDelete = dao.delete(offerDTO.getCode());
 
+        boolean resultDelete = dao.delete(offerDTO.getCode());
         boolean resultCreate = dao.create(offer);
 
         return resultCreate && resultDelete;
     }
 
+    /**
+     * Added offer to database
+     * @return result of creating
+     */
     public boolean createOffer(OfferDTO offerDTO) throws DAOException, ValidationException {
         validateDiscount(offerDTO.getDiscount());
 
