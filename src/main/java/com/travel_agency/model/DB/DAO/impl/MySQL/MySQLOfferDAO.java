@@ -1,14 +1,12 @@
 package com.travel_agency.model.DB.DAO.impl.MySQL;
 
-import com.travel_agency.model.DB.DAO.OfferDAO;
-import com.travel_agency.utils.Constants.MySQLDAOConstants;
-import com.travel_agency.model.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.model.DB.DAO.OfferDAO;
+import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.Offer;
+import com.travel_agency.utils.Constants.MySQLDAOConstants;
 import com.travel_agency.utils.Constants.SORTING_BY;
 import lombok.Setter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +16,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MySQLOfferDAO implements OfferDAO<Offer> {
-    private static final Logger logger = LogManager.getLogger(MySQLOfferDAO.class);
     private final Connection con;
 
     private double numberOfNotHotPages; // for pagination
@@ -39,7 +36,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
             return true;
         } catch (SQLException | IllegalArgumentException e) {
-            logger.error("Unable to create offer: " + e.getMessage(), e);
             throw new DAOException("Unable to create offer: " + e.getMessage());
         }
     }
@@ -68,7 +64,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
                 return initializeOffer(rs);
             }
         } catch (SQLException e) {
-            logger.error("Unable to read offer: " + e.getMessage(), e);
             throw new DAOException("Unable to read offer: " + e.getMessage());
         } finally {
             close(rs);
@@ -87,7 +82,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
                 return initializeOffer(rs);
             }
         } catch (SQLException e) {
-            logger.error("Unable to read offer: " + e.getMessage(), e);
             throw new DAOException("Unable to read offer: " + e.getMessage());
         } finally {
             close(rs);
@@ -124,7 +118,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update offer is hot: " + e.getMessage(), e);
             throw new DAOException("Unable to update offer is hot: " + e.getMessage());
         }
     }
@@ -136,7 +129,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update offer places: " + e.getMessage(), e);
             throw new DAOException("Unable to update offer places: " + e.getMessage());
         }
     }
@@ -147,7 +139,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to delete offer: " + e.getMessage(), e);
             throw new DAOException("Unable to delete offer: " + e.getMessage());
         }
     }
@@ -181,7 +172,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             if (rs.next())
                 numberOfNotHotPages = rs.getInt(1) * 1.0 / numOfRecords;
         } catch (SQLException e) {
-            logger.error("Unable to read list of not hot offers: " + e.getMessage(), e);
             throw new DAOException("Unable to read list of not hot offers: " + e.getMessage());
         } finally {
             close(rs);
@@ -206,7 +196,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read list of hot offers: " + e.getMessage(), e);
             throw new DAOException("Unable to read list of hot offer: " + e.getMessage());
         } finally {
             close(rs);
@@ -231,7 +220,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
                 numberOfNotHotPages = rs.getInt(1) * 1.0 / numOfRecords;
             }
         } catch (SQLException e) {
-            logger.error("Unable to read list of not hot offers: " + e.getMessage(), e);
             throw new DAOException("Unable to read list of not hot offers: " + e.getMessage());
         } finally {
             close(rs);
@@ -246,7 +234,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
              ResultSet rs = ps.executeQuery()) {
             addHotelTypesToList(result, rs);
         } catch (SQLException e) {
-            logger.error("Unable to read list of hotel types: " + e.getMessage(), e);
             throw new DAOException("Unable to read list hotel types: " + e.getMessage());
         }
         return result;
@@ -258,7 +245,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
              ResultSet rs = ps.executeQuery()) {
             addOfferTypesToList(result, rs);
         } catch (SQLException e) {
-            logger.error("Unable to read list of hotel types: " + e.getMessage(), e);
             throw new DAOException("Unable to read list hotel types: " + e.getMessage());
         }
         return result;
@@ -275,7 +261,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read offer type: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Unknown offer type name");
         } finally {
             close(rs);
         }
@@ -293,7 +279,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read offer type: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Unknown offer type name");
         } finally {
             close(rs);
         }
@@ -311,7 +297,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read hotel type: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Unknown hotel type name");
         } finally {
             close(rs);
         }
@@ -329,7 +315,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read hotel type: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Unknown hotel type name");
         } finally {
             close(rs);
         }
@@ -367,7 +353,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             try {
                 autoCloseable.close();
             } catch (Exception e) {
-                logger.error("Error while close: " + e.getMessage(), e);
+                e.printStackTrace();
             }
         }
     }

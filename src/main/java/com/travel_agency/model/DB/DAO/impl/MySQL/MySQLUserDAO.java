@@ -1,14 +1,12 @@
 package com.travel_agency.model.DB.DAO.impl.MySQL;
 
-import com.travel_agency.model.DB.DAO.UserDAO;
-import com.travel_agency.utils.Constants.MySQLDAOConstants;
-import com.travel_agency.model.DB.Fields;
 import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.model.DB.DAO.UserDAO;
+import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.User;
+import com.travel_agency.utils.Constants.MySQLDAOConstants;
 import com.travel_agency.utils.HashPassword;
 import lombok.Getter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +16,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MySQLUserDAO implements UserDAO<User> {
-    private static final Logger logger = LogManager.getLogger(MySQLUserDAO.class);
     private final Connection con;
     @Getter
     private int numberOfPages; // for pagination
@@ -35,7 +32,6 @@ public class MySQLUserDAO implements UserDAO<User> {
 
             return true;
         } catch (SQLException | IllegalArgumentException e) {
-            logger.error("Unable to create user: " + e.getMessage(), e);
             throw new DAOException("Unable to create user: " + e.getMessage());
         }
     }
@@ -52,7 +48,6 @@ public class MySQLUserDAO implements UserDAO<User> {
                 return initializeUser(rs);
             }
         } catch (SQLException e) {
-            logger.error("Unable to read user: " + e.getMessage(), e);
             throw new DAOException("Unable to read user: " + e.getMessage());
         } finally {
             close(rs);
@@ -72,7 +67,6 @@ public class MySQLUserDAO implements UserDAO<User> {
                 return initializeUser(rs);
             }
         } catch (SQLException e) {
-            logger.error("Unable to read user: " + e.getMessage(), e);
             throw new DAOException("Unable to read user: " + e.getMessage());
         } finally {
             close(rs);
@@ -88,7 +82,6 @@ public class MySQLUserDAO implements UserDAO<User> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update user role: " + e.getMessage(), e);
             throw new DAOException("Unable to update user role: " + e.getMessage());
         }
     }
@@ -100,7 +93,6 @@ public class MySQLUserDAO implements UserDAO<User> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to update user blocked: " + e.getMessage(), e);
             throw new DAOException("Unable to update user blocked: " + e.getMessage());
         }
     }
@@ -111,7 +103,6 @@ public class MySQLUserDAO implements UserDAO<User> {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Unable to delete user: " + e.getMessage(), e);
             throw new DAOException("Unable to delete user: " + e.getMessage());
         }
     }
@@ -132,7 +123,6 @@ public class MySQLUserDAO implements UserDAO<User> {
                 this.numberOfPages = (int) Math.ceil(rs.getInt(1) * 1.0 / numOfRecords);
 
         } catch (SQLException e) {
-            logger.error("Unable to read list user: " + e.getMessage(), e);
             throw new DAOException("Unable to real list user: " + e.getMessage());
         } finally {
             close(rs);
@@ -146,7 +136,6 @@ public class MySQLUserDAO implements UserDAO<User> {
              ResultSet rs = ps.executeQuery()) {
             addUserRolesToList(result, rs);
         } catch (SQLException e) {
-            logger.error("Unable to read list of user roles: " + e.getMessage(), e);
             throw new DAOException("Unable to read list user roles: " + e.getMessage());
         }
         return result;
@@ -170,7 +159,7 @@ public class MySQLUserDAO implements UserDAO<User> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read user role: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Unknown user role name");
         } finally {
             close(rs);
         }
@@ -189,7 +178,7 @@ public class MySQLUserDAO implements UserDAO<User> {
             }
 
         } catch (SQLException e) {
-            logger.error("Unable to read user role: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Unknown user role name");
         } finally {
             close(rs);
         }
@@ -239,7 +228,7 @@ public class MySQLUserDAO implements UserDAO<User> {
             try {
                 autoCloseable.close();
             } catch (Exception e) {
-                logger.error("Error while close: " + e.getMessage(), e);
+                e.printStackTrace();
             }
         }
     }
