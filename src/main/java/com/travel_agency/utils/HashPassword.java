@@ -3,6 +3,9 @@ package com.travel_agency.utils;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
+/**
+ * Util to hash and validate password
+ */
 public class HashPassword {
     private HashPassword() {
     }
@@ -17,11 +20,17 @@ public class HashPassword {
         PARAMETERS = hashWithParameters.substring(0, INDEX_OF_SUBSTRING);
     }
 
+    /**
+     * @return hashed password
+     */
     public static String hash(String password) {
         String hashWithParameters = argon2.hash(2, 15 * 1024, 1, password.toCharArray());
         return hashWithParameters.substring(INDEX_OF_SUBSTRING);
     }
 
+    /**
+     * Rehash password and check if this password cooperate
+     */
     public static boolean validate(String password, String hashedPassword) {
         String fullHashedPassword = PARAMETERS + hashedPassword;
         return argon2.verify(fullHashedPassword, password.toCharArray());

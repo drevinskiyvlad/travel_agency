@@ -33,8 +33,6 @@ P
  src/main/webapp/registration.jsp,d\d\dd51f7041d5a8d7bb17c79a85099a350e198ae09
 M
 src/main/webapp/add-offer.jsp,c\a\caa222ca1e0b5faaafdf9e16eabab23090b4860d
-T
-$src/main/webapp/META-INF/context.xml,c\b\cbfb0d2e9b2b9fbf9d54374577c894a38643c6d0
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 ^

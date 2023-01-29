@@ -1,5 +1,8 @@
 package com.travel_agency.utils.Constants;
 
+/**
+ * All MySQL commands for DAO
+ */
 public class MySQLDAOConstants {
     private MySQLDAOConstants(){}
 

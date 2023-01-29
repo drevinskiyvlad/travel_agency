@@ -34,7 +34,7 @@ public class SignUpCommand implements Command {
             MySQLUserDAO userDAO = new MySQLUserDAO(con);
             UserService userService = new UserService(userDAO);
 
-            userService.addUser(userDTO, password);
+            userService.signUp(userDTO, password);
 
             req.getSession().setAttribute("user", userDTO);
             logger.info("User {} registered successfully: ", userDTO.getEmail());

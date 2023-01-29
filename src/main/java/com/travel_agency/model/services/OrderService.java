@@ -24,10 +24,17 @@ public class OrderService {
     private final OrderDAO<Order> dao;
     private static final Logger logger = LogManager.getLogger(OrderService.class);
 
+    /**
+     * Constructor
+     */
     public OrderService(OrderDAO<Order> dao) {
         this.dao = dao;
     }
 
+    /**
+     * Creates order
+     * @return result of creating
+     */
     public boolean makeOrder(OfferDTO offerDTO, UserDTO userDTO) {
         try {
             OrderDTO orderDTO = initializeOrderDTO(offerDTO, userDTO);
@@ -44,7 +51,12 @@ public class OrderService {
             return false;
         }
     }
-
+    /**
+     * Get all orders from database with defined parameters
+     * @param offset index of first order from database
+     * @param numOfRecords number of records that given from database
+     * @return List of order
+     */
     public List<OrderDTO> getAllOrders(int offset, int numOfRecords) {
         List<Order> orders;
         try {
@@ -55,7 +67,12 @@ public class OrderService {
         }
         return makeListOfDTOs(orders);
     }
-
+    /**
+     * Get all orders of user from database with defined parameters
+     * @param offset index of first offer from database
+     * @param numOfRecords number of records that given from database
+     * @return List of order from user
+     */
     public List<OrderDTO> getAllOrdersFromUser(UserDTO userDTO, int offset, int numOfRecords) {
         List<Order> orders;
         try {
@@ -67,6 +84,9 @@ public class OrderService {
         return makeListOfDTOs(orders);
     }
 
+    /**
+     * @return total price of all orders
+     */
     public double getTotalPrice(List<OrderDTO> orders){
         double result = 0;
         for(OrderDTO o: orders){

@@ -15,11 +15,17 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Implementation of DAO interface for MySQL
+ */
 public class MySQLUserDAO implements UserDAO<User> {
     private final Connection con;
     @Getter
     private int numberOfPages; // for pagination
 
+    /**
+     * Constructor
+     */
     public MySQLUserDAO(Connection con) {
         this.con = con;
     }

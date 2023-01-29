@@ -1,5 +1,8 @@
 package com.travel_agency.model.DB;
 
+/**
+ * All database field names
+ */
 public class Fields {
     private Fields() {
     }

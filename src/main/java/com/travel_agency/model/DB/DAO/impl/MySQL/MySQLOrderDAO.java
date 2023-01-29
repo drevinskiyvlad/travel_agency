@@ -16,11 +16,17 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Implementation of DAO interface for MySQL
+ */
 public class MySQLOrderDAO implements OrderDAO<Order> {
     private final Connection con;
     @Getter private int numberOfPages; // for pagination
     @Getter private int numberOfUserPages; // for pagination
 
+    /**
+     * Constructor
+     */
     public MySQLOrderDAO(Connection con) {
         this.con = con;
     }

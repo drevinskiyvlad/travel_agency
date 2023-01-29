@@ -17,11 +17,18 @@ public class UserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
     private final UserDAO<User> dao;
 
+    /**
+     * Constructor
+     */
     public UserService(UserDAO<User> dao) {
         this.dao = dao;
     }
 
-    public void addUser(UserDTO userDTO, String password) throws ValidationException {
+    /**
+     * Add user to database
+     * @throws ValidationException If parameters are not valid
+     */
+    public void signUp(UserDTO userDTO, String password) throws ValidationException {
         validateUserDTO(userDTO, password);
         User user = convertDTOToUser(userDTO, password);
         try {
@@ -32,6 +39,12 @@ public class UserService {
         }
     }
 
+
+    /**
+     * Check if user with this email is exist and then check password
+     * @return UserDTO if this user exist and password correct
+     * @throws ValidationException if user not found or user password incorrect
+     */
     public UserDTO signIn(String email, String password) throws ValidationException {
         User user;
         try {
@@ -44,6 +57,12 @@ public class UserService {
         return convertUserToDTO(user);
     }
 
+    /**
+     * Get all users from database with defined parameters
+     * @param offset index of first user from database
+     * @param numOfRecords number of records that given from database
+     * @return List of user
+     */
     public List<UserDTO> getAllUsers(int offset, int numOfRecords) {
         List<User> result = new CopyOnWriteArrayList<>();
         try {
@@ -54,6 +73,9 @@ public class UserService {
         return makeListOfDTOs(result);
     }
 
+    /**
+     * Change user blocked status
+     */
     public void changeUserBlocked(String email) throws DAOException {
         User user = dao.read(email);
         dao.update(email, !user.isBlocked());

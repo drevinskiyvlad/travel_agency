@@ -15,6 +15,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Implementation of DAO interface for MySQL
+ */
 public class MySQLOfferDAO implements OfferDAO<Offer> {
     private final Connection con;
 
@@ -23,6 +26,9 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     private int numberOfHotRecords; // for pagination
     @Setter private int page; // for pagination
 
+    /**
+     * Constructor
+     */
     public MySQLOfferDAO(Connection con) {
         this.con = con;
     }
@@ -51,7 +57,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
         ps.setBoolean(8, offer.isHot());
         ps.setDouble(9, offer.getPrice());
     }
-
 
     public Offer read(String code) throws DAOException {
         ResultSet rs = null;
@@ -143,7 +148,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
         }
     }
 
-
     public List<Offer> readAll(int offset, int numOfRecords, boolean onlyHot) throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>(readAllHot(offset, numOfRecords));
         if (!onlyHot)
@@ -226,7 +230,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
         }
         return result;
     }
-
 
     public List<String> readAllHotelTypes() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();

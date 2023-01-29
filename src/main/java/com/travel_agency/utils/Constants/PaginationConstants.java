@@ -1,5 +1,8 @@
 package com.travel_agency.utils.Constants;
 
+/**
+ * All constants for records per page
+ */
 public class PaginationConstants {
     private PaginationConstants() {
     }

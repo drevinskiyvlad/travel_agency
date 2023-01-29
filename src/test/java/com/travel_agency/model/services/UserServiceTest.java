@@ -41,7 +41,7 @@ class UserServiceTest {
     void testAddUser() throws ValidationException, DAOException {
         when(dao.create(user)).thenReturn(true);
 
-        service.addUser(userDTO, "password");
+        service.signUp(userDTO, "password");
 
         verify(dao).create(user);
     }
@@ -50,7 +50,7 @@ class UserServiceTest {
     void testAddUser_DAOException() throws ValidationException, DAOException {
         when(dao.create(user)).thenThrow(DAOException.class);
 
-        assertThrows(ValidationException.class, () -> service.addUser(userDTO, "password"));
+        assertThrows(ValidationException.class, () -> service.signUp(userDTO, "password"));
     }
 
     @Test

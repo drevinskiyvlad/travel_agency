@@ -10,11 +10,17 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Singleton manager for interaction with connection pull
+ */
 public class DBManager {
     private static final Logger logger = LogManager.getLogger(DBManager.class);
     private static DBManager instance;
     private DataSource ds;
 
+    /**
+     * Init data source while first creating of class
+     */
     private DBManager(){
         try {
             Context initContext = new InitialContext();
@@ -24,6 +30,10 @@ public class DBManager {
             logger.error("Unable to connect to db: " + e.getMessage(), e);
         }
     }
+
+    /**
+     * Singleton
+     */
     public static synchronized DBManager getInstance() {
         if(instance == null){
             instance = new DBManager();
@@ -32,6 +42,9 @@ public class DBManager {
     }
 
 
+    /**
+     * @return java.sql.Connection
+     */
     public synchronized Connection getConnection() {
         try {
             return ds.getConnection();
@@ -41,6 +54,9 @@ public class DBManager {
         return null;
     }
 
+    /**
+     * @param con Connection which will be closed
+     */
     public static synchronized void closeConnection(Connection con){
         if(con != null) {
             try {

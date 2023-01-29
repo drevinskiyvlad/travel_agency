@@ -1,5 +1,8 @@
 package com.travel_agency.utils.Constants;
 
+/**
+ * All path constants for commands and jsp pages
+ */
 public class PathConstants {
     private PathConstants() {}
 
