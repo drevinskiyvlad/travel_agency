@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MySQLOfferDAO implements OfferDAO<Offer, String> {
+public class MySQLOfferDAO implements OfferDAO<Offer> {
     private static final Logger logger = LogManager.getLogger(MySQLOfferDAO.class);
     private final Connection con;
 

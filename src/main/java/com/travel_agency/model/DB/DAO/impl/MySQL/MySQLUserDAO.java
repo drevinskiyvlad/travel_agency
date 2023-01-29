@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MySQLUserDAO implements UserDAO<User, String> {
+public class MySQLUserDAO implements UserDAO<User> {
     private static final Logger logger = LogManager.getLogger(MySQLUserDAO.class);
     private final Connection con;
     @Getter

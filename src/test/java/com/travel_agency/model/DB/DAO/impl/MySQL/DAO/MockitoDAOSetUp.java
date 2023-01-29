@@ -16,18 +16,11 @@ public class MockitoDAOSetUp {
     }
 
     //All user setups
-    protected static void CreateUser(User user, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+    protected static void CreateUser(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.ADD_USER)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_USER_ROLE_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
-        ps.setString(1, user.getEmail());
-        ps.setString(2, user.getPassword());
-        ps.setInt(3, 1);
-        ps.setString(4, user.getFirstName());
-        ps.setString(5, user.getLastName());
-        ps.setString(6, user.getPhone());
-        ps.setBoolean(7, user.isBlocked());
     }
 
     protected static void ReadUser(User user, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
@@ -48,28 +41,22 @@ public class MockitoDAOSetUp {
         when(rs.getInt(Fields.USER_ROLE)).thenReturn(1);
     }
 
-    protected static void UpdateRole(User user, String newRole, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+    protected static void UpdateRole(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.CHANGE_USER_ROLE))
                 .thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_USER_ROLE_BY_NAME))
                 .thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
-        ps.setInt(1, 3);
-        ps.setString(2, user.getEmail());
     }
 
-    protected static void UpdateBlocked(User user, boolean blocked, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+    protected static void UpdateBlocked(Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.CHANGE_USER_BLOCKED))
                 .thenReturn(ps);
-        ps.setBoolean(1, blocked);
-        ps.setString(2, user.getEmail());
     }
 
-    protected static void DeleteUser(User user, Connection con, PreparedStatement ps) throws SQLException {
+    protected static void DeleteUser(Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.DELETE_USER)).thenReturn(ps);
-        ps.setString(1, user.getEmail());
-        when(ps.executeUpdate()).thenReturn(1);
     }
 
     protected static void ReadAllUsers(User user, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
@@ -103,21 +90,12 @@ public class MockitoDAOSetUp {
 
 
     //All offer setups
-    protected static void CreateOffer(Offer offer, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+    protected static void CreateOffer(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.ADD_OFFER)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_NAME)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
-        ps.setString(1, offer.getCode());
-        ps.setString(2, offer.getCity());
-        ps.setInt(3, 1);
-        ps.setInt(4, 1);
-        ps.setString(5, offer.getHotelName());
-        ps.setInt(6, offer.getPlaces());
-        ps.setDouble(7, offer.getDiscount());
-        ps.setBoolean(8, offer.isHot());
-        ps.setDouble(9, offer.getPrice());
     }
 
     protected static void ReadOffer(Offer offer, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
@@ -126,7 +104,8 @@ public class MockitoDAOSetUp {
         when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_ID)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_ID)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
-        if (withResultSet) when(rs.next()).thenReturn(true);
+        if (withResultSet)
+            when(rs.next()).thenReturn(true);
         when(rs.getInt(Fields.OFFER_ID)).thenReturn(offer.getId());
         when(rs.getString(Fields.OFFER_CODE)).thenReturn(offer.getCode());
         when(rs.getString(Fields.OFFER_CITY)).thenReturn(offer.getCity());
@@ -141,21 +120,16 @@ public class MockitoDAOSetUp {
         when(rs.getString(Fields.HOTEL_TYPE_NAME)).thenReturn(offer.getHotelType());
     }
 
-    protected static void UpdateOfferIsHot(Offer offer, boolean isHot, Connection con, PreparedStatement ps) throws SQLException {
+    protected static void UpdateOfferIsHot(Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_IS_HOT)).thenReturn(ps);
-        ps.setBoolean(1, isHot);
-        ps.setString(2, offer.getCode());
     }
 
-    protected static void UpdateOfferVacancy(Offer offer, int vacancy, Connection con, PreparedStatement ps) throws SQLException {
+    protected static void UpdateOfferVacancy(Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_PLACES)).thenReturn(ps);
-        ps.setInt(1, vacancy);
-        ps.setString(2, offer.getCode());
     }
 
-    protected static void DeleteOffer(Offer offer, Connection con, PreparedStatement ps) throws SQLException {
+    protected static void DeleteOffer(Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.DELETE_OFFER)).thenReturn(ps);
-        ps.setString(1, offer.getCode());
     }
 
     protected static void ReadAllOffersSorted(Offer offer, String command, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
@@ -229,22 +203,19 @@ public class MockitoDAOSetUp {
     }
 
     //All order setups
-    protected static void CreateOrder(Order order, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+    protected static void CreateOrder(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.ADD_ORDER)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_ORDER_STATUS_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
-        ps.setString(1, order.getCode());
-        ps.setInt(2, order.getUser().getId());
-        ps.setInt(3, order.getOffer().getId());
-        ps.setInt(4, 1);
     }
 
     protected static void ReadOrder(Order order, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.FIND_ORDER)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_ORDER_STATUS_BY_ID)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
-        if (withResultSet) when(rs.next()).thenReturn(true);
+        if (withResultSet)
+            when(rs.next()).thenReturn(true);
         when(rs.getInt(Fields.ORDER_ID)).thenReturn(order.getId());
         when(rs.getString(Fields.ORDER_CODE)).thenReturn(order.getCode());
         when(rs.getInt(Fields.ORDER_USER)).thenReturn(0);
@@ -255,18 +226,15 @@ public class MockitoDAOSetUp {
         ReadUser(order.getUser(), false, con, ps, rs);
     }
 
-    protected static void UpdateOrderStatus(Order order, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+    protected static void UpdateOrderStatus(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.CHANGE_ORDER_STATUS)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_ORDER_STATUS_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
-        ps.setInt(1, 3);
-        ps.setString(2, order.getCode());
     }
 
-    protected static void DeleteOrder(Order order, Connection con, PreparedStatement ps) throws SQLException {
+    protected static void DeleteOrder(Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.DELETE_ORDER)).thenReturn(ps);
-        ps.setString(1, order.getCode());
     }
 
     protected static void ReadAllOrders(Order order, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {

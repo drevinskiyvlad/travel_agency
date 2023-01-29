@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MySQLOrderDAO implements OrderDAO<Order, String> {
+public class MySQLOrderDAO implements OrderDAO<Order> {
     private static final Logger logger = LogManager.getLogger(MySQLOrderDAO.class);
     private final Connection con;
     @Getter private int numberOfPages; // for pagination
