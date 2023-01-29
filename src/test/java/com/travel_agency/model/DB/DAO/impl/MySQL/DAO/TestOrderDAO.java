@@ -46,7 +46,7 @@ class TestOrderDAO {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateOrder(order, con,ps,rs);
+        MockitoDAOSetUp.CreateOrder(con,ps,rs);
 
         boolean result = dao.create(order);
 
@@ -66,7 +66,7 @@ class TestOrderDAO {
     void testUpdateStatus() throws SQLException {
         String newStatus = "canceled";
 
-        MockitoDAOSetUp.UpdateOrderStatus(order, con,ps, rs);
+        MockitoDAOSetUp.UpdateOrderStatus(con,ps, rs);
 
         boolean result = dao.update(order, newStatus);
         assertTrue(result);
@@ -74,7 +74,7 @@ class TestOrderDAO {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoDAOSetUp.DeleteOrder(order,con,ps);
+        MockitoDAOSetUp.DeleteOrder(con,ps);
 
         boolean result = dao.delete(order.getCode());
 
@@ -94,6 +94,7 @@ class TestOrderDAO {
         assertEquals(0, dao.getNumberOfPages());
         assertEquals(0, dao.getNumberOfUserPages());
     }
+
     @Test
     void testReadAllOrderStatuses() throws SQLException {
         MockitoDAOSetUp.ReadAllOrderStatuses(con,ps,rs);

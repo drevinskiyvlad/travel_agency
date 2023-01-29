@@ -46,7 +46,7 @@ class TestUserDAO {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateUser(user, con, ps,rs);
+        MockitoDAOSetUp.CreateUser(con, ps,rs);
 
         boolean result = dao.create(user);
 
@@ -76,7 +76,7 @@ class TestUserDAO {
     void testUpdateRole() throws SQLException {
         String newRole = "admin";
 
-        MockitoDAOSetUp.UpdateRole(user,newRole, con,ps,rs);
+        MockitoDAOSetUp.UpdateRole(con,ps,rs);
 
         boolean result = dao.update(user, newRole);
 
@@ -87,7 +87,7 @@ class TestUserDAO {
     void testUpdateBlocked() throws SQLException {
         boolean blocked = true;
 
-        MockitoDAOSetUp.UpdateBlocked(user,blocked, con,ps,rs);
+        MockitoDAOSetUp.UpdateBlocked(con,ps);
 
         boolean result = dao.update(user.getEmail(), blocked);
 
@@ -96,7 +96,7 @@ class TestUserDAO {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoDAOSetUp.DeleteUser(user,con,ps);
+        MockitoDAOSetUp.DeleteUser(con,ps);
 
         boolean result = dao.delete(user.getEmail());
 

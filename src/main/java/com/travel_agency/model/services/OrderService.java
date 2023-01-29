@@ -93,8 +93,7 @@ public class OrderService {
     }
 
     private boolean decreaseOfferVacancy(OfferDTO offerDTO) throws DAOException {
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
+        Connection con = DBManager.getInstance().getConnection();
 
         MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
@@ -119,8 +118,7 @@ public class OrderService {
     }
 
     private Offer getOffer(OfferDTO offerDTO) throws DAOException {
-        DBManager manager = DBManager.getInstance();
-        Connection con = manager.getConnection();
+        Connection con = DBManager.getInstance().getConnection();
         MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
         DBManager.closeConnection(con);

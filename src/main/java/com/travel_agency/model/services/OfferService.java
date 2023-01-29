@@ -58,8 +58,8 @@ public class OfferService {
         validateDiscount(offerDTO.getDiscount());
 
         Offer offer = convertDTOToOffer(offerDTO);
-        boolean resultDelete = dao.delete(offerDTO.getCode());
 
+        boolean resultDelete = dao.delete(offerDTO.getCode());
         boolean resultCreate = dao.create(offer);
 
         return resultCreate && resultDelete;
