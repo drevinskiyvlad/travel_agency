@@ -16,7 +16,11 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Main Command factory for Controller.
+ *
+ * @author Drevinskyi Vladislav
+ */
 public class CommandFactory {
     private static CommandFactory factory = new CommandFactory();
     private static final Map<String, Command> commands = new HashMap<>();

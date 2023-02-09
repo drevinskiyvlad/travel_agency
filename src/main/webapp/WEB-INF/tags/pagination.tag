@@ -2,6 +2,7 @@
 <%@attribute name="currentPage" type="java.lang.Integer" required="true" %>
 <%@attribute name="redirectTo" required="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div class="pagination wow fadeInUp">
     <c:forEach begin="1" end="${numberOfPages}" var="i">
         <c:choose>

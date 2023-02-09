@@ -11,7 +11,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/controller")
+/**
+ * Main Controller Servlet.
+ *
+ * @author Drevinskyi Vladislav
+ */
+@WebServlet(name = "Controller", value = "/controller")
 public class Controller extends HttpServlet {
 
     @Override

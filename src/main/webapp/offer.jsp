@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ctg" uri="/WEB-INF/tld/date.tld" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ page isELIgnored="false" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="language"/>
@@ -120,23 +121,7 @@
         </div>
     </main> <!-- .content -->
 
-    <footer class="site-footer wow fadeInUp">
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="branding pull-left">
-                    <img src="images/logo-footer.png" alt="Company Name" class="logo">
-                    <h1 class="site-title"><a href="index.jsp"><fmt:message key="header.companyName"/></a></h1>
-                    <small class="site-description"><fmt:message key="footer.tagline"/></small>
-                </div>
-
-                <div class="contact-links pull-right">
-                    <i class="fa fa-map-marker"></i> <fmt:message key="footer.address"/><br>
-                    <i class="fa fa-phone"></i> +380 68 111 22 33<br>
-                    <i class="fa fa-envelope"></i> doe@companyname.com
-                </div>
-            </div>
-        </div>
-    </footer> <!-- .site-footer -->
+    <my:footer/> <!-- .site-footer -->
 
 </div> <!-- #site-content -->
 <script src="js/jquery-1.11.1.min.js"></script>
