@@ -4,15 +4,25 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
+    <!--============================================================
+    Basic error page
+    =========================================================-->
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error.jsp</location>
     </error-page>
 
+    <!--============================================================
+    Context Listener
+    =========================================================-->
     <listener>
         <listener-class>com.travel_agency.controller.listeners.ContextListener</listener-class>
     </listener>
 
+    <!--============================================================
+    Encoding filter
+    encoding - base encoding
+    =========================================================-->
     <filter>
         <filter-name>encoding-filter</filter-name>
         <filter-class>com.travel_agency.controller.filters.EncodingFilter</filter-class>
@@ -21,12 +31,15 @@
             <param-value>UTF-8</param-value>
         </init-param>
     </filter>
-    
     <filter-mapping>
         <filter-name>encoding-filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--============================================================
+    Locale filter
+    baseLanguage - base language for first entry
+    =========================================================-->
     <filter>
         <filter-name>session-locale-filter</filter-name>
         <filter-class>com.travel_agency.controller.filters.SessionLocaleFilter</filter-class>
@@ -35,21 +48,61 @@
             <param-value>ua</param-value>
         </init-param>
     </filter>
-
     <filter-mapping>
         <filter-name>session-locale-filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--============================================================
+    Security filter.
+    1) admin: admin commands
+    2) manager: manager commands
+    3) user: user commands
+    4) commons: commands for all roles
+    5) out-of-control: commands without access control
+    =========================================================-->
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>com.travel_agency.controller.filters.SecurityFilter</filter-class>
+        <init-param>
+            <param-name>admin</param-name>
+            <param-value>blockUser updateOrderStatus updateUserRole addOffer updateOffer makeOfferHot deleteOffer
+                orderPagination userPagination
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>manager</param-name>
+            <param-value>updateOrderStatus makeOfferHot orderPagination</param-value>
+        </init-param>
+        <init-param>
+            <param-name>user</param-name>
+            <param-value>deleteOrder makeOrder userOrdersPagination</param-value>
+        </init-param>
+        <init-param>
+            <param-name>common</param-name>
+            <param-value>logout redirect</param-value>
+        </init-param>
+        <init-param>
+            <param-name>out-of-control</param-name>
+            <param-value>signIn signUp offerPagination</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <servlet-name>Controller</servlet-name>
+    </filter-mapping>
+
+    <!--============================================================
+    Auth filter
+    for don`t permit unauthorized user to go to the user cabinet
+    =========================================================-->
     <filter>
         <filter-name>auth-filter</filter-name>
         <filter-class>com.travel_agency.controller.filters.AuthCheckFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>auth-filter</filter-name>
         <url-pattern>/user-cabinet.jsp</url-pattern>
-        <url-pattern>/makeOrder</url-pattern>
     </filter-mapping>
 
     <filter>

@@ -70,6 +70,9 @@
     <main class="content">
         <div class="error-message">
             <h1><fmt:message key="error.message"/></h1><br>
+            <c:if test="${requestScope.errorMessage != null}">
+                <h1>${requestScope.errorMessage}</h1>
+            </c:if>
             <h1><a href="index.jsp"><fmt:message key="error.toMain"/></a></h1>
         </div>
     </main> <!-- .content -->
