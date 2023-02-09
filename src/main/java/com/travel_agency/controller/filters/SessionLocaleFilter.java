@@ -10,7 +10,7 @@ public class SessionLocaleFilter implements Filter {
     String baseLanguage;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         baseLanguage = filterConfig.getInitParameter("baseLanguage");
     }
 

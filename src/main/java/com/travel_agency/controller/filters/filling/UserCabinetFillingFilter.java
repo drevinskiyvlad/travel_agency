@@ -98,6 +98,7 @@ public class UserCabinetFillingFilter implements Filter {
 
         List<UserDTO> users = service.getAllUsers(0,
                 PaginationConstants.USER_LIST_RECORDS_PER_PAGE);
+        //noinspection SuspiciousMethodCalls
         users.remove(req.getSession().getAttribute("user"));
 
         setAttrToAdminCabinet(req, userDAO, users);
