@@ -31,7 +31,7 @@ selecting tours:
 
 - DB model:
 
-![img.png](img.png)
+![img.png](sql/db_schema.png)
 
 - To create schema you can use script in sql/db.sql
 - To init variables and fill table you can use script in sql/init_variables.sql
