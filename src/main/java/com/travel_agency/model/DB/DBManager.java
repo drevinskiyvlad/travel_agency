@@ -12,16 +12,19 @@ import java.sql.SQLException;
 
 /**
  * Singleton manager for interaction with connection pull
+ *
+ * @author Drevinskyi Vladislav
  */
 public class DBManager {
     private static final Logger logger = LogManager.getLogger(DBManager.class);
     private static DBManager instance;
     private DataSource ds;
 
-    /**
-     * Init data source while first creating of class
-     */
     private DBManager(){
+        initDataSource();
+    }
+
+    private void initDataSource() {
         try {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
