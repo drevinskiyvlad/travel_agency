@@ -11,14 +11,13 @@ import com.travel_agency.utils.Constants.SORTING_BY;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
 public class OffersPaginationCommand implements Command {
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         //init values
         SORTING_BY sortBy = (SORTING_BY) req.getSession().getAttribute("sortBy");
         int recordsPerPage = PaginationConstants.OFFERS_RECORDS_PER_PAGE;

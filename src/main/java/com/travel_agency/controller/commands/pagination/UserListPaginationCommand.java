@@ -10,14 +10,13 @@ import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
 public class UserListPaginationCommand implements Command {
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         //init variables
         int recordsPerPage = PaginationConstants.USER_LIST_RECORDS_PER_PAGE;
         int page = getPage(req);
