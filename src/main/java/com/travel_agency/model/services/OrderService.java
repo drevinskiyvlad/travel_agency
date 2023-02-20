@@ -1,6 +1,6 @@
 package com.travel_agency.model.services;
 
-import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.OrderDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;

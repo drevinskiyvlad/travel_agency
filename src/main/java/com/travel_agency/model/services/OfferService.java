@@ -1,7 +1,7 @@
 package com.travel_agency.model.services;
 
-import com.travel_agency.exceptions.DAOException;
-import com.travel_agency.exceptions.ValidationException;
+import com.travel_agency.utils.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.ValidationException;
 import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.entity.Offer;

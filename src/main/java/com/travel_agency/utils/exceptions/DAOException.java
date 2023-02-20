@@ -1,4 +1,4 @@
-package com.travel_agency.exceptions;
+package com.travel_agency.utils.exceptions;
 
 import java.sql.SQLException;
 

@@ -1,4 +1,4 @@
-package com.travel_agency.exceptions;
+package com.travel_agency.utils.exceptions;
 
 public class ValidationException extends RuntimeException {
     public ValidationException(String message) {

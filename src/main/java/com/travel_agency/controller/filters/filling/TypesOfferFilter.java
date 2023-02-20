@@ -2,7 +2,7 @@ package com.travel_agency.controller.filters.filling;
 
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.DAOException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

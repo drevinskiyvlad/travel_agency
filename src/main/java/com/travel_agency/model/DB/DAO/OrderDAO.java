@@ -1,6 +1,6 @@
 package com.travel_agency.model.DB.DAO;
 
-import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.DAOException;
 
 import java.util.List;
 

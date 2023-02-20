@@ -1,6 +1,6 @@
 package com.travel_agency.model.DB.DAO;
 
-import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.SORTING_BY;
 

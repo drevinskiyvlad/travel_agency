@@ -4,7 +4,7 @@ import com.travel_agency.controller.commands.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
-import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.entity.Order;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
