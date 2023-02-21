@@ -137,6 +137,17 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
         }
     }
 
+    public boolean updateActive(Offer offer, boolean active) throws DAOException {
+        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_ACTIVE)) {
+            ps.setBoolean(1, active);
+            ps.setString(2, offer.getCode());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new DAOException("Unable to update offer active: " + e.getMessage());
+        }
+    }
+
     public boolean update(Offer offer, int newValue) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_PLACES)) {
             ps.setInt(1, newValue);

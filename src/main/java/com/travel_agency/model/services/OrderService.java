@@ -1,5 +1,6 @@
 package com.travel_agency.model.services;
 
+import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.OrderDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
@@ -41,7 +42,7 @@ public class OrderService {
             Order order = convertDTOToOrder(orderDTO, userDTO, offerDTO);
             boolean result = dao.create(order);
             if (result) {
-                result = decreaseOfferVacancy(offerDTO);
+                result = decreaseOfferPlaces(offerDTO);
                 logger.info("User {} successfully made order with code: {}", userDTO.getEmail(), orderDTO.getCode());
             }
 
@@ -112,11 +113,14 @@ public class OrderService {
         return new OrderDTO(code, offerCode, userEmail, status,price);
     }
 
-    private boolean decreaseOfferVacancy(OfferDTO offerDTO) throws DAOException {
+    private boolean decreaseOfferPlaces(OfferDTO offerDTO) throws DAOException {
         Connection con = DBManager.getInstance().getConnection();
 
-        MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
+        OfferDAO<Offer> offerDAO = new MySQLOfferDAO(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
+
+        if(offer.getPlaces() <= 1)
+            offerDAO.updateActive(offer, false);
 
         boolean offerResult = offerDAO.update(offer, offer.getPlaces() - 1);
         DBManager.closeConnection(con);

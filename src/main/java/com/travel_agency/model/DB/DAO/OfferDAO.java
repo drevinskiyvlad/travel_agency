@@ -44,6 +44,12 @@ public interface OfferDAO<E extends Entity> {
     boolean update(E entity, boolean isHot) throws DAOException;
 
     /**
+     * Change offer is hot status
+     * @return result of updating
+     */
+    boolean updateActive(E entity, boolean active) throws DAOException;
+
+    /**
      * Change offer number of places
      * @return result of updating
      */

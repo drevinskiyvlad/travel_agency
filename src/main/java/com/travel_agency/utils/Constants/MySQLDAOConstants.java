@@ -35,6 +35,7 @@ public class MySQLDAOConstants {
     public static final String FIND_OFFER = "SELECT * FROM offer WHERE code LIKE ?";
     public static final String FIND_OFFER_BY_ID = "SELECT * FROM offer WHERE id LIKE ?";
     public static final String CHANGE_OFFER_IS_HOT = "UPDATE offer SET is_hot = ? WHERE code = ?";
+    public static final String CHANGE_OFFER_ACTIVE = "UPDATE offer SET active = ? WHERE code = ?";
     public static final String CHANGE_OFFER_PLACES = "UPDATE offer SET places = ? WHERE code = ?";
     public static final String DELETE_OFFER = "DELETE FROM offer WHERE code = ?";
     public static final String FIND_ALL_OFFERS = "SELECT * FROM offer WHERE is_hot = false LIMIT ?, ?";

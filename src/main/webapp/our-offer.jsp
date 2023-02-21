@@ -91,7 +91,8 @@
                 <div class="filterable-items">
                     <c:forEach items="${requestScope.offers}" var="offer">
                         <div class="filterable-item offer-block"
-                             <c:if test="${offer.isHot()}">style="background-color:rgba(255,0,0,0.29)"</c:if>>
+                             <c:if test="${offer.isHot()}">style="background-color:rgba(255,0,0,0.29)"</c:if>
+                             <c:if test="${offer.active == false}">style="background-color:rgba(0,0,0,0.1)"</c:if>>
                             <article class="offer offer-item">
                                 <figure class="featured-image"><img src="images/cities/${offer.city}.jpg"
                                                                     alt="${offer.city}"></figure>
