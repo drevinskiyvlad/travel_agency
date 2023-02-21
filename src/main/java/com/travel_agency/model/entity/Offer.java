@@ -9,16 +9,15 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Offer {
+public class Offer implements Entity{
     private int id;
     private String code;
-    private String city;
+    private Hotel hotel;
     private String offerType;
-    private String hotelType;
-    private String hotelName;
     private int places;
     private double discount;
     private boolean isHot;
+    private boolean active;
     private double price;
 
     @Override
@@ -26,13 +25,12 @@ public class Offer {
         return "Offer{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
-                ", city='" + city + '\'' +
+                ", hotel='" + hotel.getName() + '\'' +
                 ", type='" + offerType + '\'' +
-                ", hotelType='" + hotelType + '\'' +
-                ", hotelName='" + hotelName + '\'' +
                 ", places=" + places +
                 ", discount=" + (int) (discount * 100) +
                 "%, isHot=" + isHot +
+                ", active=" + active +
                 ", price=" + price +
                 '}';
     }

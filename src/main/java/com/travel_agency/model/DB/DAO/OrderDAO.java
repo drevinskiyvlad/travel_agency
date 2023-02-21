@@ -1,5 +1,6 @@
 package com.travel_agency.model.DB.DAO;
 
+import com.travel_agency.model.entity.Entity;
 import com.travel_agency.utils.exceptions.DAOException;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * DAO interface for CRUD operations for order
  * @param <E> entity
  */
-public interface OrderDAO<E> {
+public interface OrderDAO<E extends Entity> {
     /**
      * @return number of pages for pagination
      */

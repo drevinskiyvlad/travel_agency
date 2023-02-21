@@ -1,5 +1,7 @@
 package com.travel_agency.model.DB.DAO.impl.MySQL;
 
+import com.travel_agency.model.DB.DAO.HotelDAO;
+import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.DB.Fields;
@@ -48,14 +50,13 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     private void setVariablesToCreateStatement(Offer offer, PreparedStatement ps) throws SQLException, IllegalArgumentException {
         ps.setString(1, offer.getCode());
-        ps.setString(2, offer.getCity());
+        ps.setInt(2, offer.getHotel().getId());
         ps.setInt(3, readOfferType(offer.getOfferType()));
-        ps.setInt(4, readHotelType(offer.getHotelType()));
-        ps.setString(5, offer.getHotelName());
-        ps.setInt(6, offer.getPlaces());
-        ps.setDouble(7, offer.getDiscount());
-        ps.setBoolean(8, offer.isHot());
-        ps.setDouble(9, offer.getPrice());
+        ps.setInt(4, offer.getPlaces());
+        ps.setDouble(5, offer.getDiscount());
+        ps.setBoolean(6, offer.isHot());
+        ps.setBoolean(7, offer.isActive());
+        ps.setDouble(8, offer.getPrice());
     }
 
     public Offer read(String code) throws DAOException {
@@ -96,24 +97,26 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     private Offer initializeOffer(ResultSet rs) throws SQLException {
         String offerType;
-        String hotelType;
+        HotelDAO<Hotel> hotelDAO = new MySQLHotelDAO(con);
+
         int id = rs.getInt(Fields.OFFER_ID);
         String code = rs.getString(Fields.OFFER_CODE);
-        String city = rs.getString(Fields.OFFER_CITY);
-        String hotelName = rs.getString(Fields.HOTEL_NAME);
+        int hotelId = rs.getInt(Fields.OFFER_HOTEL);
         int places = rs.getInt(Fields.OFFER_PLACES);
         double discount = rs.getDouble(Fields.OFFER_DISCOUNT);
         boolean isHot = rs.getBoolean(Fields.OFFER_IS_HOT);
+        boolean active = rs.getBoolean(Fields.OFFER_ACTIVE);
         double price = rs.getDouble(Fields.OFFER_PRICE);
+
+        Hotel hotel = hotelDAO.read(hotelId);
 
         try {
             offerType = readOfferType(rs.getInt(Fields.OFFER_TYPE));
-            hotelType = readHotelType(rs.getInt(Fields.OFFER_HOTEL_TYPE));
         } catch (IllegalArgumentException e) {
             return null;
         }
 
-        return new Offer(id, code, city, offerType, hotelType, hotelName, places, discount, isHot, price);
+        return new Offer(id, code, hotel, offerType, places, discount, isHot, active, price);
     }
 
     public boolean update(Offer offer, boolean isHot) throws DAOException {
@@ -231,17 +234,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
         return result;
     }
 
-    public List<String> readAllHotelTypes() throws DAOException {
-        List<String> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOTEL_TYPES);
-             ResultSet rs = ps.executeQuery()) {
-            addHotelTypesToList(result, rs);
-        } catch (SQLException e) {
-            throw new DAOException("Unable to read list hotel types: " + e.getMessage());
-        }
-        return result;
-    }
-
     public List<String> readAllOfferTypes() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFER_TYPES);
@@ -287,49 +279,6 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
             close(rs);
         }
         throw new IllegalArgumentException("Unknown offer type name");
-    }
-
-    private int readHotelType(String name) throws IllegalArgumentException {
-        ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_NAME)) {
-            ps.setString(1, name);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(Fields.HOTEL_TYPE_ID);
-            }
-
-        } catch (SQLException e) {
-            throw new IllegalArgumentException("Unknown hotel type name");
-        } finally {
-            close(rs);
-        }
-        throw new IllegalArgumentException("Unknown hotel type name");
-    }
-
-    private String readHotelType(int id) throws IllegalArgumentException {
-        ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_ID)) {
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return rs.getString(Fields.HOTEL_TYPE_NAME);
-            }
-
-        } catch (SQLException e) {
-            throw new IllegalArgumentException("Unknown hotel type name");
-        } finally {
-            close(rs);
-        }
-        throw new IllegalArgumentException("Unknown hotel type name");
-    }
-
-    private void addHotelTypesToList(List<String> result, ResultSet rs) throws SQLException {
-        while (rs.next()) {
-            int id = rs.getInt(Fields.HOTEL_TYPE_ID);
-            result.add(readHotelType(id));
-        }
     }
 
     private void addOfferTypesToList(List<String> result, ResultSet rs) throws SQLException {

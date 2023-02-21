@@ -85,6 +85,6 @@ public class AddOfferCommand implements Command {
         double price = Double.parseDouble(priceString);
         String city = req.getParameter("city");
         boolean isHot = false;
-        return new OfferDTO(code, offerType, hotel, hotelType, city, places, discount, isHot, price);
+        return new OfferDTO(code, offerType, hotel, hotelType, city, places, discount, isHot,true, price);
     }
 }

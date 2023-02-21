@@ -1,5 +1,6 @@
 package com.travel_agency.model.services;
 
+import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.utils.exceptions.ValidationException;
 import com.travel_agency.model.DB.DAO.OfferDAO;
@@ -78,6 +79,7 @@ public class OfferService {
      */
     public boolean updateOffer(OfferDTO offerDTO) throws DAOException, ValidationException {
         validateDiscount(offerDTO.getDiscount());
+        validatePlaces(offerDTO.getPlaces());
 
         Offer offer = convertDTOToOffer(offerDTO);
 
@@ -93,6 +95,7 @@ public class OfferService {
      */
     public boolean createOffer(OfferDTO offerDTO) throws DAOException, ValidationException {
         validateDiscount(offerDTO.getDiscount());
+        validatePlaces(offerDTO.getPlaces());
 
         Offer offer = convertDTOToOffer(offerDTO);
 
@@ -104,6 +107,11 @@ public class OfferService {
             throw new ValidationException(ValidationMessageConstants.INVALID_DISCOUNT);
     }
 
+    private void validatePlaces(int places) throws ValidationException {
+        if (!Validator.validatePlaces(places))
+            throw new ValidationException(ValidationMessageConstants.INVALID_PLACES);
+    }
+
     private Offer convertDTOToOffer(OfferDTO offerDTO) {
         String code = offerDTO.getCode();
         String city = offerDTO.getCity();
@@ -113,8 +121,12 @@ public class OfferService {
         int places = offerDTO.getPlaces();
         double discount = offerDTO.getDiscount();
         boolean isHot = offerDTO.isHot();
+        boolean active = offerDTO.isActive();
         double price = offerDTO.getPrice();
-        return new Offer(0, code, city, offerType, hotelType, hotelName, places, discount, isHot, price);
+
+        Hotel hotel = new Hotel(0, hotelName, hotelType, city);
+
+        return new Offer(0, code, hotel, offerType, places, discount, isHot, active, price);
     }
 
     private List<OfferDTO> makeListOfDTOs(List<Offer> offers) {
@@ -126,16 +138,20 @@ public class OfferService {
 }
 
     protected OfferDTO convertOfferToDTO(Offer offer) {
+        Hotel hotel = offer.getHotel();
+
         String code = offer.getCode();
         String type = offer.getOfferType();
-        String hotel = offer.getHotelName();
-        String hotelType = offer.getHotelType();
-        String city = offer.getCity();
+        String hotelName = hotel.getName();
+        String hotelType = hotel.getType();
+        String city = hotel.getCity();
         int vacancy = offer.getPlaces();
         double discount = offer.getDiscount();
         boolean isHot = offer.isHot();
+        boolean active = offer.isActive();
         double price = offer.getPrice();
-        return new OfferDTO(code, type, hotel, hotelType, city, vacancy, discount, isHot, price);
+
+        return new OfferDTO(code, type, hotelName, hotelType, city, vacancy, discount, isHot, active, price);
     }
 
 

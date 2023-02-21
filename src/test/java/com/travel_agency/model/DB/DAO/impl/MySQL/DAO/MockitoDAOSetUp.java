@@ -88,94 +88,33 @@ public class MockitoDAOSetUp {
                 .thenReturn("admin");
     }
 
+    //All hotel setups
 
-    //All offer setups
-    protected static void CreateOffer(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(MySQLDAOConstants.ADD_OFFER)).thenReturn(ps);
-        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_NAME)).thenReturn(ps);
+    protected static void CreateHotel(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.ADD_HOTEL)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_NAME)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
     }
 
-    protected static void ReadOffer(Offer offer, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER)).thenReturn(ps);
-        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_BY_ID)).thenReturn(ps);
-        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_ID)).thenReturn(ps);
+    protected static void ReadHotel(Hotel hotel, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.FIND_HOTEL)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_ID)).thenReturn(ps);
         when(ps.executeQuery()).thenReturn(rs);
         if (withResultSet)
             when(rs.next()).thenReturn(true);
-        when(rs.getInt(Fields.OFFER_ID)).thenReturn(offer.getId());
-        when(rs.getString(Fields.OFFER_CODE)).thenReturn(offer.getCode());
-        when(rs.getString(Fields.OFFER_CITY)).thenReturn(offer.getCity());
-        when(rs.getString(Fields.HOTEL_NAME)).thenReturn(offer.getHotelName());
-        when(rs.getInt(Fields.OFFER_TYPE)).thenReturn(1);
-        when(rs.getInt(Fields.OFFER_HOTEL_TYPE)).thenReturn(4);
-        when(rs.getInt(Fields.OFFER_PLACES)).thenReturn(offer.getPlaces());
-        when(rs.getDouble(Fields.OFFER_DISCOUNT)).thenReturn(offer.getDiscount());
-        when(rs.getBoolean(Fields.OFFER_IS_HOT)).thenReturn(offer.isHot());
-        when(rs.getDouble(Fields.OFFER_PRICE)).thenReturn(offer.getPrice());
-        when(rs.getString(Fields.OFFER_TYPE_NAME)).thenReturn(offer.getOfferType());
-        when(rs.getString(Fields.HOTEL_TYPE_NAME)).thenReturn(offer.getHotelType());
+
+        when(rs.getInt(Fields.HOTEL_ID)).thenReturn(hotel.getId());
+        when(rs.getString(Fields.HOTEL_NAME)).thenReturn(hotel.getName());
+        when(rs.getString(Fields.HOTEL_CITY)).thenReturn(hotel.getCity());
+        when(rs.getInt(Fields.HOTEL_TYPE)).thenReturn(1);
+        when(rs.getString(Fields.HOTEL_TYPE_NAME)).thenReturn(hotel.getType());
     }
 
-    protected static void UpdateOfferIsHot(Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_IS_HOT)).thenReturn(ps);
+    protected static void DeleteHotel(Connection con, PreparedStatement ps) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.DELETE_HOTEL)).thenReturn(ps);
     }
 
-    protected static void UpdateOfferVacancy(Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_PLACES)).thenReturn(ps);
-    }
-
-    protected static void DeleteOffer(Connection con, PreparedStatement ps) throws SQLException {
-        when(con.prepareStatement(MySQLDAOConstants.DELETE_OFFER)).thenReturn(ps);
-    }
-
-    protected static void ReadAllOffersSorted(Offer offer, String command, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(command)).thenReturn(ps);
-        when(ps.executeQuery(MySQLDAOConstants.OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
-        when(ps.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(true)//for addOffersToList
-                .thenReturn(true)//for read offer
-                .thenReturn(true)//for read offer type
-                .thenReturn(true)//for read hotel type
-                .thenReturn(false);//for addHotelsToList
-
-        ReadOffer(offer, false, con, ps, rs);
-    }
-
-    protected static void ReadAllOffers(Offer offer, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFERS)).thenReturn(ps);
-        when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOT_OFFERS)).thenReturn(ps);
-        when(ps.executeQuery(MySQLDAOConstants.NOT_HOT_OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
-        when(ps.executeQuery(MySQLDAOConstants.HOT_OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
-        when(ps.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(true)//for addOffersToList
-                .thenReturn(true)//for read offer
-                .thenReturn(true)//for read offer type
-                .thenReturn(true)//for read hotel type
-                .thenReturn(false);//for addHotelsToList
-
-        ReadOffer(offer, false, con, ps, rs);
-    }
-
-    protected static void ReadAllOfferTypes(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
-        when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFER_TYPES)).thenReturn(ps);
-        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_ID)).thenReturn(ps);
-        when(ps.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(true)//for addUsersToList
-                .thenReturn(true)//for read user role
-                .thenReturn(true)//for read user role
-                .thenReturn(true)//for read user role
-                .thenReturn(true)//for read user role
-                .thenReturn(true)//for read user role
-                .thenReturn(false);//for addUsersToList
-
-        when(rs.getString(Fields.OFFER_TYPE_NAME)).thenReturn("rest")
-                .thenReturn("excursion")
-                .thenReturn("shopping");
-    }
     protected static void ReadAllHotelTypes(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOTEL_TYPES)).thenReturn(ps);
         when(con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_ID)).thenReturn(ps);
@@ -200,6 +139,94 @@ public class MockitoDAOSetUp {
                 .thenReturn("Inns")
                 .thenReturn("All-suites")
                 .thenReturn("Conference");
+    }
+
+    //All offer setups
+    protected static void CreateOffer(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.ADD_OFFER)).thenReturn(ps);
+        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_NAME)).thenReturn(ps);
+        when(ps.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(true);
+    }
+
+    protected static void ReadOffer(Offer offer, boolean withResultSet, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER)).thenReturn(ps);
+        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_BY_ID)).thenReturn(ps);
+        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_ID)).thenReturn(ps);
+        when(ps.executeQuery()).thenReturn(rs);
+        if (withResultSet)
+            when(rs.next()).thenReturn(true);
+
+        when(rs.getInt(Fields.OFFER_ID)).thenReturn(offer.getId());
+        when(rs.getString(Fields.OFFER_CODE)).thenReturn(offer.getCode());
+        when(rs.getInt(Fields.OFFER_HOTEL)).thenReturn(offer.getHotel().getId());
+        when(rs.getInt(Fields.OFFER_TYPE)).thenReturn(1);
+        when(rs.getInt(Fields.OFFER_PLACES)).thenReturn(offer.getPlaces());
+        when(rs.getDouble(Fields.OFFER_DISCOUNT)).thenReturn(offer.getDiscount());
+        when(rs.getBoolean(Fields.OFFER_IS_HOT)).thenReturn(offer.isHot());
+        when(rs.getBoolean(Fields.OFFER_ACTIVE)).thenReturn(offer.isActive());
+        when(rs.getDouble(Fields.OFFER_PRICE)).thenReturn(offer.getPrice());
+        when(rs.getString(Fields.OFFER_TYPE_NAME)).thenReturn(offer.getOfferType());
+        ReadHotel(offer.getHotel(), false, con, ps, rs);
+    }
+
+    protected static void UpdateOfferIsHot(Connection con, PreparedStatement ps) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_IS_HOT)).thenReturn(ps);
+    }
+
+    protected static void UpdateOfferVacancy(Connection con, PreparedStatement ps) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_PLACES)).thenReturn(ps);
+    }
+
+    protected static void DeleteOffer(Connection con, PreparedStatement ps) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.DELETE_OFFER)).thenReturn(ps);
+    }
+
+    protected static void ReadAllOffersSorted(Offer offer, String command, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+        when(con.prepareStatement(command)).thenReturn(ps);
+        when(ps.executeQuery(MySQLDAOConstants.OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
+        when(ps.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(true)//for addOffersToList
+                .thenReturn(true)//for read offer
+                .thenReturn(true)//for read offer type
+                .thenReturn(true)//for read hotel
+                .thenReturn(true)//for read hotel type
+                .thenReturn(false);//for addHotelsToList
+
+        ReadOffer(offer, false, con, ps, rs);
+    }
+
+    protected static void ReadAllOffers(Offer offer, Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFERS)).thenReturn(ps);
+        when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOT_OFFERS)).thenReturn(ps);
+        when(ps.executeQuery(MySQLDAOConstants.NOT_HOT_OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
+        when(ps.executeQuery(MySQLDAOConstants.HOT_OFFER_GET_NUMBER_OF_RECORDS)).thenReturn(rs);
+        when(ps.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(true)//for addOffersToList
+                .thenReturn(true)//for read offer
+                .thenReturn(true)//for read offer type
+                .thenReturn(true)//for read hotel
+                .thenReturn(true)//for read hotel type
+                .thenReturn(false);//for addHotelsToList
+
+        ReadOffer(offer, false, con, ps, rs);
+    }
+
+    protected static void ReadAllOfferTypes(Connection con, PreparedStatement ps, ResultSet rs) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFER_TYPES)).thenReturn(ps);
+        when(con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_ID)).thenReturn(ps);
+        when(ps.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(true)//for addUsersToList
+                .thenReturn(true)//for read user role
+                .thenReturn(true)//for read user role
+                .thenReturn(true)//for read user role
+                .thenReturn(true)//for read user role
+                .thenReturn(true)//for read user role
+                .thenReturn(false);//for addUsersToList
+
+        when(rs.getString(Fields.OFFER_TYPE_NAME)).thenReturn("rest")
+                .thenReturn("excursion")
+                .thenReturn("shopping");
     }
 
     //All order setups
@@ -249,6 +276,7 @@ public class MockitoDAOSetUp {
                 .thenReturn(true)//for read offer
                 .thenReturn(true)//for read offer type
                 .thenReturn(true)//for read hotel type
+                .thenReturn(true)//for read hotel
                 .thenReturn(false);//for addOrdersToList
 
         ReadOrder(order, false, con, ps, rs);

@@ -1,6 +1,7 @@
 package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
 
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.SORTING_BY;
 import org.junit.jupiter.api.AfterAll;
@@ -36,7 +37,8 @@ class OfferDAOTest {
 
     @BeforeAll
     void initialize(){
-        offer = new Offer(0,"123","City","rest", "Inn", "Name",100,0.15,false,150);
+        Hotel hotel = new Hotel(0, "name", "type", "city");
+        offer = new Offer(0,"code", hotel,"type", 100,0.15,false,true,150);
         con = Mockito.mock(Connection.class);
         dao = new MySQLOfferDAO(con);
     }
@@ -134,31 +136,14 @@ class OfferDAOTest {
     void testReadAllOfferTypes() throws SQLException {
         MockitoDAOSetUp.ReadAllOfferTypes(con,ps,rs);
 
-        List<String> expectedUsers = new ArrayList<>();
-        expectedUsers.add("rest");
-        expectedUsers.add("excursion");
-        expectedUsers.add("shopping");
+        List<String> expectedTypes = new ArrayList<>();
+        expectedTypes.add("rest");
+        expectedTypes.add("excursion");
+        expectedTypes.add("shopping");
 
-        List<String> userRoles = dao.readAllOfferTypes();
+        List<String> offerTypes = dao.readAllOfferTypes();
 
-        assertEquals(expectedUsers, userRoles);
-    }
-
-    @Test
-    void testReadAllHotelTypes() throws SQLException {
-        MockitoDAOSetUp.ReadAllHotelTypes(con,ps,rs);
-
-        List<String> expectedUsers = new ArrayList<>();
-        expectedUsers.add("Chain hotels");
-        expectedUsers.add("Motels");
-        expectedUsers.add("Resorts");
-        expectedUsers.add("Inns");
-        expectedUsers.add("All-suites");
-        expectedUsers.add("Conference");
-
-        List<String> userRoles = dao.readAllHotelTypes();
-
-        assertEquals(expectedUsers, userRoles);
+        assertEquals(expectedTypes, offerTypes);
     }
 }
 

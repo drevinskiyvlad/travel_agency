@@ -47,4 +47,8 @@ public class Validator {
     public static boolean validateDiscount(double discount) {
         return discount < 0.25 && discount > 0.05;
     }
+
+    public static boolean validatePlaces(int places){
+        return places > 0;
+    }
 }
