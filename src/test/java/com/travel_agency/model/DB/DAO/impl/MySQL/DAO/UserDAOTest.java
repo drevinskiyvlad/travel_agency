@@ -46,7 +46,7 @@ class UserDAOTest {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateUser(con, ps,rs);
+        MockitoDAOSetUp.createUser(con, ps,rs);
 
         boolean result = dao.create(user);
 
@@ -55,7 +55,7 @@ class UserDAOTest {
 
     @Test
     void testReadByEmail() throws Exception {
-        MockitoDAOSetUp.ReadUser(user, true, con, ps, rs);
+        MockitoDAOSetUp.readUser(user, true, con, ps, rs);
 
         User result = dao.read(user.getEmail());
 
@@ -64,7 +64,7 @@ class UserDAOTest {
 
     @Test
     void testReadById() throws Exception {
-        MockitoDAOSetUp.ReadUser(user, true, con, ps, rs);
+        MockitoDAOSetUp.readUser(user, true, con, ps, rs);
 
         User result = dao.read(user.getId());
 
@@ -76,7 +76,7 @@ class UserDAOTest {
     void testUpdateRole() throws SQLException {
         String newRole = "admin";
 
-        MockitoDAOSetUp.UpdateRole(con,ps,rs);
+        MockitoDAOSetUp.updateRole(con,ps,rs);
 
         boolean result = dao.update(user, newRole);
 
@@ -87,7 +87,7 @@ class UserDAOTest {
     void testUpdateBlocked() throws SQLException {
         boolean blocked = true;
 
-        MockitoDAOSetUp.UpdateBlocked(con,ps);
+        MockitoDAOSetUp.updateBlocked(con,ps);
 
         boolean result = dao.update(user.getEmail(), blocked);
 
@@ -96,7 +96,7 @@ class UserDAOTest {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoDAOSetUp.DeleteUser(con,ps);
+        MockitoDAOSetUp.deleteUser(con,ps);
 
         boolean result = dao.delete(user.getEmail());
 
@@ -105,7 +105,7 @@ class UserDAOTest {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoDAOSetUp.ReadAllUsers(user,con,ps,rs);
+        MockitoDAOSetUp.readAllUsers(user,con,ps,rs);
 
         List<User> expectedUsers = new ArrayList<>();
         expectedUsers.add(user);
@@ -118,7 +118,7 @@ class UserDAOTest {
 
     @Test
     void testReadAllUserRoles() throws SQLException {
-        MockitoDAOSetUp.ReadAllUserRoles(con,ps,rs);
+        MockitoDAOSetUp.readAllUserRoles(con,ps,rs);
 
         List<String> expectedUsers = new ArrayList<>();
         expectedUsers.add("user");

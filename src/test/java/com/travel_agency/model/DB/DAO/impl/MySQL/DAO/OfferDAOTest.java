@@ -49,7 +49,7 @@ class OfferDAOTest {
     }
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateOffer(con,ps,rs);
+        MockitoDAOSetUp.createOffer(offer,con,ps,rs);
 
         boolean result = dao.create(offer);
 
@@ -59,7 +59,7 @@ class OfferDAOTest {
 
     @Test
     void testReadByCode() throws Exception {
-        MockitoDAOSetUp.ReadOffer(offer,true,con,ps,rs);
+        MockitoDAOSetUp.readOffer(offer,true,con,ps,rs);
 
         Offer expected = dao.read(offer.getCode());
 
@@ -68,7 +68,7 @@ class OfferDAOTest {
 
     @Test
     void testReadById() throws Exception {
-        MockitoDAOSetUp.ReadOffer(offer,true,con,ps,rs);
+        MockitoDAOSetUp.readOffer(offer,true,con,ps,rs);
 
         Offer expected = dao.read(offer.getId());
 
@@ -79,7 +79,7 @@ class OfferDAOTest {
     void testUpdateIsHot() throws SQLException {
         boolean isHot = true;
 
-        MockitoDAOSetUp.UpdateOfferIsHot(con,ps);
+        MockitoDAOSetUp.updateOfferIsHot(con,ps);
 
         boolean result = dao.update(offer, isHot);
         assertTrue(result);
@@ -89,7 +89,7 @@ class OfferDAOTest {
     void testUpdateVacancy() throws SQLException {
         int vacancy = 15;
 
-        MockitoDAOSetUp.UpdateOfferVacancy(con,ps);
+        MockitoDAOSetUp.updateOfferVacancy(con,ps);
 
         boolean result = dao.update(offer, vacancy);
         assertTrue(result);
@@ -97,7 +97,7 @@ class OfferDAOTest {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoDAOSetUp.DeleteOffer(con,ps);
+        MockitoDAOSetUp.deleteOffer(con,ps);
 
         boolean result = dao.delete(offer.getCode());
 
@@ -106,7 +106,7 @@ class OfferDAOTest {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoDAOSetUp.ReadAllOffers(offer,con,ps,rs);
+        MockitoDAOSetUp.readAllOffers(offer,con,ps,rs);
 
         List<Offer> expected = new ArrayList<>();
         expected.add(offer);
@@ -121,7 +121,7 @@ class OfferDAOTest {
     void testReadAllSorted() throws SQLException {
         SORTING_BY sortingBy = SORTING_BY.OFFER_TYPE;
 
-        MockitoDAOSetUp.ReadAllOffersSorted(offer,sortingBy.getCommand(),con,ps,rs);
+        MockitoDAOSetUp.readAllOffersSorted(offer,sortingBy.getCommand(),con,ps,rs);
 
         List<Offer> expected = new ArrayList<>();
         expected.add(offer);
@@ -134,7 +134,7 @@ class OfferDAOTest {
 
     @Test
     void testReadAllOfferTypes() throws SQLException {
-        MockitoDAOSetUp.ReadAllOfferTypes(con,ps,rs);
+        MockitoDAOSetUp.readAllOfferTypes(con,ps,rs);
 
         List<String> expectedTypes = new ArrayList<>();
         expectedTypes.add("rest");

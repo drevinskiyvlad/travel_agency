@@ -2,9 +2,6 @@ package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
 
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLHotelDAO;
 import com.travel_agency.model.entity.Hotel;
-import com.travel_agency.utils.Constants.MySQLDAOConstants;
-import com.travel_agency.utils.exceptions.DAOException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -46,14 +43,14 @@ class HotelDAOTest {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateHotel(con,ps,rs);
+        MockitoDAOSetUp.createHotel(con,ps,rs);
         boolean result = dao.create(hotel);
         assertTrue(result);
     }
 
     @Test
     void testRead() throws SQLException {
-        MockitoDAOSetUp.ReadHotel(hotel,true,con,ps,rs);
+        MockitoDAOSetUp.readHotel(hotel,true,con,ps,rs);
         int id = hotel.getId();
         Hotel result = dao.read(id);
         assertEquals(hotel, result);
@@ -61,14 +58,14 @@ class HotelDAOTest {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoDAOSetUp.DeleteHotel(con,ps);
+        MockitoDAOSetUp.deleteHotel(con,ps);
         boolean result = dao.delete(hotel.getId());
         assertTrue(result);
     }
 
     @Test
     void testReadAllHotelTypes() throws SQLException {
-        MockitoDAOSetUp.ReadAllHotelTypes(con,ps,rs);
+        MockitoDAOSetUp.readAllHotelTypes(con,ps,rs);
 
         List<String> expectedTypes = new ArrayList<>();
         expectedTypes.add("Chain hotels");
