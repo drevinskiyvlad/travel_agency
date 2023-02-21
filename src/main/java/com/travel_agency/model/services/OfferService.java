@@ -1,14 +1,14 @@
 package com.travel_agency.model.services;
 
-import com.travel_agency.model.entity.Hotel;
-import com.travel_agency.utils.exceptions.DAOException;
-import com.travel_agency.utils.exceptions.ValidationException;
 import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.DTO.OfferDTO;
+import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.SORTING_BY;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
 import com.travel_agency.utils.Validator;
+import com.travel_agency.utils.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -98,7 +98,6 @@ public class OfferService {
         validatePlaces(offerDTO.getPlaces());
 
         Offer offer = convertDTOToOffer(offerDTO);
-
         return dao.create(offer);
     }
 

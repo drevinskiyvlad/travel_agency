@@ -25,6 +25,7 @@ public class MySQLDAOConstants {
     public static final String ADD_HOTEL = "INSERT INTO hotel(name,type_id,city) " +
             "VALUES (?, ?, ?)";
     public static final String FIND_HOTEL = "SELECT * FROM hotel WHERE id = ?";
+    public static final String FIND_HOTEL_BY_NAME = "SELECT * FROM hotel WHERE name = ?";
     public static final String DELETE_HOTEL = "DELETE FROM hotel WHERE id = ?";
     public static final String FIND_ALL_HOTEL_TYPES = "SELECT * FROM hotel_type";
 

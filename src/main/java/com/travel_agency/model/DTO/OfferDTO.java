@@ -45,6 +45,6 @@ public class OfferDTO implements Serializable {
         this.isHot = isHot;
         this.active = active;
         this.price = price;
-        fullPrice = price * (1 - discount);
+        fullPrice = price / (1 - discount);
     }
 }

@@ -39,6 +39,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     public boolean create(Offer offer) throws DAOException {
         try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.ADD_OFFER)) {
 
+            createHotel(offer);
             setVariablesToCreateStatement(offer, ps);
             ps.executeUpdate();
 
@@ -46,6 +47,12 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
         } catch (SQLException | IllegalArgumentException e) {
             throw new DAOException("Unable to create offer: " + e.getMessage());
         }
+    }
+
+    private void createHotel(Offer offer) throws DAOException {
+        HotelDAO<Hotel> hotelDAO = new MySQLHotelDAO(con);
+        hotelDAO.create(offer.getHotel());
+        offer.setHotel(hotelDAO.read(offer.getHotel().getName()));
     }
 
     private void setVariablesToCreateStatement(Offer offer, PreparedStatement ps) throws SQLException, IllegalArgumentException {

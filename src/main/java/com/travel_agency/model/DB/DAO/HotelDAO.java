@@ -22,6 +22,13 @@ public interface HotelDAO<E extends Entity> {
     E read(int id) throws DAOException;
 
     /**
+     * Get hotel from database
+     * @param name key of hotel
+     * @return hotel
+     */
+    E read(String name) throws DAOException;
+
+    /**
      * Delete hotel from database
      * @param id primary key of hotel
      * @return result of deleting

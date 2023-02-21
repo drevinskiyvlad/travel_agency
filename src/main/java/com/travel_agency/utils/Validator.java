@@ -45,7 +45,7 @@ public class Validator {
      * Check if discount not less than 5% and not more than 25%
      */
     public static boolean validateDiscount(double discount) {
-        return discount < 0.25 && discount > 0.05;
+        return discount <= 0.25 && discount >= 0.05;
     }
 
     public static boolean validatePlaces(int places){

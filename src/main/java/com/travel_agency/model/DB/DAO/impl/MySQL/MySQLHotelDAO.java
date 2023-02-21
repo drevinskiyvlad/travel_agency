@@ -63,6 +63,25 @@ public class MySQLHotelDAO implements HotelDAO<Hotel> {
         return null;
     }
 
+    @Override
+    public Hotel read(String name) throws DAOException {
+        ResultSet rs = null;
+        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_BY_NAME)) {
+
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return initializeHotel(rs);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Unable to read offer: " + e.getMessage());
+        } finally {
+            close(rs);
+        }
+        return null;
+    }
+
     private Hotel initializeHotel(ResultSet rs) throws SQLException {
         String type;
 
