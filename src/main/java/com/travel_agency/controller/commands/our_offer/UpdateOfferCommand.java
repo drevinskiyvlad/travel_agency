@@ -4,8 +4,8 @@ import com.travel_agency.controller.commands.Command;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
-import com.travel_agency.exceptions.DAOException;
-import com.travel_agency.exceptions.ValidationException;
+import com.travel_agency.utils.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.ValidationException;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.services.OfferService;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
@@ -83,6 +83,7 @@ public class UpdateOfferCommand implements Command {
         double price = Double.parseDouble(priceString);
         String city = initialOfferDTO.getCity();
         boolean isHot = initialOfferDTO.isHot();
-        return new OfferDTO(code,offerType,hotel,hotelType,city,places,discount,isHot,price);
+
+        return new OfferDTO(code,offerType,hotel,hotelType,city,places,discount,isHot,true,price);
     }
 }

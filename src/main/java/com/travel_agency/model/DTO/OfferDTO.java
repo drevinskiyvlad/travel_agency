@@ -19,6 +19,7 @@ public class OfferDTO implements Serializable {
     private int places;
     private double discount;
     private boolean isHot;
+    private boolean active;
     private double price;
     private double fullPrice;
 
@@ -33,7 +34,7 @@ public class OfferDTO implements Serializable {
      * @param isHot Is hot status
      * @param price Price of offer
      */
-    public OfferDTO(String code, String offerType, String hotel, String hotelType, String city, int places, double discount, boolean isHot, double price) {
+    public OfferDTO(String code, String offerType, String hotel, String hotelType, String city, int places, double discount, boolean isHot, boolean active, double price) {
         this.code = code;
         this.offerType = offerType;
         this.hotel = hotel;
@@ -42,6 +43,7 @@ public class OfferDTO implements Serializable {
         this.places = places;
         this.discount = discount;
         this.isHot = isHot;
+        this.active = active;
         this.price = price;
         fullPrice = price / (1 - discount);
     }

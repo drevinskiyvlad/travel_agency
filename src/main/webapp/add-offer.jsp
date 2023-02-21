@@ -103,10 +103,10 @@
                 </form>
                 </form>
 
-                <c:if test="${requestScope.error != null}">
+                <c:if test="${sessionScope.error != null}">
                     <Label>
                         <hr>
-                        <h4>${requestScope.error}</h4>
+                        <h4>${sessionScope.error}</h4>
                     </Label>
                 </c:if>
             </div>

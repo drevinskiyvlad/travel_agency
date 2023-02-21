@@ -32,8 +32,9 @@ class OrderDAOTest {
 
     @BeforeAll
     void initialize(){
+        Hotel hotel = new Hotel();
         User user = new User(0, "test@email.com", "password", "user", "Test", "User", "1234567890",false);
-        Offer offer = new Offer(0,"123","City","rest", "Inn", "Name",100,0.15,false,150);
+        Offer offer = new Offer(0,"123", hotel,"rest", 100,0.15,false,true,150);
         order = new Order(0,"123", user, offer,"registered");
         con = Mockito.mock(Connection.class);
         dao = new MySQLOrderDAO(con);
@@ -46,7 +47,7 @@ class OrderDAOTest {
 
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateOrder(con,ps,rs);
+        MockitoDAOSetUp.createOrder(con,ps,rs);
 
         boolean result = dao.create(order);
 
@@ -55,7 +56,7 @@ class OrderDAOTest {
 
     @Test
     void testRead() throws Exception {
-        MockitoDAOSetUp.ReadOrder(order,true,con,ps,rs);
+        MockitoDAOSetUp.readOrder(order,true,con,ps,rs);
 
         Order result = dao.read(order.getCode());
 
@@ -66,7 +67,7 @@ class OrderDAOTest {
     void testUpdateStatus() throws SQLException {
         String newStatus = "canceled";
 
-        MockitoDAOSetUp.UpdateOrderStatus(con,ps, rs);
+        MockitoDAOSetUp.updateOrderStatus(con,ps, rs);
 
         boolean result = dao.update(order, newStatus);
         assertTrue(result);
@@ -74,7 +75,7 @@ class OrderDAOTest {
 
     @Test
     void testDelete() throws SQLException {
-        MockitoDAOSetUp.DeleteOrder(con,ps);
+        MockitoDAOSetUp.deleteOrder(con,ps);
 
         boolean result = dao.delete(order.getCode());
 
@@ -83,7 +84,7 @@ class OrderDAOTest {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoDAOSetUp.ReadAllOrders(order,con,ps,rs);
+        MockitoDAOSetUp.readAllOrders(order,con,ps,rs);
 
         List<Order> expected = new ArrayList<>();
         expected.add(order);
@@ -97,7 +98,7 @@ class OrderDAOTest {
 
     @Test
     void testReadAllOrderStatuses() throws SQLException {
-        MockitoDAOSetUp.ReadAllOrderStatuses(con,ps,rs);
+        MockitoDAOSetUp.readAllOrderStatuses(con,ps,rs);
 
         List<String> expected = new ArrayList<>();
         expected.add("registered");

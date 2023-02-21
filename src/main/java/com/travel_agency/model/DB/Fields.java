@@ -22,18 +22,23 @@ public class Fields {
     //offer db fields
     public static final String OFFER_ID = "id";
     public static final String OFFER_CODE = "code";
-    public static final String OFFER_CITY = "city";
+    public static final String OFFER_HOTEL = "hotel_id";
     public static final String OFFER_TYPE = "offer_type_id";
     public static final String OFFER_TYPE_ID = "id";
     public static final String OFFER_TYPE_NAME = "offer_type_name";
-    public static final String OFFER_HOTEL_TYPE = "hotel_type_id";
-    public static final String HOTEL_TYPE_ID = "id";
-    public static final String HOTEL_TYPE_NAME = "hotel_type_name";
-    public static final String HOTEL_NAME = "hotel_name";
     public static final String OFFER_PLACES = "places";
     public static final String OFFER_DISCOUNT = "discount";
     public static final String OFFER_IS_HOT = "is_hot";
+    public static final String OFFER_ACTIVE = "active";
     public static final String OFFER_PRICE = "price";
+
+    //hotel db fields
+    public static final String HOTEL_ID = "id";
+    public static final String HOTEL_NAME = "name";
+    public static final String HOTEL_TYPE = "type_id";
+    public static final String HOTEL_TYPE_ID = "id";
+    public static final String HOTEL_TYPE_NAME = "hotel_type_name";
+    public static final String HOTEL_CITY = "city";
 
     //order db fields
     public static final String ORDER_ID = "id";

@@ -3,7 +3,7 @@ package com.travel_agency.controller.filters.filling;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
 import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
 import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DTO.OrderDTO;
 import com.travel_agency.model.DTO.UserDTO;
 import com.travel_agency.model.services.OrderService;

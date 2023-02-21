@@ -1,6 +1,7 @@
 package com.travel_agency.model.DB.DAO;
 
-import com.travel_agency.exceptions.DAOException;
+import com.travel_agency.model.entity.Entity;
+import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.SORTING_BY;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * DAO interface for CRUD operations for offer
  * @param <E> entity
  */
-public interface OfferDAO<E> {
+public interface OfferDAO<E extends Entity> {
     /**
      * @return number of pages for pagination
      */
@@ -43,6 +44,12 @@ public interface OfferDAO<E> {
     boolean update(E entity, boolean isHot) throws DAOException;
 
     /**
+     * Change offer is hot status
+     * @return result of updating
+     */
+    boolean updateActive(E entity, boolean active) throws DAOException;
+
+    /**
      * Change offer number of places
      * @return result of updating
      */
@@ -73,10 +80,6 @@ public interface OfferDAO<E> {
      */
     List<Offer> readAllSorted(int offset, int numOfRecords, SORTING_BY sortBy) throws DAOException;
 
-    /**
-     * @return List of all hotel types
-     */
-    List<String> readAllHotelTypes() throws DAOException;
 
     /**
      * @return List of all offer types

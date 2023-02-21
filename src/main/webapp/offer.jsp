@@ -96,8 +96,15 @@
                 <p><b><fmt:message
                         key="offer.discount"/></b>: ${String.format("%.0f", requestScope.offerItem.discount * 100)}%</p>
                 <c:if test="${sessionScope.user.role == 'user'}">
-                    <a href="controller?action=makeOrder&code=${requestScope.offerItem.code}"
-                       class="button"><fmt:message key="offer.order"/></a>
+                    <c:choose>
+                        <c:when test="${requestScope.offerItem.active}">
+                            <a href="controller?action=makeOrder&code=${requestScope.offerItem.code}"
+                               class="button"><fmt:message key="offer.order"/></a>
+                        </c:when>
+                        <c:when test="${requestScope.offerItem.active == false}">
+                            <div class="inactive-button"><fmt:message key="offer.order"/></div>
+                        </c:when>
+                    </c:choose>
                 </c:if>
                 <c:if test="${sessionScope.user != null && sessionScope.user.role != 'user' && requestScope.offerItem.isHot() == false}">
                     <a href="controller?action=makeOfferHot&code=${requestScope.offerItem.code}"
