@@ -1,20 +1,18 @@
 package com.travel_agency.controller.commands.authorization;
 
+import com.travel_agency.appContext.AppContext;
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
-import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.utils.Constants.PathConstants;
-import com.travel_agency.utils.exceptions.ValidationException;
 import com.travel_agency.model.DTO.UserDTO;
 import com.travel_agency.model.services.UserService;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
+import com.travel_agency.utils.exceptions.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 public class SignUpCommand implements Command {
     private static final Logger logger = LogManager.getLogger(SignUpCommand.class);
@@ -24,15 +22,11 @@ public class SignUpCommand implements Command {
         req.getSession().removeAttribute("invalid_registration_message");
         String redirectPage = PathConstants.USER_CABINET;
 
-        Connection con = null;
-
         try {
-            con = DBManager.getInstance().getConnection();
             UserDTO userDTO = initializeUserDTO(req);
             String password = req.getParameter("password");
 
-            UserDAOImpl userDAO = new UserDAOImpl(con);
-            UserService userService = new UserService(userDAO);
+            UserService userService = AppContext.getInstance().getUserService();
 
             userService.signUp(userDTO, password);
 
@@ -45,8 +39,6 @@ public class SignUpCommand implements Command {
         } catch (Exception e) {
             logger.error("Unable to register user: " + e.getMessage(), e);
             redirectPage = PathConstants.ERROR;
-        } finally {
-            DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);

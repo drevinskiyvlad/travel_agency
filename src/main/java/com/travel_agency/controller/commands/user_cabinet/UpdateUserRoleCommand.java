@@ -25,7 +25,7 @@ public class UpdateUserRoleCommand implements Command {
             String role = req.getParameter("userRole");
             con = DBManager.getInstance().getConnection();
 
-            updateStatus(con, email, role);
+            updateStatus(email, role);
 
             logger.info("Admin updated user " + email + "role to " + role);
         } catch (Exception e) {
@@ -38,8 +38,8 @@ public class UpdateUserRoleCommand implements Command {
         return PathConstants.COMMAND_REDIRECT;
     }
 
-    private static void updateStatus(Connection con, String email, String role) throws DAOException {
-        UserDAOImpl userDAO = new UserDAOImpl(con);
+    private static void updateStatus(String email, String role) throws DAOException {
+        UserDAOImpl userDAO = new UserDAOImpl();
         User user = userDAO.read(email);
         userDAO.update(user, role);
     }

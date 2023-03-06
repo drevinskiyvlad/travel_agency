@@ -22,7 +22,7 @@ public class DeleteOrderCommand implements Command {
             String code = req.getParameter("code");
 
             con = DBManager.getInstance().getConnection();
-            OrderDAOImpl orderDAO = new OrderDAOImpl(con);
+            OrderDAOImpl orderDAO = new OrderDAOImpl();
             orderDAO.delete(code);
 
             logger.info("User deleted order with code: " + code);

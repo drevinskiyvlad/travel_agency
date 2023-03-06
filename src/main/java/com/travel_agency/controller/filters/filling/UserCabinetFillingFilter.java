@@ -1,8 +1,11 @@
 package com.travel_agency.controller.filters.filling;
 
+import com.travel_agency.appContext.AppContext;
+import com.travel_agency.model.DB.DAO.UserDAO;
 import com.travel_agency.model.DB.DAO.impl.OrderDAOImpl;
 import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.DB.DBManager;
+import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DTO.OrderDTO;
 import com.travel_agency.model.DTO.UserDTO;
@@ -49,7 +52,7 @@ public class UserCabinetFillingFilter implements Filter {
 
     private void fillUserCabinet(HttpServletRequest req, UserDTO userDTO) {
         Connection con = DBManager.getInstance().getConnection();
-        OrderDAOImpl orderDAO = new OrderDAOImpl(con);
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         OrderService service = new OrderService(orderDAO);
 
         List<OrderDTO> orders = service.getAllOrdersFromUser(userDTO, 0,
@@ -70,7 +73,7 @@ public class UserCabinetFillingFilter implements Filter {
 
     private void fillManagerCabinet(HttpServletRequest req) throws DAOException {
         Connection con = DBManager.getInstance().getConnection();
-        OrderDAOImpl orderDAO = new OrderDAOImpl(con);
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         OrderService service = new OrderService(orderDAO);
 
         List<OrderDTO> orders = service.getAllOrders(0,
@@ -92,23 +95,19 @@ public class UserCabinetFillingFilter implements Filter {
     private void fillAdminCabinet(HttpServletRequest req) throws DAOException {
         fillManagerCabinet(req);
 
-        Connection con = DBManager.getInstance().getConnection();
-        UserDAOImpl userDAO = new UserDAOImpl(con);
-        UserService service = new UserService(userDAO);
+        UserService service = AppContext.getInstance().getUserService();
 
         List<UserDTO> users = service.getAllUsers(0,
                 PaginationConstants.USER_LIST_RECORDS_PER_PAGE);
         //noinspection SuspiciousMethodCalls
         users.remove(req.getSession().getAttribute("user"));
 
-        setAttrToAdminCabinet(req, userDAO, users);
-
-        DBManager.closeConnection(con);
+        setAttrToAdminCabinet(req, users);
     }
 
-    private static void setAttrToAdminCabinet(HttpServletRequest req, UserDAOImpl userDAO,
+    private static void setAttrToAdminCabinet(HttpServletRequest req,
                                               List<UserDTO> users) throws DAOException {
-
+        UserDAO<User> userDAO = new UserDAOImpl();
         req.setAttribute("userRoles", userDAO.readAllUserRoles());
         req.setAttribute("numberOfPagesInUserList", userDAO.getNumberOfPages());
         req.setAttribute("currentPage", 1);

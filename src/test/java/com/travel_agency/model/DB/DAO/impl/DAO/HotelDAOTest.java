@@ -37,7 +37,7 @@ class HotelDAOTest {
     void setUp() {
         hotel = new Hotel(0, "name", "type", "city");
         con = Mockito.mock(Connection.class);
-        dao = new HotelDAOImpl(con);
+        dao = new HotelDAOImpl();
     }
 
 

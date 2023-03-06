@@ -1,5 +1,6 @@
 package com.travel_agency.model.DB.DAO.impl.DAO;
 
+import com.travel_agency.model.DB.DAO.UserDAO;
 import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.Constants.PaginationConstants;
@@ -30,13 +31,13 @@ class UserDAOTest {
     @Mock
     private ResultSet rs;
     private User user;
-    private UserDAOImpl dao;
+    private UserDAO<User> dao;
 
     @BeforeAll
     void initializeUser() {
         user = new User(1, "test@email.com", "password", "user", "Test", "User", "1234567890", false);
         con = Mockito.mock(Connection.class);
-        dao = new UserDAOImpl(con);
+        dao = new UserDAOImpl();
     }
 
     @AfterAll

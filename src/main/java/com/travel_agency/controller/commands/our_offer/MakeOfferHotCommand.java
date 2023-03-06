@@ -1,18 +1,16 @@
 package com.travel_agency.controller.commands.our_offer;
 
+import com.travel_agency.appContext.AppContext;
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
-import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.services.OfferService;
+import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 public class MakeOfferHotCommand implements Command {
     private static final Logger logger = LogManager.getLogger(MakeOfferHotCommand.class);
@@ -20,11 +18,9 @@ public class MakeOfferHotCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String redirectionPage = PathConstants.OUR_OFFER;
-        Connection con = null;
+
         try {
-            con = DBManager.getInstance().getConnection();
-            OfferDAOImpl dao = new OfferDAOImpl(con);
-            OfferService service = new OfferService(dao);
+            OfferService service = AppContext.getInstance().getOfferService();
 
             String code = req.getParameter("code");
             OfferDTO offerDTO = service.getOffer(code);
@@ -38,8 +34,6 @@ public class MakeOfferHotCommand implements Command {
         } catch (Exception e) {
             logger.error("Unable to make offer hot: " + e.getMessage(), e);
             redirectionPage = PathConstants.ERROR;
-        } finally {
-            DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectionPage);

@@ -18,6 +18,12 @@ public interface OfferDAO<E extends Entity> {
     int getNumberOfPages();
 
     /**
+     * set page for pagination
+     * @param page page of pagination
+     */
+    void setPage(int page);
+
+    /**
      * Added offer to database
      * @param entity that will be added to database
      * @return result of creating

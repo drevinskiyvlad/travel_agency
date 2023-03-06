@@ -1,7 +1,6 @@
 package com.travel_agency.controller.filters.filling;
 
-import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
-import com.travel_agency.model.DB.DBManager;
+import com.travel_agency.appContext.AppContext;
 import com.travel_agency.model.services.OfferService;
 import com.travel_agency.utils.Constants.PaginationConstants;
 import com.travel_agency.utils.Constants.SORTING_BY;
@@ -9,7 +8,6 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 public class OfferListFilter implements Filter {
     @Override
@@ -22,18 +20,14 @@ public class OfferListFilter implements Filter {
     }
 
     private static void addOffersToRequest(HttpServletRequest req) {
-        Connection con = DBManager.getInstance().getConnection();
-        OfferDAOImpl dao = new OfferDAOImpl(con);
-        OfferService service = new OfferService(dao);
+        OfferService service = AppContext.getInstance().getOfferService();
 
         SORTING_BY sortBy = getSortBy(req);
 
-        setAttributesToRequest(req, dao, service, sortBy);
-
-        DBManager.closeConnection(con);
+        setAttributesToRequest(req, service, sortBy);
     }
 
-    private static void setAttributesToRequest(HttpServletRequest req, OfferDAOImpl dao, OfferService service, SORTING_BY sortBy) {
+    private static void setAttributesToRequest(HttpServletRequest req, OfferService service, SORTING_BY sortBy) {
         req.getSession().setAttribute("sortBy", sortBy);
 
         req.setAttribute("offers",
@@ -42,7 +36,7 @@ public class OfferListFilter implements Filter {
                         false,
                         sortBy));
 
-        req.setAttribute("numberOfPagesInOffers", dao.getNumberOfPages());
+        req.setAttribute("numberOfPagesInOffers", service.getNumberOfPages());
 
         req.setAttribute("hotOffers",
                 service.getAllOffers(0,
@@ -50,7 +44,7 @@ public class OfferListFilter implements Filter {
                         true,
                         sortBy));
 
-        req.setAttribute("numberOfPagesInHotOffers", dao.getNumberOfPages());
+        req.setAttribute("numberOfPagesInHotOffers", service.getNumberOfPages());
         req.setAttribute("currentPage", 1);
     }
 

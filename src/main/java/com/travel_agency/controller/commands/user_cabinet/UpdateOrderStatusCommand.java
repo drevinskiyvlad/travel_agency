@@ -25,7 +25,7 @@ public class UpdateOrderStatusCommand implements Command {
             String status = req.getParameter("orderStatus");
             con = DBManager.getInstance().getConnection();
 
-            updateStatus(con, code, status);
+            updateStatus(code, status);
 
             logger.info("Manager updated order status with code: " + code + " to " + status);
         } catch (Exception e) {
@@ -38,8 +38,8 @@ public class UpdateOrderStatusCommand implements Command {
         return PathConstants.COMMAND_REDIRECT;
     }
 
-    private static void updateStatus(Connection con, String code, String status) throws DAOException {
-        OrderDAOImpl orderDAO = new OrderDAOImpl(con);
+    private static void updateStatus(String code, String status) throws DAOException {
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         Order order = orderDAO.read(code);
         orderDAO.update(order, status);
     }

@@ -1,6 +1,7 @@
 package com.travel_agency.model.DB.DAO.impl;
 
 import com.travel_agency.model.DB.DAO.HotelDAO;
+import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.utils.Constants.MySQLDAOConstants;
@@ -18,16 +19,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class HotelDAOImpl implements HotelDAO<Hotel> {
 
-    private final Connection con;
-
-    public HotelDAOImpl(Connection con) {
-        this.con = con;
-    }
+    private final DBManager manager = DBManager.getInstance();
 
 
     @Override
     public boolean create(Hotel hotel) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.ADD_HOTEL)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.ADD_HOTEL)) {
 
             setVariablesToCreateStatement(hotel, ps);
             ps.executeUpdate();
@@ -47,7 +45,8 @@ public class HotelDAOImpl implements HotelDAO<Hotel> {
     @Override
     public Hotel read(int id) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL)) {
 
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -66,7 +65,8 @@ public class HotelDAOImpl implements HotelDAO<Hotel> {
     @Override
     public Hotel read(String name) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_BY_NAME)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_BY_NAME)) {
 
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -100,7 +100,8 @@ public class HotelDAOImpl implements HotelDAO<Hotel> {
 
     @Override
     public boolean delete(int id) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.DELETE_HOTEL)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.DELETE_HOTEL)) {
             ps.setInt(1, id);
             ps.executeUpdate();
             return true;
@@ -112,7 +113,8 @@ public class HotelDAOImpl implements HotelDAO<Hotel> {
     @Override
     public List<String> readAllHotelTypes() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOTEL_TYPES);
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOTEL_TYPES);
             ResultSet rs = ps.executeQuery()) {
             addHotelTypesToList(result, rs);
         } catch (SQLException e) {
@@ -130,7 +132,8 @@ public class HotelDAOImpl implements HotelDAO<Hotel> {
 
     private int readHotelType(String name) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_NAME)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_NAME)) {
             ps.setString(1, name);
             rs = ps.executeQuery();
 
@@ -148,7 +151,8 @@ public class HotelDAOImpl implements HotelDAO<Hotel> {
 
     private String readHotelType(int id) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_ID)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_HOTEL_TYPE_BY_ID)) {
             ps.setInt(1, id);
             rs = ps.executeQuery();
 

@@ -35,7 +35,7 @@ public class BlockUserCommand implements Command {
 
     private static void updateUserBlockedStatus(String email) throws DAOException {
         Connection con = DBManager.getInstance().getConnection();
-        UserDAOImpl userDAO = new UserDAOImpl(con);
+        UserDAOImpl userDAO = new UserDAOImpl();
         UserService service = new UserService(userDAO);
         service.changeUserBlocked(email);
         DBManager.closeConnection(con);

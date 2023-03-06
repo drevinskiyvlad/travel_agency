@@ -40,7 +40,7 @@ class OfferDAOTest {
         Hotel hotel = new Hotel(0, "name", "type", "city");
         offer = new Offer(0,"code", hotel,"type", 100,0.15,false,true,150);
         con = Mockito.mock(Connection.class);
-        dao = new OfferDAOImpl(con);
+        dao = new OfferDAOImpl();
     }
 
     @AfterAll
