@@ -181,6 +181,10 @@ public class MockitoDAOSetUp {
         when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_PLACES)).thenReturn(ps);
     }
 
+    protected static void updateOfferActive(Connection con, PreparedStatement ps) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_ACTIVE)).thenReturn(ps);
+    }
+
     protected static void deleteOffer(Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.DELETE_OFFER)).thenReturn(ps);
     }

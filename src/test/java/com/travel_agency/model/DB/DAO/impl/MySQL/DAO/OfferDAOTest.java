@@ -96,6 +96,14 @@ class OfferDAOTest {
     }
 
     @Test
+    void testUpdateActive() throws SQLException {
+        MockitoDAOSetUp.updateOfferActive(con,ps);
+
+        boolean result = dao.updateActive(offer, false);
+        assertTrue(result);
+    }
+
+    @Test
     void testDelete() throws SQLException {
         MockitoDAOSetUp.deleteOffer(con,ps);
 
