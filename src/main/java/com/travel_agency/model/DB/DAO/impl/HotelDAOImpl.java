@@ -1,4 +1,4 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL;
+package com.travel_agency.model.DB.DAO.impl;
 
 import com.travel_agency.model.DB.DAO.HotelDAO;
 import com.travel_agency.model.DB.Fields;
@@ -16,11 +16,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Implementation of DAO interface for MySQL
  */
-public class MySQLHotelDAO implements HotelDAO<Hotel> {
+public class HotelDAOImpl implements HotelDAO<Hotel> {
 
     private final Connection con;
 
-    public MySQLHotelDAO(Connection con) {
+    public HotelDAOImpl(Connection con) {
         this.con = con;
     }
 

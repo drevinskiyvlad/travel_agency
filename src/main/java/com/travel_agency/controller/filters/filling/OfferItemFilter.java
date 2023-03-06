@@ -1,6 +1,6 @@
 package com.travel_agency.controller.filters.filling;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.services.OfferService;
 import com.travel_agency.model.DTO.OfferDTO;
@@ -34,7 +34,7 @@ public class OfferItemFilter implements Filter {
     }
 
     private static OfferService getOfferService(Connection con) {
-        MySQLOfferDAO dao = new MySQLOfferDAO(con);
+        OfferDAOImpl dao = new OfferDAOImpl(con);
         return new OfferService(dao);
     }
 }

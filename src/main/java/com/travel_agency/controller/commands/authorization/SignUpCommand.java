@@ -1,7 +1,7 @@
 package com.travel_agency.controller.commands.authorization;
 
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.utils.exceptions.ValidationException;
@@ -31,7 +31,7 @@ public class SignUpCommand implements Command {
             UserDTO userDTO = initializeUserDTO(req);
             String password = req.getParameter("password");
 
-            MySQLUserDAO userDAO = new MySQLUserDAO(con);
+            UserDAOImpl userDAO = new UserDAOImpl(con);
             UserService userService = new UserService(userDAO);
 
             userService.signUp(userDTO, password);

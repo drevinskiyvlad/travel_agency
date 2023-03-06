@@ -1,9 +1,7 @@
 package com.travel_agency.controller.filters.filling;
 
-import com.travel_agency.model.DB.DAO.HotelDAO;
-import com.travel_agency.model.DB.DAO.OfferDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLHotelDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DAO.impl.HotelDAOImpl;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.model.entity.Offer;
@@ -37,8 +35,8 @@ public class TypesOfferFilter implements Filter {
 
     private void setOfferTypesToSession(HttpServletRequest req) throws DAOException {
         Connection con = DBManager.getInstance().getConnection();
-        OfferDAO<Offer> offerDAO = new MySQLOfferDAO(con);
-        HotelDAO<Hotel> hotelDAO = new MySQLHotelDAO(con);
+        com.travel_agency.model.DB.DAO.OfferDAO<Offer> offerDAO = new OfferDAOImpl(con);
+        com.travel_agency.model.DB.DAO.HotelDAO<Hotel> hotelDAO = new HotelDAOImpl(con);
 
         req.setAttribute("offerTypes", offerDAO.readAllOfferTypes());
         req.setAttribute("hotelTypes", hotelDAO.readAllHotelTypes());

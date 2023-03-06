@@ -1,6 +1,6 @@
 package com.travel_agency.controller.filters.filling;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.services.OfferService;
 import com.travel_agency.utils.Constants.PaginationConstants;
@@ -23,7 +23,7 @@ public class OfferListFilter implements Filter {
 
     private static void addOffersToRequest(HttpServletRequest req) {
         Connection con = DBManager.getInstance().getConnection();
-        MySQLOfferDAO dao = new MySQLOfferDAO(con);
+        OfferDAOImpl dao = new OfferDAOImpl(con);
         OfferService service = new OfferService(dao);
 
         SORTING_BY sortBy = getSortBy(req);
@@ -33,7 +33,7 @@ public class OfferListFilter implements Filter {
         DBManager.closeConnection(con);
     }
 
-    private static void setAttributesToRequest(HttpServletRequest req, MySQLOfferDAO dao, OfferService service, SORTING_BY sortBy) {
+    private static void setAttributesToRequest(HttpServletRequest req, OfferDAOImpl dao, OfferService service, SORTING_BY sortBy) {
         req.getSession().setAttribute("sortBy", sortBy);
 
         req.setAttribute("offers",

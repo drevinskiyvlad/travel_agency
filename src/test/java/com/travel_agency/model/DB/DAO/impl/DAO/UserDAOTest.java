@@ -1,6 +1,6 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
+package com.travel_agency.model.DB.DAO.impl.DAO;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.Constants.PaginationConstants;
 import org.junit.jupiter.api.AfterAll;
@@ -30,13 +30,13 @@ class UserDAOTest {
     @Mock
     private ResultSet rs;
     private User user;
-    private MySQLUserDAO dao;
+    private UserDAOImpl dao;
 
     @BeforeAll
     void initializeUser() {
         user = new User(1, "test@email.com", "password", "user", "Test", "User", "1234567890", false);
         con = Mockito.mock(Connection.class);
-        dao = new MySQLUserDAO(con);
+        dao = new UserDAOImpl(con);
     }
 
     @AfterAll

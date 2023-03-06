@@ -1,7 +1,7 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL;
+package com.travel_agency.model.DB.DAO.impl;
 
-import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.OrderDAO;
+import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.model.entity.Order;
@@ -19,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Implementation of DAO interface for MySQL
  */
-public class MySQLOrderDAO implements OrderDAO<Order> {
+public class OrderDAOImpl implements OrderDAO<Order> {
     private final Connection con;
     @Getter private int numberOfPages; // for pagination
     @Getter private int numberOfUserPages; // for pagination
@@ -27,7 +27,7 @@ public class MySQLOrderDAO implements OrderDAO<Order> {
     /**
      * Constructor
      */
-    public MySQLOrderDAO(Connection con) {
+    public OrderDAOImpl(Connection con) {
         this.con = con;
     }
 
@@ -156,7 +156,7 @@ public class MySQLOrderDAO implements OrderDAO<Order> {
     }
 
     private int getUserId(String userName) throws DAOException {
-        MySQLUserDAO dao = new MySQLUserDAO(con);
+        UserDAOImpl dao = new UserDAOImpl(con);
         return dao.read(userName).getId();
     }
 
@@ -197,8 +197,8 @@ public class MySQLOrderDAO implements OrderDAO<Order> {
     }
 
     private Order initializeOrder(ResultSet rs) throws SQLException {
-        MySQLUserDAO userDao = new MySQLUserDAO(con);
-        MySQLOfferDAO offerDao = new MySQLOfferDAO(con);
+        UserDAOImpl userDao = new UserDAOImpl(con);
+        OfferDAOImpl offerDao = new OfferDAOImpl(con);
 
         String type;
         int id = rs.getInt(Fields.ORDER_ID);

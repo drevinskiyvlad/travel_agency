@@ -1,10 +1,9 @@
 package com.travel_agency.model.services;
 
-import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.OrderDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
+import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.DTO.OrderDTO;
@@ -116,7 +115,7 @@ public class OrderService {
     private boolean decreaseOfferPlaces(OfferDTO offerDTO) throws DAOException {
         Connection con = DBManager.getInstance().getConnection();
 
-        OfferDAO<Offer> offerDAO = new MySQLOfferDAO(con);
+        com.travel_agency.model.DB.DAO.OfferDAO<Offer> offerDAO = new OfferDAOImpl(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
 
         if(offer.getPlaces() <= 1)
@@ -143,7 +142,7 @@ public class OrderService {
 
     private Offer getOffer(OfferDTO offerDTO) throws DAOException {
         Connection con = DBManager.getInstance().getConnection();
-        MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
+        OfferDAOImpl offerDAO = new OfferDAOImpl(con);
         Offer offer = offerDAO.read(offerDTO.getCode());
         DBManager.closeConnection(con);
         return offer;
@@ -151,7 +150,7 @@ public class OrderService {
 
     private User getUser(UserDTO userDTO) throws DAOException {
         Connection con = DBManager.getInstance().getConnection();
-        MySQLUserDAO userDAO = new MySQLUserDAO(con);
+        UserDAOImpl userDAO = new UserDAOImpl(con);
         User user = userDAO.read(userDTO.getEmail());
         DBManager.closeConnection(con);
         return user;

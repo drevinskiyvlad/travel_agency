@@ -1,6 +1,6 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
+package com.travel_agency.model.DB.DAO.impl.DAO;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
+import com.travel_agency.model.DB.DAO.impl.OrderDAOImpl;
 import com.travel_agency.model.entity.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,7 +27,7 @@ class OrderDAOTest {
     private PreparedStatement ps;
     @Mock
     private ResultSet rs;
-    private MySQLOrderDAO dao;
+    private OrderDAOImpl dao;
     private Order order;
 
     @BeforeAll
@@ -37,7 +37,7 @@ class OrderDAOTest {
         Offer offer = new Offer(0,"123", hotel,"rest", 100,0.15,false,true,150);
         order = new Order(0,"123", user, offer,"registered");
         con = Mockito.mock(Connection.class);
-        dao = new MySQLOrderDAO(con);
+        dao = new OrderDAOImpl(con);
     }
 
     @AfterAll

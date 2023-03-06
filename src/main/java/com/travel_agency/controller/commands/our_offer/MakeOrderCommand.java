@@ -1,8 +1,8 @@
 package com.travel_agency.controller.commands.our_offer;
 
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
+import com.travel_agency.model.DB.DAO.impl.OrderDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.model.DTO.OfferDTO;
@@ -30,7 +30,7 @@ public class MakeOrderCommand implements Command {
             UserDTO userDTO = (UserDTO) req.getSession().getAttribute("user");
             OfferDTO offerDTO = getOfferDTO(req, con);
 
-            MySQLOrderDAO dao = new MySQLOrderDAO(con);
+            OrderDAOImpl dao = new OrderDAOImpl(con);
             OrderService service = new OrderService(dao);
 
             if (!service.makeOrder(offerDTO, userDTO)) {
@@ -51,7 +51,7 @@ public class MakeOrderCommand implements Command {
 
     private OfferDTO getOfferDTO(HttpServletRequest req, Connection con) {
         String code = req.getParameter("code");
-        MySQLOfferDAO dao = new MySQLOfferDAO(con);
+        OfferDAOImpl dao = new OfferDAOImpl(con);
         return new OfferService(dao).getOffer(code);
     }
 }

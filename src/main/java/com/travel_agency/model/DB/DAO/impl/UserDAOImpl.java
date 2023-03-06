@@ -1,7 +1,7 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL;
+package com.travel_agency.model.DB.DAO.impl;
 
-import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.UserDAO;
+import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.Constants.MySQLDAOConstants;
@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Implementation of DAO interface for MySQL
  */
-public class MySQLUserDAO implements UserDAO<User> {
+public class UserDAOImpl implements UserDAO<User> {
     private final Connection con;
     @Getter
     private int numberOfPages; // for pagination
@@ -26,7 +26,7 @@ public class MySQLUserDAO implements UserDAO<User> {
     /**
      * Constructor
      */
-    public MySQLUserDAO(Connection con) {
+    public UserDAOImpl(Connection con) {
         this.con = con;
     }
 

@@ -1,9 +1,8 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL;
+package com.travel_agency.model.DB.DAO.impl;
 
-import com.travel_agency.model.DB.DAO.HotelDAO;
+import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.utils.exceptions.DAOException;
-import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.MySQLDAOConstants;
@@ -20,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Implementation of DAO interface for MySQL
  */
-public class MySQLOfferDAO implements OfferDAO<Offer> {
+public class OfferDAOImpl implements OfferDAO<Offer> {
     private final Connection con;
 
     private double numberOfNotHotPages; // for pagination
@@ -31,7 +30,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     /**
      * Constructor
      */
-    public MySQLOfferDAO(Connection con) {
+    public OfferDAOImpl(Connection con) {
         this.con = con;
     }
 
@@ -50,7 +49,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     }
 
     private void createHotel(Offer offer) throws DAOException {
-        HotelDAO<Hotel> hotelDAO = new MySQLHotelDAO(con);
+        com.travel_agency.model.DB.DAO.HotelDAO<Hotel> hotelDAO = new HotelDAOImpl(con);
         hotelDAO.create(offer.getHotel());
         offer.setHotel(hotelDAO.read(offer.getHotel().getName()));
     }
@@ -104,7 +103,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     private Offer initializeOffer(ResultSet rs) throws SQLException {
         String offerType;
-        HotelDAO<Hotel> hotelDAO = new MySQLHotelDAO(con);
+        com.travel_agency.model.DB.DAO.HotelDAO<Hotel> hotelDAO = new HotelDAOImpl(con);
 
         int id = rs.getInt(Fields.OFFER_ID);
         String code = rs.getString(Fields.OFFER_CODE);

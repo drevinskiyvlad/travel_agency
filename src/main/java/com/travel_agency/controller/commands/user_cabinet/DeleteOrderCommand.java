@@ -1,7 +1,7 @@
 package com.travel_agency.controller.commands.user_cabinet;
 
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
+import com.travel_agency.model.DB.DAO.impl.OrderDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class DeleteOrderCommand implements Command {
             String code = req.getParameter("code");
 
             con = DBManager.getInstance().getConnection();
-            MySQLOrderDAO orderDAO = new MySQLOrderDAO(con);
+            OrderDAOImpl orderDAO = new OrderDAOImpl(con);
             orderDAO.delete(code);
 
             logger.info("User deleted order with code: " + code);

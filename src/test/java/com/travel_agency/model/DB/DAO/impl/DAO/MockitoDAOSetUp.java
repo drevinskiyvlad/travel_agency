@@ -1,4 +1,4 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
+package com.travel_agency.model.DB.DAO.impl.DAO;
 
 import com.travel_agency.utils.Constants.MySQLDAOConstants;
 import com.travel_agency.model.DB.Fields;

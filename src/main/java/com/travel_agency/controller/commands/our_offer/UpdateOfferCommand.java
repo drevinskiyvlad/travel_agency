@@ -1,7 +1,7 @@
 package com.travel_agency.controller.commands.our_offer;
 
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.utils.exceptions.DAOException;
@@ -29,7 +29,7 @@ public class UpdateOfferCommand implements Command {
 
         try {
             con = DBManager.getInstance().getConnection();
-            MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
+            OfferDAOImpl offerDAO = new OfferDAOImpl(con);
             OfferService service = new OfferService(offerDAO);
 
             if(!updateOffer(req, service, code))

@@ -1,7 +1,7 @@
 package com.travel_agency.controller.filters.filling;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.DB.DAO.impl.OrderDAOImpl;
+import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DTO.OrderDTO;
@@ -49,7 +49,7 @@ public class UserCabinetFillingFilter implements Filter {
 
     private void fillUserCabinet(HttpServletRequest req, UserDTO userDTO) {
         Connection con = DBManager.getInstance().getConnection();
-        MySQLOrderDAO orderDAO = new MySQLOrderDAO(con);
+        OrderDAOImpl orderDAO = new OrderDAOImpl(con);
         OrderService service = new OrderService(orderDAO);
 
         List<OrderDTO> orders = service.getAllOrdersFromUser(userDTO, 0,
@@ -60,7 +60,7 @@ public class UserCabinetFillingFilter implements Filter {
         DBManager.closeConnection(con);
     }
 
-    private static void setAttrToUserCabinet(HttpServletRequest req, MySQLOrderDAO orderDAO,
+    private static void setAttrToUserCabinet(HttpServletRequest req, OrderDAOImpl orderDAO,
                                              OrderService service, List<OrderDTO> orders) {
         req.setAttribute("numberOfPagesInUserOrders", orderDAO.getNumberOfUserPages());
         req.setAttribute("currentUserOrderPage", 1);
@@ -70,7 +70,7 @@ public class UserCabinetFillingFilter implements Filter {
 
     private void fillManagerCabinet(HttpServletRequest req) throws DAOException {
         Connection con = DBManager.getInstance().getConnection();
-        MySQLOrderDAO orderDAO = new MySQLOrderDAO(con);
+        OrderDAOImpl orderDAO = new OrderDAOImpl(con);
         OrderService service = new OrderService(orderDAO);
 
         List<OrderDTO> orders = service.getAllOrders(0,
@@ -81,7 +81,7 @@ public class UserCabinetFillingFilter implements Filter {
         DBManager.closeConnection(con);
     }
 
-    private static void setAttrToManagerCabinet(HttpServletRequest req, MySQLOrderDAO orderDAO,
+    private static void setAttrToManagerCabinet(HttpServletRequest req, OrderDAOImpl orderDAO,
                                                 List<OrderDTO> orders) throws DAOException {
         req.setAttribute("orderStatuses", orderDAO.readAllOrderStatuses());
         req.setAttribute("numberOfPagesInOrders", orderDAO.getNumberOfPages());
@@ -93,7 +93,7 @@ public class UserCabinetFillingFilter implements Filter {
         fillManagerCabinet(req);
 
         Connection con = DBManager.getInstance().getConnection();
-        MySQLUserDAO userDAO = new MySQLUserDAO(con);
+        UserDAOImpl userDAO = new UserDAOImpl(con);
         UserService service = new UserService(userDAO);
 
         List<UserDTO> users = service.getAllUsers(0,
@@ -106,7 +106,7 @@ public class UserCabinetFillingFilter implements Filter {
         DBManager.closeConnection(con);
     }
 
-    private static void setAttrToAdminCabinet(HttpServletRequest req, MySQLUserDAO userDAO,
+    private static void setAttrToAdminCabinet(HttpServletRequest req, UserDAOImpl userDAO,
                                               List<UserDTO> users) throws DAOException {
 
         req.setAttribute("userRoles", userDAO.readAllUserRoles());

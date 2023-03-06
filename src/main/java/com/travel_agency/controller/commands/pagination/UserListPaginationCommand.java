@@ -1,7 +1,7 @@
 package com.travel_agency.controller.commands.pagination;
 
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.DTO.UserDTO;
 import com.travel_agency.model.services.UserService;
@@ -23,7 +23,7 @@ public class UserListPaginationCommand implements Command {
 
         //init service
         Connection con = DBManager.getInstance().getConnection();
-        MySQLUserDAO dao = new MySQLUserDAO(con);
+        UserDAOImpl dao = new UserDAOImpl(con);
         UserService service = new UserService(dao);
 
         List<UserDTO> users = service.getAllUsers(
@@ -37,7 +37,7 @@ public class UserListPaginationCommand implements Command {
         return PathConstants.USER_CABINET;
     }
 
-    private static void setAttributesToReq(HttpServletRequest req, int page, MySQLUserDAO dao, List<UserDTO> users) {
+    private static void setAttributesToReq(HttpServletRequest req, int page, UserDAOImpl dao, List<UserDTO> users) {
         req.setAttribute("allUsers", users);
         req.setAttribute("numberOfPagesInUserList", dao.getNumberOfPages());
         req.setAttribute("currentPage", page);

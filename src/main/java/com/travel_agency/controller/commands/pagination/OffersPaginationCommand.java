@@ -1,7 +1,7 @@
 package com.travel_agency.controller.commands.pagination;
 
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.services.OfferService;
@@ -25,7 +25,7 @@ public class OffersPaginationCommand implements Command {
 
         //init service
         Connection con = DBManager.getInstance().getConnection();
-        MySQLOfferDAO dao = new MySQLOfferDAO(con);
+        OfferDAOImpl dao = new OfferDAOImpl(con);
         OfferService service = new OfferService(dao);
 
         dao.setPage(page);
@@ -50,7 +50,7 @@ public class OffersPaginationCommand implements Command {
         return page;
     }
 
-    private static void setAttributesToReq(HttpServletRequest req, int page, MySQLOfferDAO dao, List<OfferDTO> offers) {
+    private static void setAttributesToReq(HttpServletRequest req, int page, OfferDAOImpl dao, List<OfferDTO> offers) {
         req.setAttribute("offers", offers);
         req.setAttribute("numberOfPagesInOffers", dao.getNumberOfPages());
         req.setAttribute("currentPage", page);
