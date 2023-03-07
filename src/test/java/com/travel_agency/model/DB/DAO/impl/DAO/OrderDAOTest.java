@@ -31,13 +31,14 @@ class OrderDAOTest {
     private Order order;
 
     @BeforeAll
-    void initialize(){
+    void initialize() throws SQLException {
         Hotel hotel = new Hotel();
         User user = new User(0, "test@email.com", "password", "user", "Test", "User", "1234567890",false);
         Offer offer = new Offer(0,"123", hotel,"rest", 100,0.15,false,true,150);
         order = new Order(0,"123", user, offer,"registered");
         con = Mockito.mock(Connection.class);
         dao = new OrderDAOImpl();
+        MockitoDAOSetUp.initDBManager(con);
     }
 
     @AfterAll

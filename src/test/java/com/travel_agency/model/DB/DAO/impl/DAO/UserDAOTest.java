@@ -14,7 +14,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.*;
+import javax.naming.NamingException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +38,11 @@ class UserDAOTest {
     private UserDAO<User> dao;
 
     @BeforeAll
-    void initializeUser() {
+    void initializeUser() throws SQLException {
         user = new User(1, "test@email.com", "password", "user", "Test", "User", "1234567890", false);
-        con = Mockito.mock(Connection.class);
         dao = new UserDAOImpl();
+        con = Mockito.mock(Connection.class);
+        MockitoDAOSetUp.initDBManager(con);
     }
 
     @AfterAll

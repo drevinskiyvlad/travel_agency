@@ -1,5 +1,6 @@
 package com.travel_agency.model.DB;
 
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 public class DBManager {
     private static final Logger logger = LogManager.getLogger(DBManager.class);
     private static DBManager instance;
+    @Setter
     private DataSource ds;
 
     private DBManager(){

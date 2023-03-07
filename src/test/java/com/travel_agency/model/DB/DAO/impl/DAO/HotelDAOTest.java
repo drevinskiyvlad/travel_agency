@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,10 +35,11 @@ class HotelDAOTest {
     private HotelDAOImpl dao;
 
     @BeforeAll
-    void setUp() {
+    void setUp() throws SQLException {
         hotel = new Hotel(0, "name", "type", "city");
         con = Mockito.mock(Connection.class);
         dao = new HotelDAOImpl();
+        MockitoDAOSetUp.initDBManager(con);
     }
 
 
