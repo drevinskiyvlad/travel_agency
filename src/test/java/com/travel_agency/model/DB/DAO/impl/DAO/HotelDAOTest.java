@@ -1,6 +1,6 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
+package com.travel_agency.model.DB.DAO.impl.DAO;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLHotelDAO;
+import com.travel_agency.model.DB.DAO.impl.HotelDAOImpl;
 import com.travel_agency.model.entity.Hotel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,13 +32,14 @@ class HotelDAOTest {
     private ResultSet rs;
 
     private Hotel hotel;
-    private MySQLHotelDAO dao;
+    private HotelDAOImpl dao;
 
     @BeforeAll
-    void setUp() {
+    void setUp() throws SQLException {
         hotel = new Hotel(0, "name", "type", "city");
         con = Mockito.mock(Connection.class);
-        dao = new MySQLHotelDAO(con);
+        dao = new HotelDAOImpl();
+        MockitoDAOSetUp.initDBManager(con);
     }
 
 

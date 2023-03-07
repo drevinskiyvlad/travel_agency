@@ -1,6 +1,6 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
+package com.travel_agency.model.DB.DAO.impl.DAO;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
 import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.SORTING_BY;
@@ -33,14 +33,15 @@ class OfferDAOTest {
     @Mock
     private ResultSet rs;
     private Offer offer;
-    private MySQLOfferDAO dao;
+    private OfferDAOImpl dao;
 
     @BeforeAll
-    void initialize(){
+    void initialize() throws SQLException {
         Hotel hotel = new Hotel(0, "name", "type", "city");
         offer = new Offer(0,"code", hotel,"type", 100,0.15,false,true,150);
         con = Mockito.mock(Connection.class);
-        dao = new MySQLOfferDAO(con);
+        dao = new OfferDAOImpl();
+        MockitoDAOSetUp.initDBManager(con);
     }
 
     @AfterAll
@@ -92,6 +93,14 @@ class OfferDAOTest {
         MockitoDAOSetUp.updateOfferVacancy(con,ps);
 
         boolean result = dao.update(offer, vacancy);
+        assertTrue(result);
+    }
+
+    @Test
+    void testUpdateActive() throws SQLException {
+        MockitoDAOSetUp.updateOfferActive(con,ps);
+
+        boolean result = dao.updateActive(offer, false);
         assertTrue(result);
     }
 

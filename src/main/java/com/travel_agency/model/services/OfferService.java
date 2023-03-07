@@ -101,6 +101,32 @@ public class OfferService {
         return dao.create(offer);
     }
 
+
+    /**
+     * Deleting offer from db
+     * @param code primary key for offer
+     * @return result of deleting
+     * @throws DAOException if something went wrong while processing with db
+     */
+    public boolean deleteOffer(String code) throws DAOException {
+        return dao.delete(code);
+    }
+
+    /**
+     * set page for pagination
+     * @param page page of pagination
+     */
+    public void setPage(int page){
+      dao.setPage(page);
+    }
+
+    /**
+     * @return number of pages for pagination
+     */
+    public int getNumberOfPages(){
+        return dao.getNumberOfPages();
+    }
+
     private void validateDiscount(double discount) throws ValidationException {
         if (!Validator.validateDiscount(discount))
             throw new ValidationException(ValidationMessageConstants.INVALID_DISCOUNT);

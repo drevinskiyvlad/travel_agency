@@ -1,9 +1,10 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL;
+package com.travel_agency.model.DB.DAO.impl;
 
 import com.travel_agency.model.DB.DAO.HotelDAO;
+import com.travel_agency.model.DB.DAO.OfferDAO;
+import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.utils.exceptions.DAOException;
-import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.MySQLDAOConstants;
@@ -20,24 +21,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Implementation of DAO interface for MySQL
  */
-public class MySQLOfferDAO implements OfferDAO<Offer> {
-    private final Connection con;
+public class OfferDAOImpl implements OfferDAO<Offer> {
+    private final DBManager manager = DBManager.getInstance();
 
     private double numberOfNotHotPages; // for pagination
     private double numberOfHotPages; // for pagination
     private int numberOfHotRecords; // for pagination
-    @Setter private int page; // for pagination
-
-    /**
-     * Constructor
-     */
-    public MySQLOfferDAO(Connection con) {
-        this.con = con;
-    }
+    @Setter
+    private int page; // for pagination
 
 
     public boolean create(Offer offer) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.ADD_OFFER)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.ADD_OFFER)) {
 
             createHotel(offer);
             setVariablesToCreateStatement(offer, ps);
@@ -50,7 +46,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     }
 
     private void createHotel(Offer offer) throws DAOException {
-        HotelDAO<Hotel> hotelDAO = new MySQLHotelDAO(con);
+        HotelDAO<Hotel> hotelDAO = new HotelDAOImpl();
         hotelDAO.create(offer.getHotel());
         offer.setHotel(hotelDAO.read(offer.getHotel().getName()));
     }
@@ -68,7 +64,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     public Offer read(String code) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_OFFER)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_OFFER)) {
 
             ps.setString(1, code);
             rs = ps.executeQuery();
@@ -86,7 +83,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     public Offer read(int id) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_OFFER_BY_ID)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_OFFER_BY_ID)) {
 
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -104,7 +102,7 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     private Offer initializeOffer(ResultSet rs) throws SQLException {
         String offerType;
-        HotelDAO<Hotel> hotelDAO = new MySQLHotelDAO(con);
+        HotelDAO<Hotel> hotelDAO = new HotelDAOImpl();
 
         int id = rs.getInt(Fields.OFFER_ID);
         String code = rs.getString(Fields.OFFER_CODE);
@@ -127,7 +125,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     }
 
     public boolean update(Offer offer, boolean isHot) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_IS_HOT)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_IS_HOT)) {
             ps.setBoolean(1, isHot);
             ps.setString(2, offer.getCode());
             ps.executeUpdate();
@@ -138,7 +137,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     }
 
     public boolean updateActive(Offer offer, boolean active) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_ACTIVE)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_ACTIVE)) {
             ps.setBoolean(1, active);
             ps.setString(2, offer.getCode());
             ps.executeUpdate();
@@ -149,7 +149,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     }
 
     public boolean update(Offer offer, int newValue) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_PLACES)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_PLACES)) {
             ps.setInt(1, newValue);
             ps.setString(2, offer.getCode());
             ps.executeUpdate();
@@ -160,7 +161,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     }
 
     public boolean delete(String code) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.DELETE_OFFER)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.DELETE_OFFER)) {
             ps.setString(1, code);
             ps.executeUpdate();
             return true;
@@ -179,14 +181,15 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     private List<Offer> readAllNotHot(int offset, int numOfRecords) throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>();
         int numOfNotHotRecords = numOfRecords;
-        if(page <= (int)Math.ceil(numberOfHotPages)) {
+        if (page <= (int) Math.ceil(numberOfHotPages)) {
             numOfNotHotRecords = numOfRecords - numberOfHotRecords;
         }
         int notHotOffset = offset - numberOfHotRecords;
         if (notHotOffset < 0) notHotOffset = 0;
 
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFERS)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFERS)) {
             ps.setInt(1, notHotOffset);
             ps.setInt(2, numOfNotHotRecords);
             rs = ps.executeQuery();
@@ -207,7 +210,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
     private List<Offer> readAllHot(int offset, int numOfRecords) throws DAOException {
         List<Offer> result = new CopyOnWriteArrayList<>();
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOT_OFFERS)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_HOT_OFFERS)) {
             ps.setInt(1, offset);
             ps.setInt(2, numOfRecords);
             rs = ps.executeQuery();
@@ -232,7 +236,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
         List<Offer> result = new CopyOnWriteArrayList<>();
 
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(sortBy.getCommand())) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(sortBy.getCommand())) {
             ps.setInt(1, offset);
             ps.setInt(2, numOfRecords);
             rs = ps.executeQuery();
@@ -254,7 +259,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     public List<String> readAllOfferTypes() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFER_TYPES);
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_OFFER_TYPES);
              ResultSet rs = ps.executeQuery()) {
             addOfferTypesToList(result, rs);
         } catch (SQLException e) {
@@ -265,7 +271,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     private int readOfferType(String name) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_NAME)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_NAME)) {
             ps.setString(1, name);
             rs = ps.executeQuery();
 
@@ -283,7 +290,8 @@ public class MySQLOfferDAO implements OfferDAO<Offer> {
 
     private String readOfferType(int id) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_ID)) {
+        try (Connection con = manager.getConnection();
+             PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_OFFER_TYPE_BY_ID)) {
             ps.setInt(1, id);
             rs = ps.executeQuery();
 

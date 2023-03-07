@@ -1,7 +1,7 @@
 package com.travel_agency.controller.commands.user_cabinet;
 
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOrderDAO;
+import com.travel_agency.model.DB.DAO.impl.OrderDAOImpl;
 import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.utils.exceptions.DAOException;
@@ -25,7 +25,7 @@ public class UpdateOrderStatusCommand implements Command {
             String status = req.getParameter("orderStatus");
             con = DBManager.getInstance().getConnection();
 
-            updateStatus(con, code, status);
+            updateStatus(code, status);
 
             logger.info("Manager updated order status with code: " + code + " to " + status);
         } catch (Exception e) {
@@ -38,8 +38,8 @@ public class UpdateOrderStatusCommand implements Command {
         return PathConstants.COMMAND_REDIRECT;
     }
 
-    private static void updateStatus(Connection con, String code, String status) throws DAOException {
-        MySQLOrderDAO orderDAO = new MySQLOrderDAO(con);
+    private static void updateStatus(String code, String status) throws DAOException {
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         Order order = orderDAO.read(code);
         orderDAO.update(order, status);
     }

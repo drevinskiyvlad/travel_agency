@@ -3,9 +3,8 @@ package com.travel_agency.model.services;
 import com.travel_agency.model.DB.DAO.OfferDAO;
 import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.OrderDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
-import com.travel_agency.model.DB.DBManager;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
+import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.DTO.OrderDTO;
 import com.travel_agency.model.DTO.UserDTO;
@@ -16,7 +15,6 @@ import com.travel_agency.utils.RandomStringGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -104,6 +102,13 @@ public class OrderService {
         return result;
     }
 
+    /**
+     * @return number of pages for pagination
+     */
+    public int getNumberOfPages(){
+        return dao.getNumberOfPages();
+    }
+
     private OrderDTO convertOrderToDTO(Order order) {
         String code = order.getCode();
         String status = order.getOrderStatus();
@@ -114,18 +119,14 @@ public class OrderService {
     }
 
     private boolean decreaseOfferPlaces(OfferDTO offerDTO) throws DAOException {
-        Connection con = DBManager.getInstance().getConnection();
 
-        OfferDAO<Offer> offerDAO = new MySQLOfferDAO(con);
+        OfferDAO<Offer> offerDAO = new OfferDAOImpl();
         Offer offer = offerDAO.read(offerDTO.getCode());
 
         if(offer.getPlaces() <= 1)
             offerDAO.updateActive(offer, false);
 
-        boolean offerResult = offerDAO.update(offer, offer.getPlaces() - 1);
-        DBManager.closeConnection(con);
-
-        return offerResult;
+        return offerDAO.update(offer, offer.getPlaces() - 1);
     }
 
     private Order convertDTOToOrder(OrderDTO orderDTO, UserDTO userDTO, OfferDTO offerDTO) {
@@ -142,19 +143,13 @@ public class OrderService {
     }
 
     private Offer getOffer(OfferDTO offerDTO) throws DAOException {
-        Connection con = DBManager.getInstance().getConnection();
-        MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
-        Offer offer = offerDAO.read(offerDTO.getCode());
-        DBManager.closeConnection(con);
-        return offer;
+        OfferDAOImpl offerDAO = new OfferDAOImpl();
+        return offerDAO.read(offerDTO.getCode());
     }
 
     private User getUser(UserDTO userDTO) throws DAOException {
-        Connection con = DBManager.getInstance().getConnection();
-        MySQLUserDAO userDAO = new MySQLUserDAO(con);
-        User user = userDAO.read(userDTO.getEmail());
-        DBManager.closeConnection(con);
-        return user;
+        UserDAOImpl userDAO = new UserDAOImpl();
+        return userDAO.read(userDTO.getEmail());
     }
 
     private OrderDTO initializeOrderDTO(OfferDTO offerDTO, UserDTO userDTO) {

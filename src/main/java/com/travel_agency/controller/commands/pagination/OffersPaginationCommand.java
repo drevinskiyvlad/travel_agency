@@ -1,8 +1,7 @@
 package com.travel_agency.controller.commands.pagination;
 
+import com.travel_agency.appContext.AppContext;
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.services.OfferService;
 import com.travel_agency.utils.Constants.PaginationConstants;
@@ -11,7 +10,6 @@ import com.travel_agency.utils.Constants.SORTING_BY;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class OffersPaginationCommand implements Command {
@@ -24,11 +22,9 @@ public class OffersPaginationCommand implements Command {
         int page = getPage(req);
 
         //init service
-        Connection con = DBManager.getInstance().getConnection();
-        MySQLOfferDAO dao = new MySQLOfferDAO(con);
-        OfferService service = new OfferService(dao);
+        OfferService service = AppContext.getInstance().getOfferService();
 
-        dao.setPage(page);
+        service.setPage(page);
         List<OfferDTO> offers = service.getAllOffers(
                 (page - 1) * recordsPerPage,
                 recordsPerPage,
@@ -36,9 +32,7 @@ public class OffersPaginationCommand implements Command {
                 sortBy);
 
 
-        setAttributesToReq(req, page, dao, offers);
-
-        DBManager.closeConnection(con);
+        setAttributesToReq(req, page, service, offers);
 
         return PathConstants.OUR_OFFER;
     }
@@ -50,9 +44,9 @@ public class OffersPaginationCommand implements Command {
         return page;
     }
 
-    private static void setAttributesToReq(HttpServletRequest req, int page, MySQLOfferDAO dao, List<OfferDTO> offers) {
+    private static void setAttributesToReq(HttpServletRequest req, int page, OfferService service, List<OfferDTO> offers) {
         req.setAttribute("offers", offers);
-        req.setAttribute("numberOfPagesInOffers", dao.getNumberOfPages());
+        req.setAttribute("numberOfPagesInOffers", service.getNumberOfPages());
         req.setAttribute("currentPage", page);
     }
 }

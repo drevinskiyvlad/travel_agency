@@ -65,8 +65,8 @@
                     <a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
                 </div>
                 <div class="social-links">
-                    <a href="?sessionLocale=ua" class="ua"><img src="images/ukraine.png" alt="ua"></a>
-                    <a href="?sessionLocale=en" class="en"><img src="images/usa.png" alt="en"></a>
+                    <a href="user-cabinet.jsp?sessionLocale=ua" class="ua"><img src="images/ukraine.png" alt="ua"></a>
+                    <a href="user-cabinet.jsp?sessionLocale=en" class="en"><img src="images/usa.png" alt="en"></a>
                 </div>
             </div>
             <nav class="breadcrumbs">

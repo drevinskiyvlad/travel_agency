@@ -1,18 +1,32 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
+package com.travel_agency.model.DB.DAO.impl.DAO;
 
+import com.travel_agency.model.DB.DBManager;
 import com.travel_agency.utils.Constants.MySQLDAOConstants;
 import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.*;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class MockitoDAOSetUp {
     private MockitoDAOSetUp() {
+    }
+
+    protected static void initDBManager(Connection con) throws SQLException {
+        DBManager dbManager = DBManager.getInstance();
+        DataSource ds = Mockito.mock(DataSource.class);
+        dbManager.setDs(ds);
+        when(ds.getConnection()).thenReturn(con);
     }
 
     //All user setups
@@ -179,6 +193,10 @@ public class MockitoDAOSetUp {
 
     protected static void updateOfferVacancy(Connection con, PreparedStatement ps) throws SQLException {
         when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_PLACES)).thenReturn(ps);
+    }
+
+    protected static void updateOfferActive(Connection con, PreparedStatement ps) throws SQLException {
+        when(con.prepareStatement(MySQLDAOConstants.CHANGE_OFFER_ACTIVE)).thenReturn(ps);
     }
 
     protected static void deleteOffer(Connection con, PreparedStatement ps) throws SQLException {

@@ -1,6 +1,7 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
+package com.travel_agency.model.DB.DAO.impl.DAO;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
+import com.travel_agency.model.DB.DAO.UserDAO;
+import com.travel_agency.model.DB.DAO.impl.UserDAOImpl;
 import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.Constants.PaginationConstants;
 import org.junit.jupiter.api.AfterAll;
@@ -13,7 +14,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.*;
+import javax.naming.NamingException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +35,14 @@ class UserDAOTest {
     @Mock
     private ResultSet rs;
     private User user;
-    private MySQLUserDAO dao;
+    private UserDAO<User> dao;
 
     @BeforeAll
-    void initializeUser() {
+    void initializeUser() throws SQLException {
         user = new User(1, "test@email.com", "password", "user", "Test", "User", "1234567890", false);
+        dao = new UserDAOImpl();
         con = Mockito.mock(Connection.class);
-        dao = new MySQLUserDAO(con);
+        MockitoDAOSetUp.initDBManager(con);
     }
 
     @AfterAll

@@ -1,19 +1,17 @@
 package com.travel_agency.controller.commands.authorization;
 
+import com.travel_agency.appContext.AppContext;
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLUserDAO;
-import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.utils.Constants.PathConstants;
-import com.travel_agency.utils.exceptions.ValidationException;
 import com.travel_agency.model.DTO.UserDTO;
 import com.travel_agency.model.services.UserService;
+import com.travel_agency.utils.Constants.PathConstants;
+import com.travel_agency.utils.exceptions.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 public class SignInCommand implements Command {
     private static final Logger logger = LogManager.getLogger(SignInCommand.class);
@@ -26,11 +24,8 @@ public class SignInCommand implements Command {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        Connection con = null;
         try {
-            con = DBManager.getInstance().getConnection();
-            MySQLUserDAO userDAO = new MySQLUserDAO(con);
-            UserService userService = new UserService(userDAO);
+            UserService userService = AppContext.getInstance().getUserService();
 
             UserDTO userDTO = userService.signIn(email, password);
             req.getSession().setAttribute("user", userDTO);
@@ -41,8 +36,6 @@ public class SignInCommand implements Command {
         } catch (Exception e) {
             logger.error("User dont signed in: " + e.getMessage(), e);
             redirectPage = PathConstants.ERROR;
-        } finally {
-            DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
