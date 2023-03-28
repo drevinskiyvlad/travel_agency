@@ -107,10 +107,10 @@ DROP TABLE IF EXISTS `travel_agency`.`hotel`;
 
 CREATE TABLE IF NOT EXISTS `travel_agency`.`hotel`
 (
-    `id`            INT          NOT NULL AUTO_INCREMENT,
-    `name`          VARCHAR(128) NOT NULL,
+    `id`      INT          NOT NULL AUTO_INCREMENT,
+    `name`    VARCHAR(128) NOT NULL,
     `type_id` INT          NOT NULL,
-    `city`          VARCHAR(45)  NOT NULL,
+    `city`    VARCHAR(45)  NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `fk_hotel_hotel_type1_idx` (`type_id` ASC) VISIBLE,
     CONSTRAINT `hotel_type`
