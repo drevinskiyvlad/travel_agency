@@ -4,7 +4,8 @@ package com.travel_agency.utils.Constants;
  * All MySQL commands for DAO
  */
 public class MySQLDAOConstants {
-    private MySQLDAOConstants(){}
+    private MySQLDAOConstants() {
+    }
 
     //User request constants
     public static final String ADD_USER = "INSERT INTO user(email, password, user_role_id, first_name, last_name, phone, blocked)" +
@@ -71,7 +72,11 @@ public class MySQLDAOConstants {
 
     //All offer sorting
     public static final String OFFER_BY_TYPE = "SELECT * FROM offer ORDER BY offer_type_id LIMIT ?,?";
-    public static final String OFFER_BY_HOTEL_TYPE = "SELECT * FROM offer ORDER BY hotel_type_id LIMIT ?,?";
+    public static final String OFFER_BY_HOTEL_TYPE = "select offer.*, hotel.type_id " +
+                    "from offer " +
+                    "INNER JOIN hotel ON offer.hotel_id=hotel.id " +
+                    "order by hotel.type_id " +
+                    "limit ?,?";
     public static final String OFFER_BY_PRICE = "SELECT * FROM offer ORDER BY price LIMIT ?,?";
     public static final String OFFER_BY_PLACES = "SELECT * FROM offer ORDER BY places LIMIT ?,?";
 
