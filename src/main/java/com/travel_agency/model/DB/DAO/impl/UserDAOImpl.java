@@ -1,7 +1,8 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL;
+package com.travel_agency.model.DB.DAO.impl;
 
-import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.DAO.UserDAO;
+import com.travel_agency.model.DB.DBManager;
+import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.model.DB.Fields;
 import com.travel_agency.model.entity.User;
 import com.travel_agency.utils.Constants.MySQLDAOConstants;
@@ -18,20 +19,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Implementation of DAO interface for MySQL
  */
-public class MySQLUserDAO implements UserDAO<User> {
-    private final Connection con;
+public class UserDAOImpl implements UserDAO<User> {
+    private final DBManager manager = DBManager.getInstance();
     @Getter
     private int numberOfPages; // for pagination
 
-    /**
-     * Constructor
-     */
-    public MySQLUserDAO(Connection con) {
-        this.con = con;
-    }
 
     public boolean create(User user) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.ADD_USER)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.ADD_USER)) {
 
             setVariablesToCreateStatement(user, ps);
             ps.executeUpdate();
@@ -45,7 +41,7 @@ public class MySQLUserDAO implements UserDAO<User> {
     public User read(String email) throws DAOException {
         ResultSet rs = null;
         PreparedStatement ps = null;
-        try {
+        try (Connection con = manager.getConnection()){
             ps = con.prepareStatement(MySQLDAOConstants.FIND_USER);
             ps.setString(1, email);
             rs = ps.executeQuery();
@@ -64,7 +60,8 @@ public class MySQLUserDAO implements UserDAO<User> {
 
     public User read(int id) throws DAOException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_USER_BY_ID)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_USER_BY_ID)) {
 
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -81,7 +78,8 @@ public class MySQLUserDAO implements UserDAO<User> {
     }
 
     public boolean update(User user, String newRole) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_USER_ROLE)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_USER_ROLE)) {
             int roleId = readUserRole(newRole);
             ps.setInt(1, roleId);
             ps.setString(2, user.getEmail());
@@ -93,7 +91,8 @@ public class MySQLUserDAO implements UserDAO<User> {
     }
 
     public boolean update(String email, boolean value) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_USER_BLOCKED)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.CHANGE_USER_BLOCKED)) {
             ps.setBoolean(1, value);
             ps.setString(2, email);
             ps.executeUpdate();
@@ -104,7 +103,8 @@ public class MySQLUserDAO implements UserDAO<User> {
     }
 
     public boolean delete(String email) throws DAOException {
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.DELETE_USER)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.DELETE_USER)) {
             ps.setString(1, email);
             ps.executeUpdate();
             return true;
@@ -116,7 +116,8 @@ public class MySQLUserDAO implements UserDAO<User> {
     public List<User> readAll(int offset, int numOfRecords) throws DAOException {
         List<User> result = new CopyOnWriteArrayList<>();
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_USERS)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_USERS)) {
             ps.setInt(1, offset);
             ps.setInt(2, numOfRecords);
             rs = ps.executeQuery();
@@ -138,7 +139,8 @@ public class MySQLUserDAO implements UserDAO<User> {
 
     public List<String> readAllUserRoles() throws DAOException {
         List<String> result = new CopyOnWriteArrayList<>();
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_USER_ROLES);
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_ALL_USER_ROLES);
              ResultSet rs = ps.executeQuery()) {
             addUserRolesToList(result, rs);
         } catch (SQLException e) {
@@ -156,7 +158,8 @@ public class MySQLUserDAO implements UserDAO<User> {
 
     private int readUserRole(String name) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_USER_ROLE_BY_NAME)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_USER_ROLE_BY_NAME)) {
             ps.setString(1, name);
             rs = ps.executeQuery();
 
@@ -174,7 +177,8 @@ public class MySQLUserDAO implements UserDAO<User> {
 
     private String readUserRole(int id) throws IllegalArgumentException {
         ResultSet rs = null;
-        try (PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_USER_ROLE_BY_ID)) {
+        try (Connection con = manager.getConnection();
+                PreparedStatement ps = con.prepareStatement(MySQLDAOConstants.FIND_USER_ROLE_BY_ID)) {
 
             ps.setInt(1, id);
             rs = ps.executeQuery();

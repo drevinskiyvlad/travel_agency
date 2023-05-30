@@ -1,14 +1,12 @@
 package com.travel_agency.controller.filters.filling;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.model.services.OfferService;
+import com.travel_agency.appContext.AppContext;
 import com.travel_agency.model.DTO.OfferDTO;
+import com.travel_agency.model.services.OfferService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 public class OfferItemFilter implements Filter {
     @Override
@@ -22,19 +20,9 @@ public class OfferItemFilter implements Filter {
     }
 
     private static OfferDTO getOfferDTO(HttpServletRequest req) {
-
-        Connection con = DBManager.getInstance().getConnection();
-        OfferService service = getOfferService(con);
-
+        OfferService service = AppContext.getInstance().getOfferService();
         String code = req.getParameter("code");
-        OfferDTO offerDTO = service.getOffer(code);
-
-        DBManager.closeConnection(con);
-        return offerDTO;
+        return service.getOffer(code);
     }
 
-    private static OfferService getOfferService(Connection con) {
-        MySQLOfferDAO dao = new MySQLOfferDAO(con);
-        return new OfferService(dao);
-    }
 }

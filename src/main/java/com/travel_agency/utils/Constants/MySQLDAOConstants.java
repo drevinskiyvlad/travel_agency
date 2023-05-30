@@ -4,7 +4,8 @@ package com.travel_agency.utils.Constants;
  * All MySQL commands for DAO
  */
 public class MySQLDAOConstants {
-    private MySQLDAOConstants(){}
+    private MySQLDAOConstants() {
+    }
 
     //User request constants
     public static final String ADD_USER = "INSERT INTO user(email, password, user_role_id, first_name, last_name, phone, blocked)" +
@@ -21,17 +22,26 @@ public class MySQLDAOConstants {
     public static final String FIND_USER_ROLE_BY_NAME = "select id from user_role where user_role_name = ?";
 
 
+    //Hotel request constant
+    public static final String ADD_HOTEL = "INSERT INTO hotel(name,type_id,city) " +
+            "VALUES (?, ?, ?)";
+    public static final String FIND_HOTEL = "SELECT * FROM hotel WHERE id = ?";
+    public static final String FIND_HOTEL_BY_NAME = "SELECT * FROM hotel WHERE name = ?";
+    public static final String DELETE_HOTEL = "DELETE FROM hotel WHERE id = ?";
+    public static final String FIND_ALL_HOTEL_TYPES = "SELECT * FROM hotel_type";
+
     //Offer request constants
-    public static final String ADD_OFFER = "INSERT INTO offer(code,city,offer_type_id,hotel_type_id,hotel_name,places,discount,is_hot,price)" +
-            "VALUES(?,?,?,?,?,?,?,?,?);";
+    public static final String ADD_OFFER = "INSERT INTO offer(code,hotel_id,offer_type_id,places,discount,is_hot,active,price)" +
+            "VALUES(?,?,?,?,?,?,?,?);";
     public static final String FIND_OFFER = "SELECT * FROM offer WHERE code LIKE ?";
     public static final String FIND_OFFER_BY_ID = "SELECT * FROM offer WHERE id LIKE ?";
     public static final String CHANGE_OFFER_IS_HOT = "UPDATE offer SET is_hot = ? WHERE code = ?";
+    public static final String CHANGE_OFFER_ACTIVE = "UPDATE offer SET active = ? WHERE code = ?";
     public static final String CHANGE_OFFER_PLACES = "UPDATE offer SET places = ? WHERE code = ?";
     public static final String DELETE_OFFER = "DELETE FROM offer WHERE code = ?";
     public static final String FIND_ALL_OFFERS = "SELECT * FROM offer WHERE is_hot = false LIMIT ?, ?";
     public static final String FIND_ALL_HOT_OFFERS = "SELECT * FROM offer WHERE is_hot = true LIMIT ?,?";
-    public static final String FIND_ALL_HOTEL_TYPES = "SELECT * FROM hotel_type";
+
     public static final String FIND_ALL_OFFER_TYPES = "SELECT * FROM offer_type";
     public static final String FIND_OFFER_TYPE_BY_ID = "select offer_type_name from offer_type where id = ?";
     public static final String FIND_OFFER_TYPE_BY_NAME = "select id from offer_type where offer_type_name = ?";
@@ -62,7 +72,11 @@ public class MySQLDAOConstants {
 
     //All offer sorting
     public static final String OFFER_BY_TYPE = "SELECT * FROM offer ORDER BY offer_type_id LIMIT ?,?";
-    public static final String OFFER_BY_HOTEL_TYPE = "SELECT * FROM offer ORDER BY hotel_type_id LIMIT ?,?";
+    public static final String OFFER_BY_HOTEL_TYPE = "select offer.*, hotel.type_id " +
+                    "from offer " +
+                    "INNER JOIN hotel ON offer.hotel_id=hotel.id " +
+                    "order by hotel.type_id " +
+                    "limit ?,?";
     public static final String OFFER_BY_PRICE = "SELECT * FROM offer ORDER BY price LIMIT ?,?";
     public static final String OFFER_BY_PLACES = "SELECT * FROM offer ORDER BY places LIMIT ?,?";
 

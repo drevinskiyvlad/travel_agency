@@ -89,6 +89,13 @@ public class UserService {
         return userDTOs;
     }
 
+    /**
+     * @return number of pages for pagination
+     */
+    public int getNumberOfPages(){
+        return dao.getNumberOfPages();
+    }
+
     private UserDTO convertUserToDTO(User user) {
         String email = user.getEmail();
         String role = user.getUserRole();

@@ -9,7 +9,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements Entity {
     private int id;
     private String email;
     private String password;

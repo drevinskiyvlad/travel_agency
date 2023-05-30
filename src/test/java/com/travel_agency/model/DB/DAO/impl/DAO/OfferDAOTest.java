@@ -1,6 +1,7 @@
-package com.travel_agency.model.DB.DAO.impl.MySQL.DAO;
+package com.travel_agency.model.DB.DAO.impl.DAO;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
+import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.Constants.SORTING_BY;
 import org.junit.jupiter.api.AfterAll;
@@ -32,13 +33,15 @@ class OfferDAOTest {
     @Mock
     private ResultSet rs;
     private Offer offer;
-    private MySQLOfferDAO dao;
+    private OfferDAOImpl dao;
 
     @BeforeAll
-    void initialize(){
-        offer = new Offer(0,"123","City","rest", "Inn", "Name",100,0.15,false,150);
+    void initialize() throws SQLException {
+        Hotel hotel = new Hotel(0, "name", "type", "city");
+        offer = new Offer(0,"code", hotel,"type", 100,0.15,false,true,150);
         con = Mockito.mock(Connection.class);
-        dao = new MySQLOfferDAO(con);
+        dao = new OfferDAOImpl();
+        MockitoDAOSetUp.initDBManager(con);
     }
 
     @AfterAll
@@ -47,7 +50,7 @@ class OfferDAOTest {
     }
     @Test
     void testCreate() throws SQLException {
-        MockitoDAOSetUp.CreateOffer(con,ps,rs);
+        MockitoDAOSetUp.createOffer(offer,con,ps,rs);
 
         boolean result = dao.create(offer);
 
@@ -57,7 +60,7 @@ class OfferDAOTest {
 
     @Test
     void testReadByCode() throws Exception {
-        MockitoDAOSetUp.ReadOffer(offer,true,con,ps,rs);
+        MockitoDAOSetUp.readOffer(offer,true,con,ps,rs);
 
         Offer expected = dao.read(offer.getCode());
 
@@ -66,7 +69,7 @@ class OfferDAOTest {
 
     @Test
     void testReadById() throws Exception {
-        MockitoDAOSetUp.ReadOffer(offer,true,con,ps,rs);
+        MockitoDAOSetUp.readOffer(offer,true,con,ps,rs);
 
         Offer expected = dao.read(offer.getId());
 
@@ -77,7 +80,7 @@ class OfferDAOTest {
     void testUpdateIsHot() throws SQLException {
         boolean isHot = true;
 
-        MockitoDAOSetUp.UpdateOfferIsHot(con,ps);
+        MockitoDAOSetUp.updateOfferIsHot(con,ps);
 
         boolean result = dao.update(offer, isHot);
         assertTrue(result);
@@ -87,15 +90,23 @@ class OfferDAOTest {
     void testUpdateVacancy() throws SQLException {
         int vacancy = 15;
 
-        MockitoDAOSetUp.UpdateOfferVacancy(con,ps);
+        MockitoDAOSetUp.updateOfferVacancy(con,ps);
 
         boolean result = dao.update(offer, vacancy);
         assertTrue(result);
     }
 
     @Test
+    void testUpdateActive() throws SQLException {
+        MockitoDAOSetUp.updateOfferActive(con,ps);
+
+        boolean result = dao.updateActive(offer, false);
+        assertTrue(result);
+    }
+
+    @Test
     void testDelete() throws SQLException {
-        MockitoDAOSetUp.DeleteOffer(con,ps);
+        MockitoDAOSetUp.deleteOffer(con,ps);
 
         boolean result = dao.delete(offer.getCode());
 
@@ -104,7 +115,7 @@ class OfferDAOTest {
 
     @Test
     void testReadAll() throws SQLException {
-        MockitoDAOSetUp.ReadAllOffers(offer,con,ps,rs);
+        MockitoDAOSetUp.readAllOffers(offer,con,ps,rs);
 
         List<Offer> expected = new ArrayList<>();
         expected.add(offer);
@@ -119,7 +130,7 @@ class OfferDAOTest {
     void testReadAllSorted() throws SQLException {
         SORTING_BY sortingBy = SORTING_BY.OFFER_TYPE;
 
-        MockitoDAOSetUp.ReadAllOffersSorted(offer,sortingBy.getCommand(),con,ps,rs);
+        MockitoDAOSetUp.readAllOffersSorted(offer,sortingBy.getCommand(),con,ps,rs);
 
         List<Offer> expected = new ArrayList<>();
         expected.add(offer);
@@ -132,33 +143,16 @@ class OfferDAOTest {
 
     @Test
     void testReadAllOfferTypes() throws SQLException {
-        MockitoDAOSetUp.ReadAllOfferTypes(con,ps,rs);
+        MockitoDAOSetUp.readAllOfferTypes(con,ps,rs);
 
-        List<String> expectedUsers = new ArrayList<>();
-        expectedUsers.add("rest");
-        expectedUsers.add("excursion");
-        expectedUsers.add("shopping");
+        List<String> expectedTypes = new ArrayList<>();
+        expectedTypes.add("rest");
+        expectedTypes.add("excursion");
+        expectedTypes.add("shopping");
 
-        List<String> userRoles = dao.readAllOfferTypes();
+        List<String> offerTypes = dao.readAllOfferTypes();
 
-        assertEquals(expectedUsers, userRoles);
-    }
-
-    @Test
-    void testReadAllHotelTypes() throws SQLException {
-        MockitoDAOSetUp.ReadAllHotelTypes(con,ps,rs);
-
-        List<String> expectedUsers = new ArrayList<>();
-        expectedUsers.add("Chain hotels");
-        expectedUsers.add("Motels");
-        expectedUsers.add("Resorts");
-        expectedUsers.add("Inns");
-        expectedUsers.add("All-suites");
-        expectedUsers.add("Conference");
-
-        List<String> userRoles = dao.readAllHotelTypes();
-
-        assertEquals(expectedUsers, userRoles);
+        assertEquals(expectedTypes, offerTypes);
     }
 }
 

@@ -1,21 +1,19 @@
 package com.travel_agency.controller.commands.our_offer;
 
+import com.travel_agency.appContext.AppContext;
 import com.travel_agency.controller.commands.Command;
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.model.DB.DBManager;
-import com.travel_agency.utils.Constants.PathConstants;
-import com.travel_agency.utils.exceptions.DAOException;
-import com.travel_agency.utils.exceptions.ValidationException;
 import com.travel_agency.model.DTO.OfferDTO;
 import com.travel_agency.model.services.OfferService;
+import com.travel_agency.utils.Constants.PathConstants;
 import com.travel_agency.utils.Constants.ValidationMessageConstants;
+import com.travel_agency.utils.exceptions.DAOException;
+import com.travel_agency.utils.exceptions.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 public class UpdateOfferCommand implements Command {
     private static final Logger logger = LogManager.getLogger(UpdateOfferCommand.class);
@@ -25,12 +23,9 @@ public class UpdateOfferCommand implements Command {
         String redirectPage = PathConstants.OUR_OFFER;
 
         String code = req.getParameter("code");
-        Connection con = null;
 
         try {
-            con = DBManager.getInstance().getConnection();
-            MySQLOfferDAO offerDAO = new MySQLOfferDAO(con);
-            OfferService service = new OfferService(offerDAO);
+            OfferService service = AppContext.getInstance().getOfferService();
 
             if(!updateOffer(req, service, code))
                 logger.error("Something went wrong, return value of update offer is false");
@@ -43,8 +38,6 @@ public class UpdateOfferCommand implements Command {
         } catch (Exception e) {
             logger.error("Unable to update offer:" + e.getMessage(), e);
             redirectPage = PathConstants.ERROR;
-        } finally {
-            DBManager.closeConnection(con);
         }
 
         resp.sendRedirect(redirectPage);
@@ -83,6 +76,7 @@ public class UpdateOfferCommand implements Command {
         double price = Double.parseDouble(priceString);
         String city = initialOfferDTO.getCity();
         boolean isHot = initialOfferDTO.isHot();
-        return new OfferDTO(code,offerType,hotel,hotelType,city,places,discount,isHot,price);
+
+        return new OfferDTO(code,offerType,hotel,hotelType,city,places,discount,isHot,true,price);
     }
 }

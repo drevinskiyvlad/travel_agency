@@ -1,5 +1,6 @@
 package com.travel_agency.model.services;
 
+import com.travel_agency.model.entity.Hotel;
 import com.travel_agency.utils.exceptions.DAOException;
 import com.travel_agency.utils.exceptions.ValidationException;
 import com.travel_agency.model.DB.DAO.OfferDAO;
@@ -28,19 +29,21 @@ class OfferServiceTest {
     private OfferService service;
 
     private OfferDTO offerDTO;
+    Hotel hotel;
     private Offer offer;
 
     @BeforeEach
     void setUp() {
-        offerDTO = new OfferDTO("code", "type", "hotel", "hotelType", "city", 100, 0.15, false, 150);
-        offer = new Offer(0, "code", "city", "type", "hotelType", "hotel", 100, 0.15, false, 150);
+        hotel = new Hotel(0,"hotel","hotelType","city");
+        offerDTO = new OfferDTO("code", "type", "hotel", "hotelType", "city", 100, 0.15, false, true, 150);
+        offer = new Offer(0,"code", hotel,"type", 100,0.15,false,true,150);
     }
 
     @Test
     void testGetAllOffers() throws DAOException {
         List<Offer> offers = new ArrayList<>();
         offers.add(offer);
-        offers.add(new Offer(1, "code2", "city", "type", "hotelType", "hotel", 100, 0.15, false, 150));
+        offers.add(new Offer(0,"1234", hotel,"type", 100,0.15,false,true,150));
 
         when(dao.readAll(0, 10,false)).thenReturn(offers);
 
@@ -54,7 +57,7 @@ class OfferServiceTest {
     @Test
     void testGetAllHotOffers() throws DAOException {
         List<Offer> offers = new ArrayList<>();
-        offers.add(new Offer(1, "code2", "city", "type", "hotelType", "hotel", 100, 0.15, true, 150));
+        offers.add(new Offer(0,"1234", hotel,"type", 100,0.15,false,true,150));
 
         when(dao.readAll(0, 10,true)).thenReturn(offers);
 
@@ -70,7 +73,7 @@ class OfferServiceTest {
     void testGetAllOffersSorted() throws DAOException {
         List<Offer> offers = new ArrayList<>();
         offers.add(offer);
-        offers.add(new Offer(1, "code2", "city", "type", "hotelType", "hotel", 100, 0.15, false, 150));
+        offers.add(new Offer(0,"1234", hotel,"type", 100,0.15,false,true,150));
 
         when(dao.readAllSorted(0, 10,SORTING_BY.OFFER_TYPE)).thenReturn(offers);
 

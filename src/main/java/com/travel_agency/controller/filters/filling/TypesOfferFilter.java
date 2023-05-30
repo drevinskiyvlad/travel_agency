@@ -1,7 +1,11 @@
 package com.travel_agency.controller.filters.filling;
 
-import com.travel_agency.model.DB.DAO.impl.MySQL.MySQLOfferDAO;
-import com.travel_agency.model.DB.DBManager;
+import com.travel_agency.model.DB.DAO.HotelDAO;
+import com.travel_agency.model.DB.DAO.OfferDAO;
+import com.travel_agency.model.DB.DAO.impl.HotelDAOImpl;
+import com.travel_agency.model.DB.DAO.impl.OfferDAOImpl;
+import com.travel_agency.model.entity.Hotel;
+import com.travel_agency.model.entity.Offer;
 import com.travel_agency.utils.exceptions.DAOException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 public class TypesOfferFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(TypesOfferFilter.class);
@@ -31,12 +34,10 @@ public class TypesOfferFilter implements Filter {
     }
 
     private void setOfferTypesToSession(HttpServletRequest req) throws DAOException {
-        Connection con = DBManager.getInstance().getConnection();
-        MySQLOfferDAO dao = new MySQLOfferDAO(con);
+        OfferDAO<Offer> offerDAO = new OfferDAOImpl();
+        HotelDAO<Hotel> hotelDAO = new HotelDAOImpl();
 
-        req.setAttribute("offerTypes", dao.readAllOfferTypes());
-        req.setAttribute("hotelTypes", dao.readAllHotelTypes());
-
-        DBManager.closeConnection(con);
+        req.setAttribute("offerTypes", offerDAO.readAllOfferTypes());
+        req.setAttribute("hotelTypes", hotelDAO.readAllHotelTypes());
     }
 }
